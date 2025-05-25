@@ -15,16 +15,25 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.jastip.R
+import com.example.jastip.ui.screen.loginscreen.LoginState
+import com.example.jastip.ui.screen.loginscreen.LoginViewModel
 
 @Composable
-fun LoginScreen(navController: NavHostController) {
+fun LoginScreen(
+    navController: NavHostController,
+    viewModel: LoginViewModel = hiltViewModel()
+) {
     var nim by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
+
+    val loginState = viewModel.loginState
+
 
     Column(
         modifier = Modifier
@@ -137,9 +146,31 @@ fun LoginScreen(navController: NavHostController) {
 //            LoginState.Idle -> {} // Tidak ada aksi
 //        }
 
+        when (loginState) {
+            is LoginState.Loading -> {
+                CircularProgressIndicator()
+            }
+
+            is LoginState.Success -> {
+                val user = (loginState as LoginState.Success).user
+                LaunchedEffect(Unit) {
+                    navController.navigate("main") {
+                        popUpTo("login") { inclusive = true }
+                    }
+                }
+            }
+
+            is LoginState.Error -> {
+                val error = (loginState as LoginState.Error).error
+                Text(text = error, color = Color.Red)
+            }
+
+            LoginState.Idle -> { /* Do nothing */ }
+        }
+
         // Tombol Daftar
         Button(
-            onClick = {  },
+            onClick = { viewModel.login(nim,password) },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(55.dp),

@@ -1,0 +1,16 @@
+package com.example.jastip.data.repository
+
+import com.example.jastip.data.local.dao.UserDao
+import com.example.jastip.data.local.entity.UserEntity
+import com.example.jastip.domain.model.User
+import com.example.jastip.domain.repository.UserRepository
+
+class UserRepositoryImpl(private val dao: UserDao) : UserRepository {
+    override suspend fun register(user: User): Unit =
+        dao.registerUser(UserEntity(name = user.name, nim = user.nim, password = user.password))
+
+    override suspend fun login(username: String, password: String): User? {
+        val entity = dao.login(username, password)
+        return entity?.let { User(it.name,it.nim, it.password) }
+    }
+}

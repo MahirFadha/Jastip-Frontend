@@ -5,8 +5,8 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.ksp)
-//    alias(libs.plugins.kotlin.kapt)
-//    alias(libs.plugins.hilt)
+    alias(libs.plugins.kotlin.kapt)
+    alias(libs.plugins.hilt)
 }
 
 android {
@@ -82,9 +82,9 @@ dependencies {
     implementation(libs.androidx.core.splashscreen)
 
     // Hilt
-//    implementation(libs.dagger.hilt)
-//    kapt(libs.dagger.hilt.compiler)
-//    implementation(libs.hilt.navigation.compose)
+    implementation(libs.dagger.hilt)
+    kapt(libs.dagger.hilt.compiler)
+    implementation(libs.hilt.navigation.compose)
 
 //    implementation(libs.androidx.lifecycle.viewmodel.compose)
 //    implementation(libs.androidx.lifecycle.runtime.compose)
@@ -99,4 +99,8 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+}
+
+kapt{
+    correctErrorTypes = true
 }

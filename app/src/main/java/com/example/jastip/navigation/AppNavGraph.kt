@@ -14,7 +14,7 @@ import com.example.cobaproject.ui.screen.register.RegisterScreen
 fun AppNavGraph(navController: NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = "main",
+        startDestination = "signUp",
         modifier = Modifier
     ) {
         composable("login") {

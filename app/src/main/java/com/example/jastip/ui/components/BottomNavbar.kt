@@ -135,13 +135,13 @@ fun BottomNavItem(
             color = if (isSelected) Color.White else Color.Gray
         )
         if (isSelected) {
-            Divider(
-                color = Color.White,
-                thickness = 2.dp,
-                modifier = Modifier
-                    .width(24.dp)
-                    .padding(top = 4.dp)
-            )
+//            Divider(
+//                color = Color.White,
+//                thickness = 2.dp,
+//                modifier = Modifier
+//                    .width(24.dp)
+//                    .padding(top = 4.dp)
+//            )
         } else {
             Spacer(modifier = Modifier.height(6.dp))
         }

@@ -14,21 +14,29 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.cobaproject.ui.screen.loginscreen.LoginScreen
 import com.example.jastip.R
+import com.example.jastip.ui.screen.register.RegisterViewModel
 
 @Composable
 fun RegisterScreen(
     navController: NavHostController,
     modifier: Modifier = Modifier,
+    viewModel: RegisterViewModel = hiltViewModel()
     ) {
-    var name by remember { mutableStateOf("") }
-    var nim by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
+//    var name by remember { mutableStateOf("") }
+//    var nim by remember { mutableStateOf("") }
+//    var password by remember { mutableStateOf("") }
+    val name = viewModel.name
+    val nim = viewModel.nim
+    val password = viewModel.password
+    val isLoading = viewModel.isLoading
+    val message = viewModel.message
     var passwordVisible by remember { mutableStateOf(false) }
 
     Column(
@@ -55,7 +63,7 @@ fun RegisterScreen(
         // Nama
         OutlinedTextField(
             value = name,
-            onValueChange = { name = it },
+            onValueChange = { viewModel.name = it },
             label = { Text("Nama") },
             placeholder = { Text("Masukkan nama", color = Color.Gray) },
             leadingIcon = {
@@ -83,7 +91,7 @@ fun RegisterScreen(
         // NIM
         OutlinedTextField(
             value = nim,
-            onValueChange = { nim = it },
+            onValueChange = { viewModel.nim = it },
             label = { Text("NIM") },
             placeholder = { Text("Masukkan NIM", color = Color.Gray) },
             leadingIcon = {
@@ -110,7 +118,7 @@ fun RegisterScreen(
         // Password
         OutlinedTextField(
             value = password,
-            onValueChange = { password = it },
+            onValueChange = { viewModel.password = it },
             label = { Text("Password") },
             placeholder = { Text("Masukkan password", color = Color.Gray) },
             leadingIcon = {
@@ -148,53 +156,58 @@ fun RegisterScreen(
 
         // Tombol Daftar
         Button(
-            onClick = {  },
+            onClick = { viewModel.register() },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(55.dp),
             shape = RoundedCornerShape(25.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF3F7D58L))
+            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF3F7D58L)),
+            enabled = !isLoading
         ) {
-            Text(text = "Sign Up", color = Color.White, fontSize = 16.sp)
+            Text(text = if (isLoading) "Loading..." else "Sign Up", color = Color.Black)
+        }
+        message?.let {
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(text = it, color = Color.Black)
         }
 
+            Spacer(modifier = Modifier.height(16.dp))
 
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Row {
-            Text(
-                text = "Sudah punya akun?",
-                fontSize = 12.sp,
-                color = Color.Black
-            )
-            Spacer(modifier = Modifier.width(5.dp))
-            Text(
-                text = "Masuk Sekarang",
-                fontSize = 12.sp,
-                color = Color.Blue,
-                modifier = Modifier.clickable {
-                    navController.navigate("login")
-                }
-            )
+            Row {
+                Text(
+                    text = "Sudah punya akun?",
+                    fontSize = 12.sp,
+                    color = Color.Black
+                )
+                Spacer(modifier = Modifier.width(5.dp))
+                Text(
+                    text = "Masuk Sekarang",
+                    fontSize = 12.sp,
+                    color = Color.Blue,
+                    modifier = Modifier.clickable {
+                        navController.navigate("login")
+                    }
+                )
+            }
         }
     }
-}
 
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun SignUpScreenPreview() {
-    val navController = rememberNavController() // dummy controller
-    RegisterScreen(navController = navController)
-}
 
-@Composable
-fun MainNav() {
-    val navController = rememberNavController()
-
-    NavHost(navController = navController, startDestination = "akun") {
-        composable("register") { RegisterScreen(navController) }
-        composable("login") { LoginScreen(navController) }
+    @Preview(showBackground = true, showSystemUi = true)
+    @Composable
+    fun SignUpScreenPreview() {
+        val navController = rememberNavController() // dummy controller
+        RegisterScreen(navController = navController)
     }
-}
+
+    @Composable
+    fun MainNav() {
+        val navController = rememberNavController()
+
+        NavHost(navController = navController, startDestination = "akun") {
+            composable("register") { RegisterScreen(navController) }
+            composable("login") { LoginScreen(navController) }
+        }
+    }
+
 
