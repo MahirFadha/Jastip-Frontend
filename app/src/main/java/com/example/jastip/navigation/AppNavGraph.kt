@@ -7,8 +7,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.cobaproject.ui.components.MainScreen
 import com.example.cobaproject.ui.screen.*
-import com.example.cobaproject.ui.screen.loginscreen.LoginScreen
-import com.example.cobaproject.ui.screen.register.RegisterScreen
+import com.example.jastip.ui.screen.loginscreen.LoginScreen
+import com.example.jastip.ui.screen.register.RegisterScreen
 
 @Composable
 fun AppNavGraph(navController: NavHostController) {

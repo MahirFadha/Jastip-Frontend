@@ -1,6 +1,5 @@
 package com.example.jastip.ui.screen.loginscreen
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -16,11 +15,13 @@ class LoginViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase
 ) : ViewModel() {
 
+    var nim by mutableStateOf("")
+    var password by mutableStateOf("")
+    var message by mutableStateOf<String?>(null)
     var loginState by mutableStateOf<LoginState>(LoginState.Idle)
         private set
 
     fun login(nim: String, password: String) {
-        Log.d("LoginScreen", "Login clicked with nim=$nim, password=$password")
         viewModelScope.launch {
             loginState = LoginState.Loading
             try {

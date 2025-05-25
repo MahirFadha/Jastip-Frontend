@@ -1,5 +1,6 @@
-package com.example.cobaproject.ui.screen.register
+package com.example.jastip.ui.screen.register
 
+import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -8,6 +9,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -16,12 +18,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.cobaproject.ui.screen.loginscreen.LoginScreen
 import com.example.jastip.R
-import com.example.jastip.ui.screen.register.RegisterViewModel
 
 @Composable
 fun RegisterScreen(
@@ -38,6 +36,9 @@ fun RegisterScreen(
     val isLoading = viewModel.isLoading
     val message = viewModel.message
     var passwordVisible by remember { mutableStateOf(false) }
+    val isFormValid = name.isNotBlank() && nim.isNotBlank() && password.isNotBlank()
+    val context = LocalContext.current
+
 
     Column(
         modifier = Modifier
@@ -157,18 +158,19 @@ fun RegisterScreen(
         // Tombol Daftar
         Button(
             onClick = { viewModel.register() },
+            enabled = isFormValid,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(55.dp),
             shape = RoundedCornerShape(25.dp),
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF3F7D58L)),
-            enabled = !isLoading
         ) {
-            Text(text = if (isLoading) "Loading..." else "Sign Up", color = Color.Black)
+            Text(text = if (isLoading) "Loading..." else "Sign Up", color = Color.White)
         }
         message?.let {
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(text = it, color = Color.Black)
+            val toast = Toast.makeText(context, it, Toast.LENGTH_SHORT)
+            toast.show()
+//            Text(text = it, color = Color.Black)
         }
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -193,21 +195,12 @@ fun RegisterScreen(
     }
 
 
-    @Preview(showBackground = true, showSystemUi = true)
-    @Composable
-    fun SignUpScreenPreview() {
-        val navController = rememberNavController() // dummy controller
-        RegisterScreen(navController = navController)
-    }
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun SignUpScreenPreview() {
+    val navController = rememberNavController() // dummy controller
+    RegisterScreen(navController = navController)
+}
 
-    @Composable
-    fun MainNav() {
-        val navController = rememberNavController()
-
-        NavHost(navController = navController, startDestination = "akun") {
-            composable("register") { RegisterScreen(navController) }
-            composable("login") { LoginScreen(navController) }
-        }
-    }
 
 

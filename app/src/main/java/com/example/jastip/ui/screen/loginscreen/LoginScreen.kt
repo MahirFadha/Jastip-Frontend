@@ -1,4 +1,4 @@
-package com.example.cobaproject.ui.screen.loginscreen
+package com.example.jastip.ui.screen.loginscreen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -16,12 +16,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.jastip.R
-import com.example.jastip.ui.screen.loginscreen.LoginState
-import com.example.jastip.ui.screen.loginscreen.LoginViewModel
 
 @Composable
 fun LoginScreen(
@@ -121,38 +118,12 @@ fun LoginScreen(
 
         Spacer(modifier = Modifier.height(24.dp))
 
-//        val loginState by loginViewModel.loginState.collectAsState()
-//        when (loginState) {
-//            is LoginState.Loading -> {
-//                // Misalnya tampilkan loading dialog
-//                CircularProgressIndicator()
-//            }
-//
-//            is LoginState.Success -> {
-//                // Navigasi ke halaman utama, contoh:
-//                LaunchedEffect(Unit) {
-//                    navController.navigate("Beranda") {
-//                        popUpTo("Login") { inclusive = true }
-//                    }
-//                }
-//            }
-//
-//            is LoginState.Error -> {
-//                // Tampilkan pesan error
-//                val error = (loginState as LoginState.Error).error
-//                Text(text = error, color = Color.Red)
-//            }
-//
-//            LoginState.Idle -> {} // Tidak ada aksi
-//        }
-
         when (loginState) {
             is LoginState.Loading -> {
                 CircularProgressIndicator()
             }
 
             is LoginState.Success -> {
-                val user = (loginState as LoginState.Success).user
                 LaunchedEffect(Unit) {
                     navController.navigate("main") {
                         popUpTo("login") { inclusive = true }

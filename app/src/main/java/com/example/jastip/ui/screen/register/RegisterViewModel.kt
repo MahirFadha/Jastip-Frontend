@@ -21,11 +21,6 @@ class RegisterViewModel @Inject constructor(
     var message by mutableStateOf<String?>(null)
 
     fun register() {
-        if (name.isBlank() || nim.isBlank() || password.isBlank()) {
-            message = "Semua field harus diisi"
-            return
-        }
-
         viewModelScope.launch {
             try {
                 isLoading = true
