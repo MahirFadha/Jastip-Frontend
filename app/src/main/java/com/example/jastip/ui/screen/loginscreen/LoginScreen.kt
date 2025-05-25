@@ -25,11 +25,13 @@ fun LoginScreen(
     navController: NavHostController,
     viewModel: LoginViewModel = hiltViewModel()
 ) {
-    var nim by remember { mutableStateOf("") }
+    var nimInput by remember { mutableStateOf("") }
+    val nim:Long? = nimInput.toLongOrNull()
     var password by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
-
     val loginState = viewModel.loginState
+    val isFormValid = nimInput.isNotBlank() && password.isNotBlank()
+
 
 
     Column(
@@ -52,12 +54,12 @@ fun LoginScreen(
 
         Spacer(modifier = Modifier.height(30.dp))
 
-        // NIM
+        // nimInput
         OutlinedTextField(
-            value = nim,
-            onValueChange = { nim = it },
-            label = { Text("NIM") },
-            placeholder = { Text("Masukkan NIM", color = Color.Gray) },
+            value = nimInput,
+            onValueChange = { nimInput = it },
+            label = { Text("Nim") },
+            placeholder = { Text("Masukkan nimInput", color = Color.Gray) },
             leadingIcon = {
                 Icon(
                     painter = painterResource(id = R.drawable.round_assignment_ind_24),
@@ -141,7 +143,13 @@ fun LoginScreen(
 
         // Tombol Daftar
         Button(
-            onClick = { viewModel.login(nim,password) },
+            onClick = {
+                if (nim==null){
+                    println("Error")
+                } else{
+                    viewModel.login(nim,password)
+                }},
+            enabled = isFormValid,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(55.dp),

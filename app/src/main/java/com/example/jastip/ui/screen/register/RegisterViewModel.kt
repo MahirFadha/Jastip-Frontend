@@ -15,7 +15,8 @@ class RegisterViewModel @Inject constructor(
 ) : ViewModel() {
 
     var name by mutableStateOf("")
-    var nim by mutableStateOf("")
+    var nimInput by mutableStateOf("")
+    val nim: Long? = nimInput.toLongOrNull()
     var password by mutableStateOf("")
     var isLoading by mutableStateOf(false)
     var message by mutableStateOf<String?>(null)
@@ -24,7 +25,11 @@ class RegisterViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 isLoading = true
+                if (nim == null){
+                    println("Error")
+                }else{
                 registerUseCase(User(name, nim, password))
+                }
                 message = "Registrasi berhasil!"
             } catch (e: Exception) {
                 message = "Registrasi gagal: ${e.message}"

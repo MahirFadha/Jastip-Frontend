@@ -24,15 +24,15 @@ import com.example.jastip.R
 @Composable
 fun RegisterScreen(
     navController: NavHostController,
-    modifier: Modifier = Modifier,
     viewModel: RegisterViewModel = hiltViewModel()
     ) {
 //    var name by remember { mutableStateOf("") }
 //    var nim by remember { mutableStateOf("") }
 //    var password by remember { mutableStateOf("") }
     val name = viewModel.name
-    val nim = viewModel.nim
+    val nim = viewModel.nimInput
     val password = viewModel.password
+//    val registerState = viewModel.registerState
     val isLoading = viewModel.isLoading
     val message = viewModel.message
     var passwordVisible by remember { mutableStateOf(false) }
@@ -92,7 +92,7 @@ fun RegisterScreen(
         // NIM
         OutlinedTextField(
             value = nim,
-            onValueChange = { viewModel.nim = it },
+            onValueChange = { viewModel.nimInput = it },
             label = { Text("NIM") },
             placeholder = { Text("Masukkan NIM", color = Color.Gray) },
             leadingIcon = {
@@ -165,7 +165,7 @@ fun RegisterScreen(
             shape = RoundedCornerShape(25.dp),
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF3F7D58L)),
         ) {
-            Text(text = if (isLoading) "Loading..." else "Sign Up", color = Color.White)
+            Text(text = if ( isLoading ) "Loading..." else "Sign Up", color = Color.White)
         }
         message?.let {
             val toast = Toast.makeText(context, it, Toast.LENGTH_SHORT)

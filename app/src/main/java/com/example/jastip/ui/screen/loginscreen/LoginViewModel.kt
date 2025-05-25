@@ -17,11 +17,10 @@ class LoginViewModel @Inject constructor(
 
     var nim by mutableStateOf("")
     var password by mutableStateOf("")
-    var message by mutableStateOf<String?>(null)
     var loginState by mutableStateOf<LoginState>(LoginState.Idle)
         private set
 
-    fun login(nim: String, password: String) {
+    fun login(nim: Long, password: String) {
         viewModelScope.launch {
             loginState = LoginState.Loading
             try {
