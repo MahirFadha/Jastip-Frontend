@@ -38,6 +38,7 @@ fun RegisterScreen(
     var passwordVisible by remember { mutableStateOf(false) }
     val isFormValid = name.isNotBlank() && nim.isNotBlank() && password.isNotBlank()
     val context = LocalContext.current
+    val registerState = viewModel.registerState
 
 
     Column(
@@ -155,6 +156,24 @@ fun RegisterScreen(
 
         Spacer(modifier = Modifier.height(24.dp))
 
+        LaunchedEffect(registerState) {
+            when (registerState) {
+                is RegisterState.Success -> {
+                    Toast.makeText(context, (registerState as RegisterState.Success).message, Toast.LENGTH_SHORT).show()
+                    navController.navigate("login") {
+                        popUpTo("register") { inclusive = true }
+                    }
+                }
+
+                is RegisterState.Error -> {
+                    val error = (registerState as RegisterState.Error).error
+                    Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
+                }
+
+                else -> { /* do nothing */ }
+            }
+        }
+
         // Tombol Daftar
         Button(
             onClick = { viewModel.register() },
@@ -165,13 +184,13 @@ fun RegisterScreen(
             shape = RoundedCornerShape(25.dp),
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF3F7D58L)),
         ) {
-            Text(text = if ( isLoading ) "Loading..." else "Sign Up", color = Color.White)
+            Text(text = "Sign Up", color = Color.White)
         }
-        message?.let {
-            val toast = Toast.makeText(context, it, Toast.LENGTH_SHORT)
-            toast.show()
-//            Text(text = it, color = Color.Black)
-        }
+//        message?.let {
+//            val toast = Toast.makeText(context, it, Toast.LENGTH_SHORT)
+//            toast.show()
+////            Text(text = it, color = Color.Black)
+//        }
 
             Spacer(modifier = Modifier.height(16.dp))
 
