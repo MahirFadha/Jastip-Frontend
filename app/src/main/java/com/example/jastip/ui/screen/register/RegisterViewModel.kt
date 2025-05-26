@@ -18,8 +18,6 @@ class RegisterViewModel @Inject constructor(
     var nimInput by mutableStateOf("")
     val nim: Long? get() = nimInput.toLongOrNull()
     var password by mutableStateOf("")
-    var isLoading by mutableStateOf(false)
-    var message by mutableStateOf<String?>(null)
     var registerState by mutableStateOf<RegisterState>(RegisterState.Idle)
         private set
 

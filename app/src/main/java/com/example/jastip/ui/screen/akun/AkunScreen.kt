@@ -1,5 +1,8 @@
-package com.example.cobaproject.ui.screen
+package com.example.jastip.ui.screen.akun
 
+import android.content.Context.MODE_PRIVATE
+import android.widget.Toast
+import android.widget.Toast.LENGTH_SHORT
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -9,6 +12,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CameraEnhance
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -17,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -24,15 +29,39 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.jastip.R
+import com.example.jastip.domain.model.User
+
 
 @Composable
-fun AkunScreen(navController: NavController, modifier: Modifier = Modifier) {
-    var nama by remember { mutableStateOf("Adelia") }
-    var password by remember { mutableStateOf("adel19") }
+fun AkunScreen(
+    navController: NavController,
+    viewModel: AkunViewModel = hiltViewModel(),
+    ) {
+
+    val context = LocalContext.current
+    val sharedPreferences = context.getSharedPreferences("user_data", MODE_PRIVATE)
+//    var nama = sharedPreferences.getString("userName","namaUser")?:"namaUser"
+//    var password = sharedPreferences.getString("userPassword","passwordUser")?:"passwordUser"
+    val savedName = sharedPreferences.getString("userName", null)
+    val savedPassword = sharedPreferences.getString("userPassword", null)
+    val savedNim = sharedPreferences.getLong("userNim", -1)
     var passwordVisible by remember { mutableStateOf(false) }
+    val akunState = viewModel.akunState
+
+    LaunchedEffect(Unit) {
+        if (savedName != null && savedPassword != null && savedNim != -1L){
+        val user = User(name = savedName, nim = savedNim, password = savedPassword)
+        viewModel.setUser(user)
+            }
+    }
+
+    val nama by viewModel::name
+    val password by viewModel::password
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -71,7 +100,7 @@ fun AkunScreen(navController: NavController, modifier: Modifier = Modifier) {
         // Nama
         OutlinedTextField(
             value = nama,
-            onValueChange = { nama = it },
+            onValueChange = { viewModel.name = it },
             label = { Text("Nama") },
             placeholder = { Text("Masukkan nama") },
             leadingIcon = {
@@ -98,7 +127,7 @@ fun AkunScreen(navController: NavController, modifier: Modifier = Modifier) {
         // Password
         OutlinedTextField(
             value = password,
-            onValueChange = { password = it },
+            onValueChange = { viewModel.password = it },
             label = { Text("Password") },
             placeholder = { Text("Masukkan password", color = Color.Gray) },
             leadingIcon = {
@@ -134,11 +163,30 @@ fun AkunScreen(navController: NavController, modifier: Modifier = Modifier) {
         )
         Spacer(modifier = Modifier.height(10.dp))
 
+        LaunchedEffect(akunState) {
+            when (akunState) {
+                is AkunState.Success -> {
+                    Toast.makeText(context, (akunState.message), LENGTH_SHORT).show()
+                    val editor = sharedPreferences.edit()
+                    editor.putString("userName", viewModel.name)
+                    editor.apply()
+                }
+
+                is AkunState.Error -> {
+                    Toast.makeText(context, (akunState.error), LENGTH_SHORT).show()
+                }
+
+                else -> { /* do nothing */
+                }
+            }
+        }
+
         // Tombol Simpan Perubahan
         Button(
             onClick = {
-                println("Nama: $nama, Password: $password")
-                navController.popBackStack()
+                viewModel.edit()
+//                println("Nama: $nama, Password: $password")
+//                navController.popBackStack()
             },
             modifier = Modifier
                 .width(300.dp) // Lebar custom
@@ -189,5 +237,5 @@ fun AkunScreen(navController: NavController, modifier: Modifier = Modifier) {
 @Composable
 fun PreviewAkunScreen() {
     val navController = rememberNavController()
-    AkunScreen(navController = navController)
+//    AkunScreen(navController = navController)
 }
