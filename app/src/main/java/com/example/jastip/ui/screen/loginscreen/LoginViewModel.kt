@@ -27,6 +27,7 @@ class LoginViewModel @Inject constructor(
                 val user = loginUseCase(nim, password)
                 if (user != null) {
                     loginState = LoginState.Success(user)
+
                 } else {
                     loginState = LoginState.Error("NIM atau Password salah")
                 }
