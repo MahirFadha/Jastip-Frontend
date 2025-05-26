@@ -1,6 +1,7 @@
 package com.example.jastip.ui.screen.register
 
 import android.widget.Toast
+import android.widget.Toast.LENGTH_SHORT
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -26,15 +27,10 @@ fun RegisterScreen(
     navController: NavHostController,
     viewModel: RegisterViewModel = hiltViewModel()
     ) {
-//    var name by remember { mutableStateOf("") }
-//    var nim by remember { mutableStateOf("") }
-//    var password by remember { mutableStateOf("") }
+
     val name = viewModel.name
     val nim = viewModel.nimInput
     val password = viewModel.password
-//    val registerState = viewModel.registerState
-    val isLoading = viewModel.isLoading
-    val message = viewModel.message
     var passwordVisible by remember { mutableStateOf(false) }
     val isFormValid = name.isNotBlank() && nim.isNotBlank() && password.isNotBlank()
     val context = LocalContext.current
@@ -159,7 +155,7 @@ fun RegisterScreen(
         LaunchedEffect(registerState) {
             when (registerState) {
                 is RegisterState.Success -> {
-                    Toast.makeText(context, (registerState as RegisterState.Success).message, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, (registerState.message), LENGTH_SHORT).show()
                     navController.navigate("login") {
                         popUpTo("register") { inclusive = true }
                     }

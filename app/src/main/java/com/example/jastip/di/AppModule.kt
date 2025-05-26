@@ -6,6 +6,7 @@ import com.example.jastip.data.local.AppDatabase
 import com.example.jastip.data.local.dao.UserDao
 import com.example.jastip.data.repository.UserRepositoryImpl
 import com.example.jastip.domain.repository.UserRepository
+import com.example.jastip.domain.usecase.EditUseCase
 import com.example.jastip.domain.usecase.LoginUseCase
 import com.example.jastip.domain.usecase.RegisterUseCase
 import dagger.Module
@@ -33,4 +34,7 @@ object AppModule {
 
     @Provides
     fun provideLoginUseCase(repo: UserRepository) = LoginUseCase(repo)
+
+    @Provides
+    fun provideEditUseCase(repo: UserRepository) = EditUseCase(repo)
 }

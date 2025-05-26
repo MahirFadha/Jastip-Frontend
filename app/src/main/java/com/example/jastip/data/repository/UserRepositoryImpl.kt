@@ -13,4 +13,7 @@ class UserRepositoryImpl(private val dao: UserDao) : UserRepository {
         val entity = dao.login(nim, password)
         return entity?.let { User(it.name,it.nim, it.password) }
     }
+
+    override suspend fun edit(user: User): Unit =
+        dao.updateUser(UserEntity(name = user.name, nim = user.nim, password = user.password))
 }
