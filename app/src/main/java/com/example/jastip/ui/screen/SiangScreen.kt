@@ -2,10 +2,12 @@ package com.example.cobaproject.ui.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Search
@@ -21,6 +23,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -31,7 +34,7 @@ import com.example.jastip.R
 
 @Composable
 fun SiangScreen(navController: NavController, modifier: Modifier = Modifier) {
-    var isLiked by remember { mutableStateOf(false) }
+
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -67,23 +70,86 @@ fun SiangScreen(navController: NavController, modifier: Modifier = Modifier) {
             )
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
+        // Tambahkan di awal sebelum Row
+        var searchText by remember { mutableStateOf("") }
+        var selectedCategory by remember { mutableStateOf("All") }
+        val categoryOptions = listOf("All", "Food", "Drink")
+        var expanded by remember { mutableStateOf(false) }
 
-        // Search Bar
-        OutlinedTextField(
-            value = "",
-            onValueChange = {},
-            placeholder = { Text("Search") },
-            leadingIcon = {
-                Icon(imageVector = Icons.Default.Search, contentDescription = "Search Icon")
-            },
-            shape = RoundedCornerShape(50),
+// Search bar layout
+        Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 20.dp) // Padding lokal di sini
-        )
+                .padding(horizontal = 20.dp, vertical = 16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            BasicTextField(
+                value = searchText,
+                onValueChange = { searchText = it },
+                textStyle = TextStyle(fontSize = 12.sp, color = Color.Black),
+                modifier = Modifier
+                    .width(170.dp)
+                    .height(40.dp)
+                    .background(Color.White, shape = RoundedCornerShape(8.dp))
+                    .border(1.dp, Color.Gray, RoundedCornerShape(8.dp))
+                    .padding(horizontal = 8.dp, vertical = 10.dp)
+            ) { innerTextField ->
+                if (searchText.isEmpty()) {
+                    Text("Search", color = Color.Gray, fontSize = 12.sp)
+                }
+                innerTextField()
+            }
 
-        Spacer(modifier = Modifier.height(24.dp))
+            // Spacer untuk memberikan jarak antara Search dan Dropdown
+            Spacer(modifier = Modifier.width(8.dp))
+
+            Box(
+                modifier = Modifier
+                    .wrapContentSize(Alignment.TopStart)
+            ) {
+                OutlinedButton(
+                    onClick = { expanded = true },
+                    shape = RoundedCornerShape(8.dp),
+                    contentPadding = PaddingValues(horizontal = 12.dp, vertical = 4.dp),
+                    modifier = Modifier
+                        .height(40.dp)
+                        .width(70.dp)
+                ) {
+                    Text(selectedCategory, fontSize = 12.sp)
+                }
+                DropdownMenu(
+                    expanded = expanded,
+                    onDismissRequest = { expanded = false }
+                ) {
+                    categoryOptions.forEach { category ->
+                        DropdownMenuItem(
+                            text = { Text(category) },
+                            onClick = {
+                                selectedCategory = category
+                                expanded = false
+                            }
+                        )
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.width(8.dp)) // Jarak sebelum tombol Search
+
+            Button(
+                onClick = {
+                    // TODO: Tambahkan logika pencarian
+                },
+                shape = RoundedCornerShape(20.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF001D8A)),
+                modifier = Modifier
+                    .height(40.dp)
+                    .width(90.dp)
+            ) {
+                Text("Search", color = Color.White, fontSize = 12.sp)
+            }
+        }
+
+        Spacer(modifier = Modifier.height(5.dp))
 
         // Item Menu
         Row(
@@ -113,16 +179,6 @@ fun SiangScreen(navController: NavController, modifier: Modifier = Modifier) {
             }
             Spacer(modifier = Modifier.width(12.dp))
 
-            // Ikon love
-                Icon(
-                    painter = painterResource(id = R.drawable.love),
-                    contentDescription = "Love",
-                    tint = if (isLiked) Color.Red else Color.LightGray,
-                    modifier = Modifier
-                        .size(32.dp)
-                        .padding(end = 8.dp)
-                        .clickable { isLiked = !isLiked }
-                )
             // Tambahkan ikon keranjang
             Icon(
                 painter = painterResource(id = R.drawable.keranjang), // Ganti dengan resource kamu
