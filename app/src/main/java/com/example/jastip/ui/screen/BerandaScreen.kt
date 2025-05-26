@@ -1,5 +1,6 @@
 package com.example.cobaproject.ui.screen
 
+import android.content.Context.MODE_PRIVATE
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -21,10 +22,16 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.runtime.*
 import androidx.compose.foundation.clickable
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 
 @Composable
-fun BerandaScreen(navController: NavController, modifier: Modifier = Modifier) {
+fun BerandaScreen(
+    navController: NavController,
+    modifier: Modifier = Modifier) {
     var selectedItem by remember { mutableStateOf<String?>(null) }
+    val context = LocalContext.current
+    val sharedPreferences = context.getSharedPreferences("user_data", MODE_PRIVATE)
+    val name = sharedPreferences.getString("userName", null)
 
     Box(
         modifier = Modifier
@@ -41,7 +48,7 @@ fun BerandaScreen(navController: NavController, modifier: Modifier = Modifier) {
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(text = "Hi, Adelia", fontSize = 25.sp)
+                Text(text = "Hi, $name", fontSize = 25.sp)
 
                 Image(
                     painter = painterResource(id = R.drawable.keranjang),

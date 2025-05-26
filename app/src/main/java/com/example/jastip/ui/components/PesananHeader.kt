@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -41,11 +42,14 @@ fun PesananHeader(
             Column(
                 modifier = Modifier
                     .clickable { onTabSelected(tab) }
-                    .padding(vertical = 50.dp),
+                    .padding(vertical = 30.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
+                    modifier = Modifier
+                        .width(120.dp),
                     text = tab,
+                    textAlign = TextAlign.Center,
                     fontSize = 18.sp,
                     color = if (tab == selectedTab) Color(0xFFEF9651
                     ) else Color.White,
