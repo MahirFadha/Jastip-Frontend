@@ -167,6 +167,9 @@ fun AkunScreen(
             when (akunState) {
                 is AkunState.Success -> {
                     Toast.makeText(context, (akunState.message), LENGTH_SHORT).show()
+                    val editor = sharedPreferences.edit()
+                    editor.putString("userName", viewModel.name)
+                    editor.apply()
                 }
 
                 is AkunState.Error -> {
