@@ -14,7 +14,7 @@ import com.example.jastip.ui.screen.register.RegisterScreen
 fun AppNavGraph(navController: NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = "signUp",
+        startDestination = "login",
         modifier = Modifier
     ) {
         composable("login") {
