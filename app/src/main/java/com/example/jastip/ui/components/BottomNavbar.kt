@@ -34,9 +34,6 @@ import com.example.jastip.R
 import com.example.cobaproject.ui.screen.ActivityScreen
 import com.example.jastip.ui.screen.akun.AkunScreen
 import com.example.cobaproject.ui.screen.BerandaScreen
-import com.example.cobaproject.ui.screen.EditPfScreen
-import com.example.cobaproject.ui.screen.KeranjangScreen
-import com.example.cobaproject.ui.screen.PagiScreen
 
 @Composable
 fun MainScreen(parentNavController: NavHostController) {
