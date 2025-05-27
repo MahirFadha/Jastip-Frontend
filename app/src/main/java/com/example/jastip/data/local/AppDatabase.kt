@@ -2,10 +2,18 @@ package com.example.jastip.data.local
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import com.example.jastip.data.local.dao.MenuItemDao
 import com.example.jastip.data.local.dao.UserDao
+import com.example.jastip.data.local.entity.MenuEntity
 import com.example.jastip.data.local.entity.UserEntity
 
-@Database(entities = [UserEntity::class], version = 1, exportSchema = false)
+@Database(
+    entities = [UserEntity::class, MenuEntity::class],
+    version = 3,
+    exportSchema = false
+)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
+    abstract fun menuItemDao(): MenuItemDao
 }
+
