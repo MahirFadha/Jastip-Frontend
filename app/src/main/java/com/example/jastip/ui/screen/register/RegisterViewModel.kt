@@ -5,6 +5,7 @@ import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.jastip.domain.model.User
+import com.example.jastip.utils.SecurityUser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -18,8 +19,8 @@ class RegisterViewModel @Inject constructor(
     var nimInput by mutableStateOf("")
     val nim: Long? get() = nimInput.toLongOrNull()
     var password by mutableStateOf("")
-    var isLoading by mutableStateOf(false)
-    var message by mutableStateOf<String?>(null)
+    var nomorHpInput by mutableStateOf("")
+    val nomorHp: Long? get() = nomorHpInput.toLongOrNull()
     var registerState by mutableStateOf<RegisterState>(RegisterState.Idle)
         private set
 
@@ -32,7 +33,7 @@ class RegisterViewModel @Inject constructor(
                     return@launch
                 }
 
-                registerUseCase(User(name, nim!!, password))
+                registerUseCase(User(name, nim!!, nomorHp!!, password))
                 registerState = RegisterState.Success("Registrasi berhasil!")
             } catch (e: Exception) {
                 registerState = RegisterState.Error("Registrasi gagal: ${e.message}")

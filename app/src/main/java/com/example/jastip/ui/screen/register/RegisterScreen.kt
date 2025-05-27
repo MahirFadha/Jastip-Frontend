@@ -1,6 +1,7 @@
 package com.example.jastip.ui.screen.register
 
 import android.widget.Toast
+import android.widget.Toast.LENGTH_SHORT
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -26,15 +27,11 @@ fun RegisterScreen(
     navController: NavHostController,
     viewModel: RegisterViewModel = hiltViewModel()
     ) {
-//    var name by remember { mutableStateOf("") }
-//    var nim by remember { mutableStateOf("") }
-//    var password by remember { mutableStateOf("") }
+
     val name = viewModel.name
     val nim = viewModel.nimInput
     val password = viewModel.password
-//    val registerState = viewModel.registerState
-    val isLoading = viewModel.isLoading
-    val message = viewModel.message
+    val nomorHp = viewModel.nomorHpInput
     var passwordVisible by remember { mutableStateOf(false) }
     val isFormValid = name.isNotBlank() && nim.isNotBlank() && password.isNotBlank()
     val context = LocalContext.current
@@ -117,6 +114,34 @@ fun RegisterScreen(
 
         Spacer(modifier = Modifier.height(15.dp))
 
+        // No Hp
+        OutlinedTextField(
+            value = nomorHp,
+            onValueChange = { viewModel.nomorHpInput = it },
+            label = { Text("Nomor Hp") },
+            placeholder = { Text("Masukkan nomor", color = Color.Gray) },
+            leadingIcon = {
+                Icon(
+                    painter = painterResource(id = R.drawable.lock),
+                    contentDescription = null,
+                    tint = Color.Gray,
+                    modifier = Modifier.size(25.dp) // Atur ukuran ikon di sini
+                )
+            },
+            shape = RoundedCornerShape(15.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(60.dp),
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedContainerColor = Color.White,
+                unfocusedContainerColor = Color.White,
+                focusedBorderColor = Color.Black,
+                unfocusedBorderColor = Color.Black
+            )
+        )
+
+        Spacer(modifier = Modifier.height(24.dp))
+
         // Password
         OutlinedTextField(
             value = password,
@@ -159,15 +184,15 @@ fun RegisterScreen(
         LaunchedEffect(registerState) {
             when (registerState) {
                 is RegisterState.Success -> {
-                    Toast.makeText(context, (registerState as RegisterState.Success).message, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, (registerState.message), LENGTH_SHORT).show()
                     navController.navigate("login") {
                         popUpTo("register") { inclusive = true }
                     }
                 }
 
                 is RegisterState.Error -> {
-                    val error = (registerState as RegisterState.Error).error
-                    Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
+                    val error = registerState.error
+                    Toast.makeText(context, error, LENGTH_SHORT).show()
                 }
 
                 else -> { /* do nothing */ }
@@ -192,26 +217,26 @@ fun RegisterScreen(
 ////            Text(text = it, color = Color.Black)
 //        }
 
-            Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(16.dp))
 
-            Row {
-                Text(
-                    text = "Sudah punya akun?",
-                    fontSize = 12.sp,
-                    color = Color.Black
-                )
-                Spacer(modifier = Modifier.width(5.dp))
-                Text(
-                    text = "Masuk Sekarang",
-                    fontSize = 12.sp,
-                    color = Color.Blue,
-                    modifier = Modifier.clickable {
-                        navController.navigate("login")
-                    }
-                )
-            }
+        Row {
+            Text(
+                text = "Sudah punya akun?",
+                fontSize = 12.sp,
+                color = Color.Black
+            )
+            Spacer(modifier = Modifier.width(5.dp))
+            Text(
+                text = "Masuk Sekarang",
+                fontSize = 12.sp,
+                color = Color.Blue,
+                modifier = Modifier.clickable {
+                    navController.navigate("login")
+                }
+            )
         }
     }
+}
 
 
 @Preview(showBackground = true, showSystemUi = true)

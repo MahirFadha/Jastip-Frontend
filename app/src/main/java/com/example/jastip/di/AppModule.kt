@@ -11,6 +11,7 @@ import com.example.jastip.data.repository.MenuRepositoryImpl
 import com.example.jastip.data.repository.UserRepositoryImpl
 import com.example.jastip.domain.repository.IMenuRepository
 import com.example.jastip.domain.repository.UserRepository
+import com.example.jastip.domain.usecase.EditUseCase
 import com.example.jastip.domain.usecase.LoginUseCase
 import com.example.jastip.domain.usecase.RegisterUseCase
 import dagger.Module
@@ -69,4 +70,7 @@ object AppModule {
     ): IMenuRepository {
         return MenuRepositoryImpl(dao, context)
     }
+    
+    @Provides
+    fun provideEditUseCase(repo: UserRepository) = EditUseCase(repo)
 }

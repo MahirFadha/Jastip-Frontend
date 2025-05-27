@@ -86,12 +86,6 @@ fun EditPfScreen(navController: NavHostController) {
             )
         }
 
-        Divider(
-            color = Color.Gray,
-            thickness = 1.dp,
-            modifier = Modifier.fillMaxWidth()
-        )
-
         Spacer(modifier = Modifier.height(24.dp))
 
         // Profile Picture

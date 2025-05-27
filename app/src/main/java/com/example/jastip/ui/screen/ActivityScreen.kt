@@ -33,7 +33,7 @@ fun ActivityScreen(navController: NavController,
 //            "Riwayat" -> Text("Halaman Riwayat", modifier = Modifier.padding(16.dp))
 //        }
 
-        Spacer(modifier = Modifier.weight(1f)) // Dorong bottom bar ke bawah
+//        Spacer(modifier = Modifier.weight(1f)) // Dorong bottom bar ke bawah
 //        BottomNavigationBar(selectedItem = "aktivitas", navController = navController)
     }
 }

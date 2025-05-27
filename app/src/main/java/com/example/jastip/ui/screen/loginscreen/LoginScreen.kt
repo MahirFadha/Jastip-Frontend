@@ -1,5 +1,6 @@
 package com.example.jastip.ui.screen.loginscreen
 
+import android.content.Context.MODE_PRIVATE
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -9,6 +10,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -19,12 +21,14 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.jastip.R
+import androidx.core.content.edit
 
 @Composable
 fun LoginScreen(
     navController: NavHostController,
     viewModel: LoginViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
     var nimInput by remember { mutableStateOf("") }
     val nim:Long? = nimInput.toLongOrNull()
     var password by remember { mutableStateOf("") }
@@ -43,7 +47,7 @@ fun LoginScreen(
     ) {
         // Logo
         Image(
-            painter = painterResource(id = R.drawable.lgo),
+            painter = painterResource(id = R.drawable.logo_app),
             contentDescription = null,
             modifier = Modifier.size(100.dp)
         )
@@ -120,12 +124,27 @@ fun LoginScreen(
 
         Spacer(modifier = Modifier.height(24.dp))
 
+        fun saveUserData(name: String, password: String,nim: Long,nomorHp: Long){
+            val sharedPreferences = context.getSharedPreferences("user_data", MODE_PRIVATE)
+            sharedPreferences.edit {
+                putString("userName", name)
+                putLong("userNim", nim)
+                putLong("userNomor", nomorHp)
+                putString("userPassword", password)
+            }
+        }
+
         when (loginState) {
             is LoginState.Loading -> {
                 CircularProgressIndicator()
             }
 
             is LoginState.Success -> {
+                val name = loginState.user.name
+                val nomorHp = loginState.user.nomorHp
+                if (nim != null) {
+                    saveUserData(name, password, nim, nomorHp)
+                }
                 LaunchedEffect(Unit) {
                     navController.navigate("main") {
                         popUpTo("login") { inclusive = true }
@@ -134,7 +153,7 @@ fun LoginScreen(
             }
 
             is LoginState.Error -> {
-                val error = (loginState as LoginState.Error).error
+                val error = loginState.error
                 Text(text = error, color = Color.Red)
             }
 
@@ -179,6 +198,8 @@ fun LoginScreen(
         }
     }
 }
+
+
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
