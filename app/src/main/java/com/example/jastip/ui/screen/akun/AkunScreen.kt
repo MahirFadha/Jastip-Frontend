@@ -44,9 +44,8 @@ fun AkunScreen(
 
     val context = LocalContext.current
     val sharedPreferences = context.getSharedPreferences("user_data", MODE_PRIVATE)
-//    var nama = sharedPreferences.getString("userName","namaUser")?:"namaUser"
-//    var password = sharedPreferences.getString("userPassword","passwordUser")?:"passwordUser"
     val savedName = sharedPreferences.getString("userName", null)
+    val savedNomor = sharedPreferences.getLong("userNomor", -1)
     val savedPassword = sharedPreferences.getString("userPassword", null)
     val savedNim = sharedPreferences.getLong("userNim", -1)
     var passwordVisible by remember { mutableStateOf(false) }
@@ -54,12 +53,13 @@ fun AkunScreen(
 
     LaunchedEffect(Unit) {
         if (savedName != null && savedPassword != null && savedNim != -1L){
-        val user = User(name = savedName, nim = savedNim, password = savedPassword)
+        val user = User(name = savedName, nim = savedNim, nomorHp = savedNomor, password = savedPassword)
         viewModel.setUser(user)
-            }
+        }
     }
 
     val nama by viewModel::name
+    val nomorHp by viewModel::nomorHp
     val password by viewModel::password
 
     Column(
@@ -103,6 +103,33 @@ fun AkunScreen(
             onValueChange = { viewModel.name = it },
             label = { Text("Nama") },
             placeholder = { Text("Masukkan nama") },
+            leadingIcon = {
+                Icon(
+                    painter = painterResource(id = R.drawable.round_assignment_ind_24),
+                    contentDescription = null,
+                    tint = Color.Gray
+                )
+            },
+            shape = RoundedCornerShape(15.dp),
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .width(350.dp)
+                .height(60.dp),
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedContainerColor = Color.White,
+                unfocusedContainerColor = Color.White,
+                focusedBorderColor = Color.Black,
+                unfocusedBorderColor = Color.Black
+            )
+        )
+        Spacer(modifier = Modifier.height(15.dp))
+
+        // Nomor Hp
+        OutlinedTextField(
+            value = nomorHp.toString(),
+            onValueChange = { viewModel.nomorHp = it.toLongOrNull() },
+            label = { Text("Nomor Hp") },
+            placeholder = { Text("Masukkan nomor") },
             leadingIcon = {
                 Icon(
                     painter = painterResource(id = R.drawable.round_assignment_ind_24),
@@ -169,6 +196,8 @@ fun AkunScreen(
                     Toast.makeText(context, (akunState.message), LENGTH_SHORT).show()
                     val editor = sharedPreferences.edit()
                     editor.putString("userName", viewModel.name)
+                    editor.putLong("userNomor", viewModel.nomorHp?: 0L)
+                    editor.putString("userPassword", viewModel.password)
                     editor.apply()
                 }
 
