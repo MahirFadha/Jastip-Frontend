@@ -47,7 +47,7 @@ fun LoginScreen(
     ) {
         // Logo
         Image(
-            painter = painterResource(id = R.drawable.lgo),
+            painter = painterResource(id = R.drawable.logo_app),
             contentDescription = null,
             modifier = Modifier.size(100.dp)
         )
