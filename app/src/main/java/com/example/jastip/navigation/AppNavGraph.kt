@@ -37,9 +37,9 @@ fun AppNavGraph(navController: NavHostController) {
         composable("sore") {
             SoreScreen(navController = navController)
         }
-        composable("edit_profile") {
-            EditPfScreen(navController = navController)
-        }
+//        composable("edit_profile") {
+//            EditPfScreen(navController = navController)
+//        }
         composable("keranjang") {
             KeranjangScreen(navController = navController)
         }
