@@ -91,9 +91,12 @@ dependencies {
 //    implementation("androidx.lifecycle:lifecycle-common:2.7.0")
 
     //scrapping
-    implementation ("org.jsoup:jsoup:1.17.2")
-    implementation("io.coil-kt:coil:2.2.0")
-    implementation("io.coil-kt:coil-compose:2.4.0")
+//    implementation ("org.jsoup:jsoup:1.17.2")
+//    implementation("io.coil-kt:coil:2.2.0")
+//    implementation("io.coil-kt:coil-compose:2.4.0")
+    implementation(libs.jsoup)
+    implementation(libs.coil)
+    implementation(libs.coil.compose)
 
 
     // Testing

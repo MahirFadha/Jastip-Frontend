@@ -20,6 +20,8 @@ splashscreen = "1.0.1"
 materialIconsExtended = "1.6.1"
 kapt = "2.1.20"
 coil = "2.2.0"
+coilCompose = "2.4.0"
+jsoup = "1.17.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -37,6 +39,11 @@ androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-man
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib"}
+
+#Scrapping
+jsoup = { module = "org.jsoup:jsoup", version.ref = "jsoup" }
+coil = { module = "io.coil-kt:coil", version.ref = "coil" }
+coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
 
 
 
@@ -80,5 +87,4 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 
 # Hilt
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
-
 kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kapt" }

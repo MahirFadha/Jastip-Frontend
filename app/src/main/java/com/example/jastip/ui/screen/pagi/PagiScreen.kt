@@ -36,7 +36,6 @@ import androidx.navigation.compose.rememberNavController
 import com.example.jastip.R
 import com.example.jastip.ui.screen.pagi.PagiViewModel
 import androidx.compose.material3.Text
-import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 
 
