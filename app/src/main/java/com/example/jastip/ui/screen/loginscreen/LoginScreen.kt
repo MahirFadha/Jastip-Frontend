@@ -124,12 +124,13 @@ fun LoginScreen(
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        fun saveUserData(name: String, password: String,nim: Long){
+        fun saveUserData(name: String, password: String,nim: Long,nomorHp: Long){
             val sharedPreferences = context.getSharedPreferences("user_data", MODE_PRIVATE)
             sharedPreferences.edit {
                 putString("userName", name)
-                putString("userPassword", password)
                 putLong("userNim", nim)
+                putLong("userNomor", nomorHp)
+                putString("userPassword", password)
             }
         }
 
@@ -140,8 +141,9 @@ fun LoginScreen(
 
             is LoginState.Success -> {
                 val name = loginState.user.name
+                val nomorHp = loginState.user.nomorHp
                 if (nim != null) {
-                    saveUserData(name, password, nim)
+                    saveUserData(name, password, nim, nomorHp)
                 }
                 LaunchedEffect(Unit) {
                     navController.navigate("main") {
