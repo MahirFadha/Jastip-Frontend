@@ -9,6 +9,7 @@ data class MenuEntity(
     val name: String,
     val price: Int,
     val category: String,
+    val type: String, //tambah kolom
     val imageUrl: String
 )
 

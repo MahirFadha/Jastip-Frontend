@@ -21,19 +21,10 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
-val MIGRATION_2_3 = object : Migration(2, 3) {
+val MIGRATION_3_4 = object : Migration(3, 4) {
     override fun migrate(database: SupportSQLiteDatabase) {
-
-        // Buat tabel baru sesuai struktur terbaru
-        database.execSQL("""
-            CREATE TABLE IF NOT EXISTS `menu` (
-                `id` INTEGER NOT NULL PRIMARY KEY,
-                `name` TEXT NOT NULL,
-                `price` INTEGER NOT NULL,
-                `category` TEXT NOT NULL,
-                `imageUrl` TEXT NOT NULL
-            )
-        """.trimIndent())
+        // Tambah kolom 'type' dengan default supaya kolom baru tidak NULL
+        database.execSQL("ALTER TABLE menu ADD COLUMN type TEXT NOT NULL DEFAULT 'food'")
     }
 }
 
@@ -41,36 +32,47 @@ val MIGRATION_2_3 = object : Migration(2, 3) {
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
+    // Provide AppDatabase
     @Provides
+    @Singleton
     fun provideDatabase(@ApplicationContext context: Context): AppDatabase =
         Room.databaseBuilder(context, AppDatabase::class.java, "app_db")
-            .addMigrations(MIGRATION_2_3)
+            .addMigrations(MIGRATION_3_4)
             .fallbackToDestructiveMigration()
             .build()
 
+    // Provide DAO: User
     @Provides
+    @Singleton
     fun provideUserDao(db: AppDatabase): UserDao = db.userDao()
 
+    // Provide DAO: Menu
     @Provides
+    @Singleton
     fun provideMenuItemDao(db: AppDatabase): MenuItemDao = db.menuItemDao()
 
+    // Provide Repository: User
     @Provides
-    fun provideRepository(dao: UserDao): UserRepository = UserRepositoryImpl(dao)
+    @Singleton
+    fun provideUserRepository(dao: UserDao): UserRepository = UserRepositoryImpl(dao)
 
+    // Provide Repository: Menu
+    @Provides
+    @Singleton
+    fun provideMenuRepository(
+        dao: MenuItemDao,
+        @ApplicationContext context: Context
+    ): IMenuRepository = MenuRepositoryImpl(dao, context)
+
+    // UseCase: Register
     @Provides
     fun provideRegisterUseCase(repo: UserRepository) = RegisterUseCase(repo)
 
+    // UseCase: Login
     @Provides
     fun provideLoginUseCase(repo: UserRepository) = LoginUseCase(repo)
 
-    @Provides
-    fun provideIMenuRepository(
-        dao: MenuItemDao,
-        @ApplicationContext context: Context
-    ): IMenuRepository {
-        return MenuRepositoryImpl(dao, context)
-    }
-    
+    // UseCase: Edit Profile
     @Provides
     fun provideEditUseCase(repo: UserRepository) = EditUseCase(repo)
 }
