@@ -13,63 +13,60 @@ class MenuRepositoryImpl @Inject constructor(
     private val context: Context
 ) : IMenuRepository {
 
-    private fun readMenuCSV(): List<MenuEntity> {
+    private fun readMenuFromAssets(): List<MenuEntity> {
         val menuList = mutableListOf<MenuEntity>()
-        val inputStream = context.assets.open("menu_grabfood.csv")
-        val reader = BufferedReader(InputStreamReader(inputStream))
-        reader.readLine() // skip header jika ada
-        reader.forEachLine { line ->
-            val tokens = line.split(";") // ganti koma ke titik koma
-            if (tokens.size >= 5) {
-                try {
-                    val priceClean = tokens[2].replace(".", "").trim()
-                    val item = MenuEntity(
-                        id = tokens[0].toInt(),
-                        name = tokens[1],
-                        price = priceClean.toInt(),
-                        category = tokens[3],
-                        imageUrl = tokens[4].trim()
-                    )
-                    menuList.add(item)
-                } catch (e: Exception) {
-                    e.printStackTrace() // debugging jika error parsing
+
+        try {
+            val inputStream = context.assets.open("menu_kfc.csv")
+            val reader = BufferedReader(InputStreamReader(inputStream))
+            reader.readLine() // Skip header jika ada
+
+            reader.forEachLine { line ->
+                val tokens = line.split(";")
+                if (tokens.size >= 5) {
+                    try {
+                        val id = tokens[0].toInt()
+                        val name = tokens[1].trim()
+                        val price = tokens[2].replace(".", "").trim().toIntOrNull() ?: 0
+                        val category = tokens[3].trim()
+                        val type = tokens[4].trim()
+                        val imageUrl = tokens[5].trim()
+
+                        val menuItem = MenuEntity(
+                            id = id,
+                            name = name,
+                            price = price,
+                            category = category,
+                            type = type,
+                            imageUrl = imageUrl
+                        )
+                        menuList.add(menuItem)
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
                 }
             }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
+
         return menuList
     }
 
-
-    fun parseCsvToMenuEntities(csvText: String): List<MenuEntity> {
-        val lines = csvText.lines()
-        val result = mutableListOf<MenuEntity>()
-
-        for ((index, line) in lines.withIndex()) {
-            if (index == 0 || line.isBlank()) continue
-
-            val tokens = line.split(";")
-            if (tokens.size < 5) continue
-
-            val id = tokens[0].toIntOrNull() ?: continue
-            val name = tokens[1]
-            val price = tokens[2].toIntOrNull() ?: 0
-            val category = tokens[3]
-            val imageUrl = tokens[4]
-
-            result.add(MenuEntity(id, name, price, category, imageUrl))
-        }
-
-        return result
-    }
-
     override suspend fun insertMenuItemsFromCSV() {
-        val items = readMenuCSV()
-        dao.insertAll(items)
+        val items = readMenuFromAssets()
+        dao.insertAll(items)  // Hanya insert, tanpa hapus data lama
     }
 
-    override suspend fun getAllMenu(): List<MenuEntity> = dao.getAll()
+    override suspend fun getAllMenu(): List<MenuEntity> {
+        return dao.getAllMenus()
+    }
 
     override suspend fun getMenusFromDb(): List<MenuEntity> {
         return dao.getAllMenus()
     }
+
+//    override suspend fun replaceMenuData(menus: List<MenuEntity>) {
+//        dao.insertAll(menus)  // Hanya insert data baru, tanpa hapus dulu
+//    }
 }

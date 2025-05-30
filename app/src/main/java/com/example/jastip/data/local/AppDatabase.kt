@@ -9,7 +9,7 @@ import com.example.jastip.data.local.entity.UserEntity
 
 @Database(
     entities = [UserEntity::class, MenuEntity::class],
-    version = 3,
+    version = 4,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
