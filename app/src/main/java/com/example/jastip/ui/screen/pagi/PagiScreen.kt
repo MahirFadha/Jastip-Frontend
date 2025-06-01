@@ -1,4 +1,4 @@
-package com.example.cobaproject.ui.screen
+package com.example.jastip.ui.screen.pagi
 
 import android.util.Log
 import androidx.compose.foundation.Image
@@ -38,13 +38,16 @@ import com.example.jastip.ui.screen.pagi.PagiViewModel
 import androidx.compose.material3.Text
 import coil.compose.rememberAsyncImagePainter
 import com.example.jastip.data.local.entity.MenuEntity
+import com.example.jastip.domain.model.Keranjang
+import com.example.jastip.ui.screen.keranjang.KeranjangViewModel
 
 
 @Composable
 fun PagiScreen(
     navController: NavController,
     modifier: Modifier = Modifier,
-    viewModel: PagiViewModel = hiltViewModel()
+    viewModel: PagiViewModel = hiltViewModel(),
+    keranjangViewModel: KeranjangViewModel = hiltViewModel()
 ) {
     val state by viewModel.state
 
@@ -71,7 +74,7 @@ fun PagiScreen(
                         .clickable { navController.popBackStack() }
                 )
                 Text(
-                    text = "PAGI",
+                    text = "Pagi",
                     fontSize = 25.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.align(Alignment.Center)
@@ -235,18 +238,30 @@ fun PagiScreen(
                             Text("Rp${menu.price}", fontSize = 14.sp, color = Color.Gray)
                         }
                         Spacer(modifier = Modifier.width(12.dp))
-                        Icon(
-                            painter = painterResource(id = R.drawable.plus),
-                            contentDescription = "tambah",
-                            tint = Color.Black,
-                            modifier = Modifier.size(24.dp)
-                        )
-                        Spacer(modifier = Modifier.width(5.dp))
+//                        Icon(
+//                            painter = painterResource(id = R.drawable.plus),
+//                            contentDescription = "tambah",
+//                            tint = Color.Black,
+//                            modifier = Modifier.size(24.dp)
+//                        )
+//                        Spacer(modifier = Modifier.width(5.dp))
                         Icon(
                             painter = painterResource(id = R.drawable.keranjang),
                             contentDescription = "Keranjang",
                             tint = Color.Black,
-                            modifier = Modifier.size(24.dp)
+                            modifier = Modifier
+                                .size(24.dp)
+                                .clickable {
+                                    val item = Keranjang(
+                                        id = 0, // auto-generate kalau pakai autoIncrement
+                                        menuId = menu.id,
+                                        name = menu.name,
+                                        price = menu.price,
+                                        quantity = 1,
+                                        imageUrl = menu.imageUrl
+                                    )
+                                    keranjangViewModel.addItem(item)
+                                }
                         )
                     }
                 }
