@@ -49,16 +49,6 @@ fun BerandaScreen(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(text = "Hi, $name", fontSize = 25.sp)
-
-                Image(
-                    painter = painterResource(id = R.drawable.keranjang),
-                    contentDescription = "Keranjang",
-                    modifier = Modifier
-                        .size(32.dp)
-                        .clickable {
-                            navController.navigate("keranjang")
-                        }
-                )
             }
 
             Spacer(modifier = Modifier.height(30.dp))
@@ -128,7 +118,6 @@ fun BerandaScreen(
         }
     }
 }
-
 
 @Composable
 fun MenuCard(

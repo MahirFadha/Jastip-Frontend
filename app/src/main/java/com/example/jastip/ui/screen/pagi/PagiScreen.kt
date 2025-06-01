@@ -37,6 +37,7 @@ import com.example.jastip.R
 import com.example.jastip.ui.screen.pagi.PagiViewModel
 import androidx.compose.material3.Text
 import coil.compose.rememberAsyncImagePainter
+import com.example.jastip.data.local.entity.MenuEntity
 
 
 @Composable
@@ -75,6 +76,17 @@ fun PagiScreen(
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.align(Alignment.Center)
                 )
+                Image(
+                    painter = painterResource(id = R.drawable.keranjang),
+                    contentDescription = "Keranjang",
+                    modifier = Modifier
+                        .align(Alignment.CenterEnd)
+                        .padding(end = 16.dp)
+                        .size(28.dp)
+                        .clickable {
+                            navController.navigate("keranjang")
+                        }
+                )
             }
             Divider(color = Color.Gray, thickness = 1.dp)
         }
@@ -83,7 +95,13 @@ fun PagiScreen(
         var selectedCategory by remember { mutableStateOf("All") }
         val categoryOptions = listOf("All", "Food", "Drink")
         var expanded by remember { mutableStateOf(false) }
+        var filteredMenu by remember { mutableStateOf(listOf<MenuEntity>()) }
 
+        LaunchedEffect(state.menuList) {
+            if (state.menuList.isNotEmpty() && filteredMenu.isEmpty()) {
+                filteredMenu = state.menuList
+            }
+        }
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -130,6 +148,23 @@ fun PagiScreen(
                             onClick = {
                                 selectedCategory = category
                                 expanded = false
+
+                                // Langsung filter menu ketika dropdown dipilih
+                                filteredMenu = if (searchText.isBlank()) {
+                                    if (category == "All") {
+                                        state.menuList
+                                    } else {
+                                        state.menuList.filter {
+                                            it.type.equals(category, ignoreCase = true)
+                                        }
+                                    }
+                                } else {
+                                    state.menuList.filter { menu ->
+                                        val matchName = menu.name.contains(searchText, ignoreCase = true)
+                                        val matchType = category == "All" || menu.type.equals(category, ignoreCase = true)
+                                        matchName && matchType
+                                    }
+                                }
                             }
                         )
                     }
@@ -140,7 +175,23 @@ fun PagiScreen(
 
             Button(
                 onClick = {
-                    // TODO: filter menu berdasarkan searchText dan selectedCategory jika ingin
+                    filteredMenu = if (searchText.isBlank()) {
+                        // Kalau search kosong, tampilkan semua sesuai kategori
+                        if (selectedCategory == "All") {
+                            state.menuList
+                        } else {
+                            state.menuList.filter {
+                                it.category.equals(selectedCategory, ignoreCase = true)
+                            }
+                        }
+                    } else {
+                        // Filter berdasarkan searchText dan kategori
+                        state.menuList.filter { menu ->
+                            val matchName = menu.name.contains(searchText, ignoreCase = true)
+                            val matchCategory = selectedCategory == "All" || menu.category.equals(selectedCategory, ignoreCase = true)
+                            matchName && matchCategory
+                        }
+                    }
                 },
                 shape = RoundedCornerShape(20.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF001D8A)),
@@ -158,7 +209,7 @@ fun PagiScreen(
             CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
         } else {
             LazyColumn {
-                items(state.menuList) { menu ->
+                items(filteredMenu) { menu ->
                     Log.d("ImageLoad", "Loading image URL: '${menu.imageUrl.trim()}'")
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
@@ -180,9 +231,17 @@ fun PagiScreen(
                         Spacer(modifier = Modifier.width(12.dp))
                         Column(modifier = Modifier.weight(1f)) {
                             Text(menu.name, fontSize = 16.sp, fontWeight = FontWeight.Medium)
+                            Text(menu.category, fontSize = 12.sp, color = Color.Black)
                             Text("Rp${menu.price}", fontSize = 14.sp, color = Color.Gray)
                         }
                         Spacer(modifier = Modifier.width(12.dp))
+                        Icon(
+                            painter = painterResource(id = R.drawable.plus),
+                            contentDescription = "tambah",
+                            tint = Color.Black,
+                            modifier = Modifier.size(24.dp)
+                        )
+                        Spacer(modifier = Modifier.width(5.dp))
                         Icon(
                             painter = painterResource(id = R.drawable.keranjang),
                             contentDescription = "Keranjang",

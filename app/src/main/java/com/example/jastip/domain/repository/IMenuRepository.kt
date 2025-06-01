@@ -6,4 +6,5 @@ interface IMenuRepository {
     suspend fun insertMenuItemsFromCSV()
     suspend fun getAllMenu(): List<MenuEntity>
     suspend fun getMenusFromDb(): List<MenuEntity>
+    //suspend fun replaceMenuData(menus: List<MenuEntity>)
 }
