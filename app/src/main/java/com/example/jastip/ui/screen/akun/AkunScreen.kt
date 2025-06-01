@@ -45,14 +45,14 @@ fun AkunScreen(
     val context = LocalContext.current
     val sharedPreferences = context.getSharedPreferences("user_data", MODE_PRIVATE)
     val savedName = sharedPreferences.getString("userName", null)
-    val savedNomor = sharedPreferences.getLong("userNomor", -1)
+    val savedNomor = sharedPreferences.getString("userNomor", null)
     val savedPassword = sharedPreferences.getString("userPassword", null)
-    val savedNim = sharedPreferences.getLong("userNim", -1)
+    val savedNim = sharedPreferences.getString("userNim", null)
     var passwordVisible by remember { mutableStateOf(false) }
     val akunState = viewModel.akunState
 
     LaunchedEffect(Unit) {
-        if (savedName != null && savedPassword != null && savedNim != -1L){
+        if (savedName != null && savedPassword != null && savedNim != null && savedNomor != null){
         val user = User(name = savedName, nim = savedNim, nomorHp = savedNomor, password = savedPassword)
         viewModel.setUser(user)
         }
@@ -127,7 +127,7 @@ fun AkunScreen(
         // Nomor Hp
         OutlinedTextField(
             value = nomorHp.toString(),
-            onValueChange = { viewModel.nomorHp = it.toLongOrNull() },
+            onValueChange = { viewModel.nomorHp = it },
             label = { Text("Nomor Hp") },
             placeholder = { Text("Masukkan nomor") },
             leadingIcon = {
@@ -196,7 +196,7 @@ fun AkunScreen(
                     Toast.makeText(context, (akunState.message), LENGTH_SHORT).show()
                     val editor = sharedPreferences.edit()
                     editor.putString("userName", viewModel.name)
-                    editor.putLong("userNomor", viewModel.nomorHp?: 0L)
+                    editor.putString("userNomor", viewModel.nomorHp)
                     editor.putString("userPassword", viewModel.password)
                     editor.apply()
                 }
