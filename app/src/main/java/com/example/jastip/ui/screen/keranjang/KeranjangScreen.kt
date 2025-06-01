@@ -1,4 +1,4 @@
-package com.example.cobaproject.ui.screen
+package com.example.jastip.ui.screen.keranjang
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -11,6 +11,7 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
@@ -29,15 +30,13 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.example.jastip.R
-import com.example.jastip.domain.model.Keranjang
-import com.example.jastip.ui.screen.keranjang.KeranjangViewModel
 import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable
 fun KeranjangScreen(
+    modifier: Modifier = Modifier,
     navController: NavController,
-    viewModel: KeranjangViewModel = hiltViewModel(),
-    modifier: Modifier = Modifier
+    viewModel: KeranjangViewModel = hiltViewModel()
 ) {
     // Ambil state dari ViewModel
     val state by viewModel.state.collectAsState()
@@ -45,24 +44,34 @@ fun KeranjangScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(20.dp)
     ) {
         // Header
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Icon(
-                imageVector = Icons.Default.ArrowBack,
-                contentDescription = "Back",
-                tint = Color.Black,
-                modifier = Modifier.clickable { navController.popBackStack() }
-            )
-            Spacer(modifier = Modifier.width(8.dp))
-            Text(
-                text = "Keranjang",
-                color = Color.Black,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold
-            )
+        Column {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 20.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.ArrowBack,
+                    contentDescription = "Back",
+                    modifier = Modifier
+                        .align(Alignment.CenterStart)
+                        .padding(start = 16.dp)
+                        .size(24.dp)
+                        .clickable { navController.popBackStack() }
+                )
+                Text(
+                    text = "Keranjang",
+                    fontSize = 25.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.align(Alignment.Center)
+                )
+
+            }
+            Divider(color = Color.Gray, thickness = 1.dp)
         }
+
 
         Spacer(modifier = Modifier.height(25.dp))
 

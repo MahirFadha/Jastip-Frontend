@@ -1,4 +1,4 @@
-package com.example.cobaproject.ui.screen
+package com.example.jastip.ui.screen.pagi
 
 import android.util.Log
 import androidx.compose.foundation.Image
@@ -74,7 +74,7 @@ fun PagiScreen(
                         .clickable { navController.popBackStack() }
                 )
                 Text(
-                    text = "PAGI",
+                    text = "Pagi",
                     fontSize = 25.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.align(Alignment.Center)
@@ -238,13 +238,13 @@ fun PagiScreen(
                             Text("Rp${menu.price}", fontSize = 14.sp, color = Color.Gray)
                         }
                         Spacer(modifier = Modifier.width(12.dp))
-                        Icon(
-                            painter = painterResource(id = R.drawable.plus),
-                            contentDescription = "tambah",
-                            tint = Color.Black,
-                            modifier = Modifier.size(24.dp)
-                        )
-                        Spacer(modifier = Modifier.width(5.dp))
+//                        Icon(
+//                            painter = painterResource(id = R.drawable.plus),
+//                            contentDescription = "tambah",
+//                            tint = Color.Black,
+//                            modifier = Modifier.size(24.dp)
+//                        )
+//                        Spacer(modifier = Modifier.width(5.dp))
                         Icon(
                             painter = painterResource(id = R.drawable.keranjang),
                             contentDescription = "Keranjang",
