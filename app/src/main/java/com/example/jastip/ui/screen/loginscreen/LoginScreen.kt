@@ -29,12 +29,11 @@ fun LoginScreen(
     viewModel: LoginViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
-    var nimInput by remember { mutableStateOf("") }
-    val nim:Long? = nimInput.toLongOrNull()
+    var nim by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
     val loginState = viewModel.loginState
-    val isFormValid = nimInput.isNotBlank() && password.isNotBlank()
+    val isFormValid = nim.isNotBlank() && password.isNotBlank()
 
 
 
@@ -60,8 +59,8 @@ fun LoginScreen(
 
         // nimInput
         OutlinedTextField(
-            value = nimInput,
-            onValueChange = { nimInput = it },
+            value = nim,
+            onValueChange = { nim = it },
             label = { Text("Nim") },
             placeholder = { Text("Masukkan nimInput", color = Color.Gray) },
             leadingIcon = {
@@ -124,12 +123,12 @@ fun LoginScreen(
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        fun saveUserData(name: String, password: String,nim: Long,nomorHp: Long){
+        fun saveUserData(name: String, password: String,nim: String,nomorHp: String){
             val sharedPreferences = context.getSharedPreferences("user_data", MODE_PRIVATE)
             sharedPreferences.edit {
                 putString("userName", name)
-                putLong("userNim", nim)
-                putLong("userNomor", nomorHp)
+                putString("userNim", nim)
+                putString("userNomor", nomorHp)
                 putString("userPassword", password)
             }
         }
@@ -142,7 +141,7 @@ fun LoginScreen(
             is LoginState.Success -> {
                 val name = loginState.user.name
                 val nomorHp = loginState.user.nomorHp
-                if (nim != null) {
+                if (nim.isNotEmpty()) {
                     saveUserData(name, password, nim, nomorHp)
                 }
                 LaunchedEffect(Unit) {
@@ -163,7 +162,7 @@ fun LoginScreen(
         // Tombol Daftar
         Button(
             onClick = {
-                if (nim==null){
+                if (nim.isEmpty()){
                     println("Error")
                 } else{
                     viewModel.login(nim,password)
