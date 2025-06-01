@@ -5,7 +5,7 @@ import com.example.jastip.domain.repository.UserRepository
 import com.example.jastip.utils.SecurityUser
 
 class LoginUseCase(private val repository: UserRepository) {
-    suspend operator fun invoke(nim: Long, password: String): User? {
+    suspend operator fun invoke(nim: String, password: String): User? {
         val hashedPassword = SecurityUser().hashPassword(password)
         return repository.login(nim, hashedPassword)
     }

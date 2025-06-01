@@ -16,11 +16,9 @@ class RegisterViewModel @Inject constructor(
 ) : ViewModel() {
 
     var name by mutableStateOf("")
-    var nimInput by mutableStateOf("")
-    val nim: Long? get() = nimInput.toLongOrNull()
+    var nim by mutableStateOf("")
     var password by mutableStateOf("")
-    var nomorHpInput by mutableStateOf("")
-    val nomorHp: Long? get() = nomorHpInput.toLongOrNull()
+    var nomorHp by mutableStateOf("")
     var registerState by mutableStateOf<RegisterState>(RegisterState.Idle)
         private set
 
@@ -28,12 +26,12 @@ class RegisterViewModel @Inject constructor(
         viewModelScope.launch {
             registerState = RegisterState.Loading
             try {
-                if (nim == null) {
+                if (nim.isEmpty()) {
                     registerState = RegisterState.Error("NIM tidak valid")
                     return@launch
                 }
 
-                registerUseCase(User(name, nim!!, nomorHp!!, password))
+                registerUseCase(User(name, nim, nomorHp, password))
                 registerState = RegisterState.Success("Registrasi berhasil!")
             } catch (e: Exception) {
                 registerState = RegisterState.Error("Registrasi gagal: ${e.message}")

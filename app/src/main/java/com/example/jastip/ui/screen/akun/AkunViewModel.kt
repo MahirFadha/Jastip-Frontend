@@ -16,8 +16,8 @@ class AkunViewModel @Inject constructor(
     private val editUseCase: EditUseCase
 ) : ViewModel() {
     var name by mutableStateOf("")
-    var nim by mutableStateOf<Long?>(null)
-    var nomorHp by mutableStateOf<Long?>(null)
+    var nim by mutableStateOf("")
+    var nomorHp by mutableStateOf("")
     var password by mutableStateOf("")
     var akunState by mutableStateOf<AkunState>(AkunState.Idle)
         private set
@@ -34,8 +34,8 @@ class AkunViewModel @Inject constructor(
         viewModelScope.launch {
             akunState = AkunState.Loading
             try {
-                val currentNim = nim ?: throw Exception("NIM tidak ditemukan")
-                val currentNomor = nomorHp ?: throw Exception("Nomor HP tidak ditemukan")
+                val currentNim = nim
+                val currentNomor = nomorHp
                 val user = User(name = name, nim = currentNim, password = password, nomorHp = currentNomor)
                 editUseCase(user)
                 akunState = AkunState.Success("Edit berhasil!")

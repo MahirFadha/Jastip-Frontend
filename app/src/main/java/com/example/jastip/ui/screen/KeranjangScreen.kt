@@ -135,7 +135,7 @@ fun KeranjangScreen(navController: NavController, modifier: Modifier = Modifier)
                         modifier = Modifier
                             .size(20.dp)
                             .clickable {
-                                if (quantity > 1) quantity--  // Kurangi qty
+                                if (quantity > 0) quantity--  // Kurangi qty
                             }
                     )
                     Text(

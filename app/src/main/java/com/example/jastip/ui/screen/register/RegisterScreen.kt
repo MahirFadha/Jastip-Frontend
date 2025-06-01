@@ -29,9 +29,9 @@ fun RegisterScreen(
     ) {
 
     val name = viewModel.name
-    val nim = viewModel.nimInput
+    val nim = viewModel.nim
     val password = viewModel.password
-    val nomorHp = viewModel.nomorHpInput
+    val nomorHp = viewModel.nomorHp
     var passwordVisible by remember { mutableStateOf(false) }
     val isFormValid = name.isNotBlank() && nim.isNotBlank() && password.isNotBlank()
     val context = LocalContext.current
@@ -90,7 +90,7 @@ fun RegisterScreen(
         // NIM
         OutlinedTextField(
             value = nim,
-            onValueChange = { viewModel.nimInput = it },
+            onValueChange = { viewModel.nim = it },
             label = { Text("NIM") },
             placeholder = { Text("Masukkan NIM", color = Color.Gray) },
             leadingIcon = {
@@ -117,7 +117,7 @@ fun RegisterScreen(
         // No Hp
         OutlinedTextField(
             value = nomorHp,
-            onValueChange = { viewModel.nomorHpInput = it },
+            onValueChange = { viewModel.nomorHp = it },
             label = { Text("Nomor Hp") },
             placeholder = { Text("Masukkan nomor", color = Color.Gray) },
             leadingIcon = {
