@@ -38,13 +38,16 @@ import com.example.jastip.ui.screen.pagi.PagiViewModel
 import androidx.compose.material3.Text
 import coil.compose.rememberAsyncImagePainter
 import com.example.jastip.data.local.entity.MenuEntity
+import com.example.jastip.domain.model.Keranjang
+import com.example.jastip.ui.screen.keranjang.KeranjangViewModel
 
 
 @Composable
 fun PagiScreen(
     navController: NavController,
     modifier: Modifier = Modifier,
-    viewModel: PagiViewModel = hiltViewModel()
+    viewModel: PagiViewModel = hiltViewModel(),
+    keranjangViewModel: KeranjangViewModel = hiltViewModel()
 ) {
     val state by viewModel.state
 
@@ -246,7 +249,19 @@ fun PagiScreen(
                             painter = painterResource(id = R.drawable.keranjang),
                             contentDescription = "Keranjang",
                             tint = Color.Black,
-                            modifier = Modifier.size(24.dp)
+                            modifier = Modifier
+                                .size(24.dp)
+                                .clickable {
+                                    val item = Keranjang(
+                                        id = 0, // auto-generate kalau pakai autoIncrement
+                                        menuId = menu.id,
+                                        name = menu.name,
+                                        price = menu.price,
+                                        quantity = 1,
+                                        imageUrl = menu.imageUrl
+                                    )
+                                    keranjangViewModel.addItem(item)
+                                }
                         )
                     }
                 }

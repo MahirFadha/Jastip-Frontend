@@ -5,13 +5,17 @@ import androidx.room.Room
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.jastip.data.local.AppDatabase
+import com.example.jastip.data.local.dao.KeranjangDao
 import com.example.jastip.data.local.dao.MenuItemDao
 import com.example.jastip.data.local.dao.UserDao
+import com.example.jastip.data.repository.KeranjangRepositoryImpl
 import com.example.jastip.data.repository.MenuRepositoryImpl
 import com.example.jastip.data.repository.UserRepositoryImpl
+import com.example.jastip.domain.repository.IKeranjangRepository
 import com.example.jastip.domain.repository.IMenuRepository
 import com.example.jastip.domain.repository.UserRepository
 import com.example.jastip.domain.usecase.EditUseCase
+import com.example.jastip.domain.usecase.KeranjangUseCase
 import com.example.jastip.domain.usecase.LoginUseCase
 import com.example.jastip.domain.usecase.RegisterUseCase
 import dagger.Module
@@ -75,4 +79,23 @@ object AppModule {
     // UseCase: Edit Profile
     @Provides
     fun provideEditUseCase(repo: UserRepository) = EditUseCase(repo)
+
+    // Provide DAO: Keranjang
+    @Provides
+    @Singleton
+    fun provideKeranjangDao(db: AppDatabase): KeranjangDao = db.KeranjangDao()
+
+    // Provide Repository: Keranjang
+    @Provides
+    @Singleton
+    fun provideKeranjangRepository(
+        dao: KeranjangDao
+    ): IKeranjangRepository = KeranjangRepositoryImpl(dao)
+
+    // Provide UseCase: Keranjang
+    @Provides
+    fun provideKeranjangUseCase(
+        repo: IKeranjangRepository
+    ): KeranjangUseCase = KeranjangUseCase(repo)
+
 }
