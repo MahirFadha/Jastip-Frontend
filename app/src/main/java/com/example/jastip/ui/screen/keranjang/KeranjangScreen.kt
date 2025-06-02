@@ -9,11 +9,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Remove
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,6 +33,7 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.example.jastip.R
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.jastip.domain.model.Keranjang
 
 @Composable
 fun KeranjangScreen(
@@ -40,6 +43,8 @@ fun KeranjangScreen(
 ) {
     // Ambil state dari ViewModel
     val state by viewModel.state.collectAsState()
+    var showDeleteDialog by remember { mutableStateOf(false) }
+    var itemToDelete by remember { mutableStateOf<Keranjang?>(null) }
 
     Column(
         modifier = modifier
@@ -75,9 +80,11 @@ fun KeranjangScreen(
 
         Spacer(modifier = Modifier.height(25.dp))
 
+
         // Daftar item keranjang dari state.items
         state.items.forEach { item ->
             var isChecked by remember { mutableStateOf(false) }
+
 
             Row(
                 modifier = Modifier
@@ -126,7 +133,10 @@ fun KeranjangScreen(
                             tint = Color.Gray,
                             modifier = Modifier
                                 .size(20.dp)
-                                .clickable { viewModel.removeItem(item) }
+                                .clickable {
+                                    itemToDelete = item
+                                    showDeleteDialog = true
+                                }
                         )
                     }
 
@@ -172,6 +182,26 @@ fun KeranjangScreen(
                     }
                 }
             }
+        }
+        if (showDeleteDialog && itemToDelete != null) {
+            AlertDialog(
+                onDismissRequest = { showDeleteDialog = false },
+                title = { Text("Konfirmasi Hapus") },
+                text = { Text("Apakah kamu yakin ingin menghapus item ini dari keranjang?") },
+                confirmButton = {
+                    TextButton(onClick = {
+                        viewModel.removeItem(itemToDelete!!)
+                        showDeleteDialog = false
+                    }) {
+                        Text("Hapus")
+                    }
+                },
+                dismissButton = {
+                    TextButton(onClick = { showDeleteDialog = false }) {
+                        Text("Batal")
+                    }
+                }
+            )
         }
     }
 }
