@@ -16,13 +16,21 @@ class KeranjangRepositoryImpl(private val dao:  KeranjangDao) : IKeranjangReposi
             name = item.name,
             price = item.price,
             quantity = item.quantity,
-            imageUrl = item.imageUrl
+            imageUrl = item.imageUrl,
+            userNim = item.userNim
         )
         dao.insert(entity)
     }
 
-    override fun getKeranjangItems(): Flow<List<Keranjang>> {
-        return dao.getAll().map { list ->
+
+    override suspend fun removeItem(id: Int) = dao.deleteById(id)
+    override suspend fun clearKeranjang() = dao.clearAll()
+    override suspend fun updateQuantity(itemId: Int, quantity: Int) {
+        dao.updateQuantity(itemId, quantity)
+    }
+
+    override suspend fun getKeranjangItemsByUserNim(nim: String): Flow<List<Keranjang>> {
+        return dao.getByUserNim(nim).map { list ->
             list.map {
                 Keranjang(
                     id = it.id,
@@ -30,15 +38,10 @@ class KeranjangRepositoryImpl(private val dao:  KeranjangDao) : IKeranjangReposi
                     name = it.name,
                     price = it.price,
                     quantity = it.quantity,
-                    imageUrl = it.imageUrl
+                    imageUrl = it.imageUrl,
+                    userNim = it.userNim
                 )
             }
         }
-    }
-
-    override suspend fun removeItem(id: Int) = dao.deleteById(id)
-    override suspend fun clearKeranjang() = dao.clearAll()
-    override suspend fun updateQuantity(itemId: Int, quantity: Int) {
-        dao.updateQuantity(itemId, quantity)
     }
 }

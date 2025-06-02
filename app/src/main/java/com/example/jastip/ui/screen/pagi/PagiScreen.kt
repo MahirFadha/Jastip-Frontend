@@ -1,5 +1,6 @@
 package com.example.jastip.ui.screen.pagi
 
+import android.content.Context.MODE_PRIVATE
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -36,6 +37,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.jastip.R
 import com.example.jastip.ui.screen.pagi.PagiViewModel
 import androidx.compose.material3.Text
+import androidx.compose.ui.platform.LocalContext
 import coil.compose.rememberAsyncImagePainter
 import com.example.jastip.data.local.entity.MenuEntity
 import com.example.jastip.domain.model.Keranjang
@@ -99,6 +101,9 @@ fun PagiScreen(
         val categoryOptions = listOf("All", "Food", "Drink")
         var expanded by remember { mutableStateOf(false) }
         var filteredMenu by remember { mutableStateOf(listOf<MenuEntity>()) }
+        val context = LocalContext.current
+        val sharedPreferences = context.getSharedPreferences("user_data", MODE_PRIVATE)
+        val nim = sharedPreferences.getString("userNim", null)
 
         LaunchedEffect(state.menuList) {
             if (state.menuList.isNotEmpty() && filteredMenu.isEmpty()) {
@@ -258,7 +263,9 @@ fun PagiScreen(
                                         name = menu.name,
                                         price = menu.price,
                                         quantity = 1,
-                                        imageUrl = menu.imageUrl
+                                        imageUrl = menu.imageUrl,
+                                        userNim = nim.toString()
+
                                     )
                                     keranjangViewModel.addItem(item)
                                 }

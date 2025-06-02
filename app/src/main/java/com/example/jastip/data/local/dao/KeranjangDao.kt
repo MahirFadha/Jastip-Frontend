@@ -13,8 +13,8 @@ interface KeranjangDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(item: KeranjangEntity)
 
-    @Query("SELECT * FROM keranjang")
-    fun getAll(): Flow<List<KeranjangEntity>>
+    @Query("SELECT * FROM keranjang WHERE userNim = :nim")
+    fun getByUserNim(nim: String): Flow<List<KeranjangEntity>>
 
     @Query("DELETE FROM keranjang WHERE id = :id")
     suspend fun deleteById(id: Int)

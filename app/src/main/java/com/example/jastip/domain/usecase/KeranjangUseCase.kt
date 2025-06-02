@@ -12,9 +12,9 @@ class KeranjangUseCase @Inject constructor
         repository.addToKeranjang(item)
     }
 
-    fun getAllItems(): Flow<List<Keranjang>> {
-        return repository.getKeranjangItems()
-    }
+//    fun getAllItems(): Flow<List<Keranjang>> {
+//        return repository.getKeranjangItems()
+//    }
 
     suspend fun updateQuantity(itemId: Int, newQuantity: Int) {
         repository.updateQuantity(itemId, newQuantity)
@@ -24,7 +24,11 @@ class KeranjangUseCase @Inject constructor
         repository.removeItem(item.id)
     }
 
-    suspend fun clearCart() {
+    suspend fun clearCart(nim: String) {
         repository.clearKeranjang()
+    }
+
+    suspend fun getKeranjangByUserNim(nim: String): Flow<List<Keranjang>> {
+        return repository.getKeranjangItemsByUserNim(nim)
     }
 }
