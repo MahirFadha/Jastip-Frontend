@@ -69,7 +69,7 @@ fun KeranjangScreen(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 8.dp, vertical = 8.dp),
+                    .padding(horizontal = 2.dp, vertical = 8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Checkbox(
@@ -79,7 +79,7 @@ fun KeranjangScreen(
                 )
                 Text(
                     text = "Pilih Semua",
-                    modifier = Modifier.padding(start = 8.dp)
+                    modifier = Modifier.padding(start = 4.dp)
                 )
             }
 

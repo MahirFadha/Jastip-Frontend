@@ -2,6 +2,7 @@ package com.example.jastip.ui.screen.register
 
 import android.widget.Toast
 import android.widget.Toast.LENGTH_SHORT
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -46,10 +47,10 @@ fun RegisterScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         // Logo
-        Icon(
+        Image(
             painter = painterResource(id = R.drawable.logo_app),
             contentDescription = null,
-            modifier = Modifier.size(80.dp)
+            modifier = Modifier.size(100.dp)
         )
 
         Spacer(modifier = Modifier.height(20.dp))

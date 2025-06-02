@@ -42,7 +42,17 @@ class KeranjangViewModel @Inject constructor(
             viewModelScope.launch {
                 keranjangUseCase.getKeranjangByUserNim(nim)
                     .collect { items ->
-                        _state.value = KeranjangState(items = items, isLoading = false)
+                        // Pertahankan selectedItems yang sudah ada, tapi hapus yang tidak ada lagi
+                        val currentSelected = _state.value.selectedItems
+                        val validSelectedItems = currentSelected.filter { selectedId ->
+                            items.any { it.id == selectedId }
+                        }.toSet()
+
+                        _state.value = _state.value.copy(
+                            items = items,
+                            selectedItems = validSelectedItems,
+                            isLoading = false
+                        )
                     }
             }
         }
@@ -79,8 +89,26 @@ class KeranjangViewModel @Inject constructor(
     fun updateQuantity(itemId: Int, newQuantity: Int) {
         userNim?.let { nim ->
             viewModelScope.launch {
+                // Simpan selection saat ini sebelum update
+                val currentSelection = _state.value.selectedItems
+
+                // Update quantity di database
                 keranjangUseCase.updateQuantity(itemId, newQuantity)
-                loadKeranjang()
+
+                // Update quantity di state lokal sambil mempertahankan selection
+                val updatedItems = _state.value.items.map { item ->
+                    if (item.id == itemId) {
+                        item.copy(quantity = newQuantity)
+                    } else {
+                        item
+                    }
+                }
+
+                // Pastikan selection tetap sama
+                _state.value = _state.value.copy(
+                    items = updatedItems,
+                    selectedItems = currentSelection
+                )
             }
         }
     }
