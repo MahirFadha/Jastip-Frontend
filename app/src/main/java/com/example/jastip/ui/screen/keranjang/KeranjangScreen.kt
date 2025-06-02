@@ -1,15 +1,15 @@
 package com.example.jastip.ui.screen.keranjang
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.Divider
@@ -19,21 +19,16 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import coil.compose.AsyncImage
-import com.example.jastip.R
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.jastip.domain.model.Keranjang
+import com.example.jastip.ui.components.KeranjangItem
 
 @Composable
 fun KeranjangScreen(
@@ -41,16 +36,12 @@ fun KeranjangScreen(
     navController: NavController,
     viewModel: KeranjangViewModel = hiltViewModel()
 ) {
-    // Ambil state dari ViewModel
     val state by viewModel.state.collectAsState()
     var showDeleteDialog by remember { mutableStateOf(false) }
     var itemToDelete by remember { mutableStateOf<Keranjang?>(null) }
 
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-    ) {
-        // Header
+    Column(modifier = modifier.fillMaxSize()) {
+        // Header Section
         Column {
             Box(
                 modifier = Modifier
@@ -72,127 +63,101 @@ fun KeranjangScreen(
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.align(Alignment.Center)
                 )
-
             }
-            Divider(color = Color.Gray, thickness = 1.dp)
-        }
 
-
-        Spacer(modifier = Modifier.height(25.dp))
-
-
-        // Daftar item keranjang dari state.items
-        state.items.forEach { item ->
-            var isChecked by remember { mutableStateOf(false) }
-
-
+            // Select All Checkbox (Optional)
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(Color(0xFFEFEFEF), RoundedCornerShape(8.dp))
-                    .padding(8.dp)
-                    .padding(bottom = 8.dp)
+                    .padding(horizontal = 8.dp, vertical = 8.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 Checkbox(
-                    checked = isChecked,
-                    onCheckedChange = { isChecked = it },
+                    checked = state.selectedItems.size == state.items.size && state.items.isNotEmpty(),
+                    onCheckedChange = { viewModel.toggleSelectAll() },
                     colors = CheckboxDefaults.colors(checkedColor = Color.Black)
                 )
-
-                Spacer(modifier = Modifier.width(8.dp))
-
-                AsyncImage(
-                    model = item.imageUrl,
-                    contentDescription = "Gambar menu",
-                    modifier = Modifier
-                        .size(80.dp)
-                        .clip(RoundedCornerShape(8.dp)),
-                    contentScale = ContentScale.Crop
+                Text(
+                    text = "Pilih Semua",
+                    modifier = Modifier.padding(start = 8.dp)
                 )
+            }
 
-                Spacer(modifier = Modifier.width(12.dp))
+            Divider(color = Color.Gray, thickness = 1.dp)
+        }
 
-                Column(modifier = Modifier.weight(1f)) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        Text(
-                            text = item.name,
-                            color = Color.Black,
-                            fontSize = 13.sp,
-                            fontWeight = FontWeight.SemiBold,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis,
-                            modifier = Modifier.weight(1f)
-                        )
-
-                        Icon(
-                            painter = painterResource(id = R.drawable.sampah),
-                            contentDescription = "Hapus Item",
-                            tint = Color.Gray,
-                            modifier = Modifier
-                                .size(20.dp)
-                                .clickable {
-                                    itemToDelete = item
-                                    showDeleteDialog = true
-                                }
-                        )
+        // Main Content - Scrollable
+        LazyColumn(
+            modifier = Modifier.weight(1f),
+            contentPadding = PaddingValues(horizontal = 10.dp, vertical = 8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            items(state.items) { item ->
+                KeranjangItem(
+                    item = item,
+                    isSelected = state.selectedItems.contains(item.id),
+                    onSelectionChange = { isSelected ->
+                        viewModel.setItemSelection(item.id, isSelected)
+                    },
+                    onDeleteClick = {
+                        itemToDelete = item
+                        showDeleteDialog = true
+                    },
+                    onQuantityChange = { newQuantity ->
+                        viewModel.updateQuantity(item.id, newQuantity)
                     }
-
-                    Spacer(modifier = Modifier.height(6.dp))
-
-                    Text(
-                        text = "Rp${item.price}",
-                        color = Color(0xFFEC5228),
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 14.sp
-                    )
-
-                    Spacer(modifier = Modifier.height(8.dp))
-
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Icon(
-                            imageVector = Icons.Default.Remove,
-                            contentDescription = "Kurangi",
-                            tint = Color.Black,
-                            modifier = Modifier
-                                .size(20.dp)
-                                .clickable {
-                                    if (item.quantity > 1) {
-                                        viewModel.updateQuantity(item.id, item.quantity - 1)
-                                    }
-                                }
-                        )
-                        Text(
-                            text = item.quantity.toString(),
-                            color = Color.Black,
-                            modifier = Modifier.padding(horizontal = 8.dp)
-                        )
-                        Icon(
-                            imageVector = Icons.Default.Add,
-                            contentDescription = "Tambah",
-                            tint = Color.Black,
-                            modifier = Modifier
-                                .size(20.dp)
-                                .clickable {
-                                    viewModel.updateQuantity(item.id, item.quantity + 1)
-                                }
-                        )
-                    }
-                }
+                )
             }
         }
+
+        // Footer Section (Sticky Bottom)
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+                .background(Color.White)
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text("Total Harga", fontWeight = FontWeight.Bold)
+                Text(
+                    "Rp${viewModel.getSelectedItemsTotal()}", // Menggunakan total item yang dipilih
+                    fontWeight = FontWeight.Bold,
+                    color = Color(0xFFEC5228)
+                )
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Button(
+                onClick = {
+                    // Handle checkout - hanya item yang dipilih
+                    val selectedItems = state.items.filter { state.selectedItems.contains(it.id) }
+                    // Proses checkout dengan selectedItems
+                },
+                modifier = Modifier.fillMaxWidth(),
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF3F7D58)),
+                enabled = state.selectedItems.isNotEmpty() // Disable jika tidak ada item yang dipilih
+            ) {
+                Text("Checkout (${state.selectedItems.size})", color = Color.White)
+            }
+        }
+
+        // Delete Confirmation Dialog
         if (showDeleteDialog && itemToDelete != null) {
             AlertDialog(
                 onDismissRequest = { showDeleteDialog = false },
                 title = { Text("Konfirmasi Hapus") },
-                text = { Text("Apakah kamu yakin ingin menghapus item ini dari keranjang?") },
+                text = { Text("Apakah kamu yakin ingin menghapus item ini?") },
                 confirmButton = {
-                    TextButton(onClick = {
-                        viewModel.removeItem(itemToDelete!!)
-                        showDeleteDialog = false
-                    }) {
+                    TextButton(
+                        onClick = {
+                            itemToDelete?.let { viewModel.removeItem(it) }
+                            showDeleteDialog = false
+                        }
+                    ) {
                         Text("Hapus")
                     }
                 },

@@ -47,9 +47,8 @@ fun RegisterScreen(
     ) {
         // Logo
         Icon(
-            painter = painterResource(id = R.drawable.ic_launcher_foreground),
+            painter = painterResource(id = R.drawable.logo_app),
             contentDescription = null,
-            tint = Color.Gray,
             modifier = Modifier.size(80.dp)
         )
 
