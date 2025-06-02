@@ -35,7 +35,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.jastip.R
-import com.example.jastip.ui.screen.pagi.PagiViewModel
 import androidx.compose.material3.Text
 import androidx.compose.ui.platform.LocalContext
 import coil.compose.rememberAsyncImagePainter
@@ -104,6 +103,8 @@ fun PagiScreen(
         val context = LocalContext.current
         val sharedPreferences = context.getSharedPreferences("user_data", MODE_PRIVATE)
         val nim = sharedPreferences.getString("userNim", null)
+        var showAddDialog by remember { mutableStateOf(false) }
+        var item by remember { mutableStateOf<Keranjang?>(null) }
 
         LaunchedEffect(state.menuList) {
             if (state.menuList.isNotEmpty() && filteredMenu.isEmpty()) {
@@ -243,13 +244,7 @@ fun PagiScreen(
                             Text("Rp${menu.price}", fontSize = 14.sp, color = Color.Gray)
                         }
                         Spacer(modifier = Modifier.width(12.dp))
-//                        Icon(
-//                            painter = painterResource(id = R.drawable.plus),
-//                            contentDescription = "tambah",
-//                            tint = Color.Black,
-//                            modifier = Modifier.size(24.dp)
-//                        )
-//                        Spacer(modifier = Modifier.width(5.dp))
+
                         Icon(
                             painter = painterResource(id = R.drawable.keranjang),
                             contentDescription = "Keranjang",
@@ -257,7 +252,7 @@ fun PagiScreen(
                             modifier = Modifier
                                 .size(24.dp)
                                 .clickable {
-                                    val item = Keranjang(
+                                     item = Keranjang(
                                         id = 0, // auto-generate kalau pakai autoIncrement
                                         menuId = menu.id,
                                         name = menu.name,
@@ -267,12 +262,35 @@ fun PagiScreen(
                                         userNim = nim.toString()
 
                                     )
-                                    keranjangViewModel.addItem(item)
+                                    showAddDialog = true
+//                                    keranjangViewModel.addItem(item)
                                 }
                         )
                     }
                 }
             }
+        }
+        if (showAddDialog && item != null) {
+            AlertDialog(
+                onDismissRequest = { showAddDialog = false },
+                title = { Text("Tambah ke Keranjang") },
+                text = { Text("Apakah kamu yakin ingin menambahkan item ini ke keranjang?") },
+                confirmButton = {
+                    TextButton(onClick = {
+                        keranjangViewModel.addItem(item!!)
+                        showAddDialog = false
+                    }) {
+                        Text("Tambah")
+                    }
+                },
+                dismissButton = {
+                    TextButton(onClick = {
+                        showAddDialog = false
+                    }) {
+                        Text("Batal")
+                    }
+                }
+            )
         }
     }
 }
