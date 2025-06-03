@@ -125,7 +125,7 @@ fun KeranjangScreen(
                 Text(
                     "Rp${viewModel.getSelectedItemsTotal()}", // Menggunakan total item yang dipilih
                     fontWeight = FontWeight.Bold,
-                    color = Color(0xFFEC5228)
+                    color = Color(0xFF000000)
                 )
             }
 

@@ -113,16 +113,6 @@ class KeranjangViewModel @Inject constructor(
         }
     }
 
-    fun toggleItemSelection(itemId: Int) {
-        val currentSelected = _state.value.selectedItems
-        val newSelected = if (currentSelected.contains(itemId)) {
-            currentSelected - itemId
-        } else {
-            currentSelected + itemId
-        }
-        _state.value = _state.value.copy(selectedItems = newSelected)
-    }
-
     fun setItemSelection(itemId: Int, isSelected: Boolean) {
         val currentSelected = _state.value.selectedItems
         val newSelected = if (isSelected) {
