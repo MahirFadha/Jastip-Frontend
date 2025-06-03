@@ -46,7 +46,7 @@ fun KeranjangScreen(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 20.dp)
+                    .padding(vertical = 12.dp)
             ) {
                 Icon(
                     imageVector = Icons.Default.ArrowBack,
