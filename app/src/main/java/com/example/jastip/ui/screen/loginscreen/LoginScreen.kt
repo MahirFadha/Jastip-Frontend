@@ -62,7 +62,7 @@ fun LoginScreen(
             value = nim,
             onValueChange = { nim = it },
             label = { Text("Nim") },
-            placeholder = { Text("Masukkan nimInput", color = Color.Gray) },
+            placeholder = { Text("Masukkan nim", color = Color.Gray) },
             leadingIcon = {
                 Icon(
                     painter = painterResource(id = R.drawable.round_assignment_ind_24),
