@@ -11,7 +11,7 @@ import com.example.jastip.data.local.entity.UserEntity
 
 @Database(
     entities = [UserEntity::class, MenuEntity::class, KeranjangEntity::class],
-    version = 5,
+    version = 6,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
