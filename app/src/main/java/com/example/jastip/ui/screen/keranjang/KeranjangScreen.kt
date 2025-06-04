@@ -125,7 +125,7 @@ fun KeranjangScreen(
                         .padding(bottom = 8.dp),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Text("Harga Kurir", fontWeight = FontWeight.Normal)
+                    Text("Biaya Pengiriman", fontWeight = FontWeight.Normal)
                     Text(
                         "Rp${viewModel.getOngkir()}",
                         color = Color.Gray

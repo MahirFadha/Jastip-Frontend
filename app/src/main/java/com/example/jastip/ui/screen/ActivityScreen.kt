@@ -101,9 +101,9 @@ fun ActivityScreen(
 
                 Spacer(modifier = Modifier.height(24.dp))
 
-                HargaItem(label = "Total Harga", value = "Rp. 55.000")
-                HargaItem(label = "Harga Kurir", value = "Rp. 5.000")
-                HargaItem(label = "Total Pesanan", value = "Rp. 60.000", bold = true)
+                HargaItem(label = "Harga Pesanan", value = "Rp. 55.000")
+                HargaItem(label = "Biaya Pengiriman", value = "Rp. 5.000")
+                HargaItem(label = "Total Harga", value = "Rp. 60.000", bold = true)
 
                 Spacer(modifier = Modifier.height(20.dp))
 
@@ -115,7 +115,7 @@ fun ActivityScreen(
                         .height(48.dp),
                     shape = RoundedCornerShape(20.dp),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xFF3F7D58), // merah tua
+                        containerColor = Color(0xFFD51818), // merah tua
                         contentColor = Color.White         // warna teks
                     )
                 ) {
