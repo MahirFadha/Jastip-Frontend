@@ -117,13 +117,29 @@ fun KeranjangScreen(
                 .padding(16.dp)
                 .background(Color.White)
         ) {
+            // Tambahkan Harga Kurir
+            if (state.selectedItems.isNotEmpty()) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 8.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text("Harga Kurir", fontWeight = FontWeight.Normal)
+                    Text(
+                        "Rp${viewModel.getOngkir()}",
+                        color = Color.Gray
+                    ) // Tambahkan fungsi getOngkir() di ViewModel
+                }
+            }
+
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text("Total Harga", fontWeight = FontWeight.Bold)
                 Text(
-                    "Rp${viewModel.getSelectedItemsTotal()}", // Menggunakan total item yang dipilih
+                    "Rp${viewModel.getSelectedItemsTotal()}",
                     fontWeight = FontWeight.Bold,
                     color = Color(0xFF000000)
                 )
@@ -133,13 +149,12 @@ fun KeranjangScreen(
 
             Button(
                 onClick = {
-                    // Handle checkout - hanya item yang dipilih
                     val selectedItems = state.items.filter { state.selectedItems.contains(it.id) }
-                    // Proses checkout dengan selectedItems
+                    // Proses checkout
                 },
                 modifier = Modifier.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF3F7D58)),
-                enabled = state.selectedItems.isNotEmpty() // Disable jika tidak ada item yang dipilih
+                enabled = state.selectedItems.isNotEmpty()
             ) {
                 Text("Checkout (${state.selectedItems.size})", color = Color.White)
             }

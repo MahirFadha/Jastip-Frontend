@@ -136,9 +136,18 @@ class KeranjangViewModel @Inject constructor(
     }
 
     fun getSelectedItemsTotal(): Int {
-        return _state.value.items
+        val totalMenu = _state.value.items
             .filter { _state.value.selectedItems.contains(it.id) }
             .sumOf { it.price * it.quantity }
+
+        return if (totalMenu > 0) {
+            totalMenu + getOngkir()
+        } else {
+            0
+        }
     }
+
+    fun getOngkir(): Int = 5000
+
 }
 
