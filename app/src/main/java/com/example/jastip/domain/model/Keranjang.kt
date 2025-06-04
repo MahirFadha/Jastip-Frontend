@@ -4,6 +4,7 @@ data class Keranjang(
     val id: Int = 0,
     val userNim: String,
     val menuId: Int,
+    val sesi: String,
     val name: String,
     val price: Int,
     val quantity: Int,

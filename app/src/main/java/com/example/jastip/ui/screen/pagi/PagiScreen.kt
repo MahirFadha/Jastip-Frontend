@@ -256,11 +256,11 @@ fun PagiScreen(
                                         id = 0, // auto-generate kalau pakai autoIncrement
                                         menuId = menu.id,
                                         name = menu.name,
+                                        sesi = "Pagi",
                                         price = menu.price,
                                         quantity = 1,
                                         imageUrl = menu.imageUrl,
                                         userNim = nim.toString()
-
                                     )
                                     showAddDialog = true
 //                                    keranjangViewModel.addItem(item)

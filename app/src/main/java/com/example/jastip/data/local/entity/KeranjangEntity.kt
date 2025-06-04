@@ -8,6 +8,7 @@ data class KeranjangEntity(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val menuId: Int,
     val userNim: String,
+    val sesi: String,
     val name: String,
     val price: Int,
     val quantity: Int,

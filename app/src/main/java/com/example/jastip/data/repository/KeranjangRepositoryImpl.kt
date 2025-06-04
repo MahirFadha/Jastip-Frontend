@@ -17,7 +17,8 @@ class KeranjangRepositoryImpl(private val dao:  KeranjangDao) : IKeranjangReposi
             price = item.price,
             quantity = item.quantity,
             imageUrl = item.imageUrl,
-            userNim = item.userNim
+            userNim = item.userNim,
+            sesi = item.sesi
         )
         dao.insert(entity)
     }
@@ -39,7 +40,8 @@ class KeranjangRepositoryImpl(private val dao:  KeranjangDao) : IKeranjangReposi
                     price = it.price,
                     quantity = it.quantity,
                     imageUrl = it.imageUrl,
-                    userNim = it.userNim
+                    userNim = it.userNim,
+                    sesi = it.sesi
                 )
             }
         }
