@@ -2,10 +2,12 @@ package com.example.jastip.ui.screen.keranjang
 
 import android.app.Application
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.jastip.domain.model.Keranjang
 import com.example.jastip.domain.usecase.KeranjangUseCase
+import com.example.jastip.domain.usecase.PesananUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,6 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class KeranjangViewModel @Inject constructor(
     private val keranjangUseCase: KeranjangUseCase,
+    private val pesananUseCase: PesananUseCase,
     application: Application
 ) : ViewModel() {
 
@@ -149,5 +152,29 @@ class KeranjangViewModel @Inject constructor(
 
     fun getOngkir(): Int = 5000
 
-}
+    fun order(sesi: String) {
+        userNim?.let { nim ->
+            viewModelScope.launch {
+                val selectedItems =
+                    _state.value.items.filter { _state.value.selectedItems.contains(it.id) }
+
+                if (selectedItems.isNotEmpty()) {
+                    val result = pesananUseCase.placeOrder(nim, selectedItems)
+                    if (result.isSuccess){
+                        selectedItems.forEach { item ->
+                            keranjangUseCase.deleteItem(item)
+                        }
+                        loadKeranjang()
+                    }else{
+                        Log.e("KeranjangViewModel", "Error placing order: ${result.exceptionOrNull()?.message}")
+                        }
+                    }
+                }
+
+            }
+        }
+    }
+
+
+
 

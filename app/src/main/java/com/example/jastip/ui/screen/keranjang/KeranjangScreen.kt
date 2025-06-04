@@ -150,7 +150,8 @@ fun KeranjangScreen(
             Button(
                 onClick = {
                     val selectedItems = state.items.filter { state.selectedItems.contains(it.id) }
-                    // Proses checkout
+                    val sesi = selectedItems.firstOrNull()?.sesi ?: ""
+                    viewModel.order(sesi)
                 },
                 modifier = Modifier.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF3F7D58)),

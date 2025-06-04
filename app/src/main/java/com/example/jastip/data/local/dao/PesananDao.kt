@@ -1,10 +1,12 @@
 package com.example.jastip.data.local.dao
 
+import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Transaction
 import com.example.jastip.data.local.entity.DetailPesananEntity
 import com.example.jastip.data.local.entity.PesananEntity
 
+@Dao
 interface PesananDao {
     @Insert
     suspend fun insertPesanan(pesananEntity: PesananEntity): Long

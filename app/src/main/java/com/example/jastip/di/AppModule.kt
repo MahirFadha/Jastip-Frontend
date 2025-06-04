@@ -7,16 +7,20 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.jastip.data.local.AppDatabase
 import com.example.jastip.data.local.dao.KeranjangDao
 import com.example.jastip.data.local.dao.MenuItemDao
+import com.example.jastip.data.local.dao.PesananDao
 import com.example.jastip.data.local.dao.UserDao
 import com.example.jastip.data.repository.KeranjangRepositoryImpl
 import com.example.jastip.data.repository.MenuRepositoryImpl
+import com.example.jastip.data.repository.PesananRepositoryImpl
 import com.example.jastip.data.repository.UserRepositoryImpl
 import com.example.jastip.domain.repository.IKeranjangRepository
 import com.example.jastip.domain.repository.IMenuRepository
+import com.example.jastip.domain.repository.IPesananRepository
 import com.example.jastip.domain.repository.UserRepository
 import com.example.jastip.domain.usecase.EditUseCase
 import com.example.jastip.domain.usecase.KeranjangUseCase
 import com.example.jastip.domain.usecase.LoginUseCase
+import com.example.jastip.domain.usecase.PesananUseCase
 import com.example.jastip.domain.usecase.RegisterUseCase
 import dagger.Module
 import dagger.Provides
@@ -53,7 +57,12 @@ object AppModule {
     // Provide DAO: Menu
     @Provides
     @Singleton
-    fun provideMenuItemDao(db: AppDatabase): MenuItemDao = db.menuItemDao()
+    fun provideMenuItemDao(db: AppDatabase): MenuItemDao = db.MenuItemDao()
+
+    @Provides
+    @Singleton
+    fun providePesananDao(db: AppDatabase): PesananDao = db.PesananDao()
+
 
     // Provide Repository: User
     @Provides
@@ -67,6 +76,12 @@ object AppModule {
         dao: MenuItemDao,
         @ApplicationContext context: Context
     ): IMenuRepository = MenuRepositoryImpl(dao, context)
+
+    @Provides
+    @Singleton
+    fun providePesananRepository(
+        dao: PesananDao
+    ): IPesananRepository = PesananRepositoryImpl(dao)
 
     // UseCase: Register
     @Provides
@@ -98,4 +113,9 @@ object AppModule {
         repo: IKeranjangRepository
     ): KeranjangUseCase = KeranjangUseCase(repo)
 
+    @Provides
+    fun providePesananUseCase(
+        repo: IPesananRepository
+    ): PesananUseCase = PesananUseCase(repo
+    )
 }
