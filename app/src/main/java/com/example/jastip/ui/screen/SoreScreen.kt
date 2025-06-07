@@ -271,7 +271,7 @@ fun SoreScreen(navController: NavController,
                                         id = 0, // auto-generate kalau pakai autoIncrement
                                         menuId = menu.id,
                                         name = menu.name,
-                                        sesi = "Pagi",
+                                        sesi = "Sore",
                                         price = menu.price,
                                         quantity = 1,
                                         imageUrl = menu.imageUrl,

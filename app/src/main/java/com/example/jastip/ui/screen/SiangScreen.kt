@@ -269,7 +269,7 @@ fun SiangScreen(navController: NavController,
                                         id = 0, // auto-generate kalau pakai autoIncrement
                                         menuId = menu.id,
                                         name = menu.name,
-                                        sesi = "Pagi",
+                                        sesi = "Siang",
                                         price = menu.price,
                                         quantity = 1,
                                         imageUrl = menu.imageUrl,
