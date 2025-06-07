@@ -12,6 +12,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -20,15 +21,18 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.jastip.domain.model.Keranjang
 import com.example.jastip.ui.components.KeranjangItem
+import kotlinx.coroutines.delay
 
 @Composable
 fun KeranjangScreen(
@@ -149,9 +153,8 @@ fun KeranjangScreen(
 
             Button(
                 onClick = {
-                    val selectedItems = state.items.filter { state.selectedItems.contains(it.id) }
-                    val sesi = selectedItems.firstOrNull()?.sesi ?: ""
-                    viewModel.order(sesi)
+                    viewModel.order()
+                    navController.navigate("aktivitas")
                 },
                 modifier = Modifier.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF3F7D58)),
@@ -161,28 +164,41 @@ fun KeranjangScreen(
             }
         }
 
-        // Delete Confirmation Dialog
-        if (showDeleteDialog && itemToDelete != null) {
-            AlertDialog(
-                onDismissRequest = { showDeleteDialog = false },
-                title = { Text("Konfirmasi Hapus") },
-                text = { Text("Apakah kamu yakin ingin menghapus item ini?") },
-                confirmButton = {
-                    TextButton(
-                        onClick = {
-                            itemToDelete?.let { viewModel.removeItem(it) }
-                            showDeleteDialog = false
-                        }
-                    ) {
-                        Text("Hapus")
-                    }
-                },
-                dismissButton = {
-                    TextButton(onClick = { showDeleteDialog = false }) {
-                        Text("Batal")
-                    }
+        if (state.isOrdering) {
+            Dialog(onDismissRequest = {}) {
+                Box(
+                    modifier = Modifier
+                        .size(100.dp)
+                        .background(Color.Black.copy(alpha = 0.3f)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator()
                 }
-            )
+            }
+
+            // Delete Confirmation Dialog
+            if (showDeleteDialog && itemToDelete != null) {
+                AlertDialog(
+                    onDismissRequest = { showDeleteDialog = false },
+                    title = { Text("Konfirmasi Hapus") },
+                    text = { Text("Apakah kamu yakin ingin menghapus item ini?") },
+                    confirmButton = {
+                        TextButton(
+                            onClick = {
+                                itemToDelete?.let { viewModel.removeItem(it) }
+                                showDeleteDialog = false
+                            }
+                        ) {
+                            Text("Hapus")
+                        }
+                    },
+                    dismissButton = {
+                        TextButton(onClick = { showDeleteDialog = false }) {
+                            Text("Batal")
+                        }
+                    }
+                )
+            }
         }
     }
 }

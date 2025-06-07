@@ -28,6 +28,9 @@ fun AppNavGraph(navController: NavHostController) {
         composable("main") {
             MainScreen(parentNavController = navController)
         }
+        composable("aktivitas") {
+            ActivityScreen(navController = navController)
+        }
 
         // Halaman bukan bagian dari bottom nav
         composable("pagi") {
