@@ -9,6 +9,7 @@ import com.example.jastip.domain.model.Keranjang
 import com.example.jastip.domain.usecase.KeranjangUseCase
 import com.example.jastip.domain.usecase.PesananUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -152,22 +153,25 @@ class KeranjangViewModel @Inject constructor(
 
     fun getOngkir(): Int = 5000
 
-    fun order(sesi: String) {
+    fun order() {
         userNim?.let { nim ->
             viewModelScope.launch {
                 val selectedItems =
                     _state.value.items.filter { _state.value.selectedItems.contains(it.id) }
 
                 if (selectedItems.isNotEmpty()) {
+                    _state.value = _state.value.copy(isOrdering = true) // Mulai loading
                     val result = pesananUseCase.placeOrder(nim, selectedItems)
                     if (result.isSuccess){
                         selectedItems.forEach { item ->
                             keranjangUseCase.deleteItem(item)
                         }
+                        delay(500)
                         loadKeranjang()
                     }else{
                         Log.e("KeranjangViewModel", "Error placing order: ${result.exceptionOrNull()?.message}")
                         }
+                    _state.value = _state.value.copy(isOrdering = false)
                     }
                 }
 
