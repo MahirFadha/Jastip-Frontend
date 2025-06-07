@@ -1,5 +1,6 @@
 package com.example.cobaproject.ui.screen
 
+import android.content.Context.MODE_PRIVATE
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -26,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -38,12 +40,15 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
 import com.example.jastip.R
 import com.example.jastip.data.local.entity.MenuEntity
+import com.example.jastip.domain.model.Keranjang
+import com.example.jastip.ui.screen.keranjang.KeranjangViewModel
 import com.example.jastip.ui.screen.pagi.PagiViewModel
 
 @Composable
 fun SiangScreen(navController: NavController,
                 modifier: Modifier = Modifier,
-                viewModel: PagiViewModel = hiltViewModel()
+                viewModel: PagiViewModel = hiltViewModel(),
+                keranjangViewModel: KeranjangViewModel = hiltViewModel()
 ) {
     val state by viewModel.state
 
@@ -103,6 +108,11 @@ fun SiangScreen(navController: NavController,
         val categoryOptions = listOf("All", "Food", "Drink")
         var expanded by remember { mutableStateOf(false) }
         var filteredMenu by remember { mutableStateOf(listOf<MenuEntity>()) }
+        val context = LocalContext.current
+        val sharedPreferences = context.getSharedPreferences("user_data", MODE_PRIVATE)
+        val nim = sharedPreferences.getString("userNim", null)
+        var showAddDialog by remember { mutableStateOf(false) }
+        var item by remember { mutableStateOf<Keranjang?>(null) }
 
         LaunchedEffect(state.menuList) {
             if (state.menuList.isNotEmpty() && filteredMenu.isEmpty()) {
@@ -249,21 +259,51 @@ fun SiangScreen(navController: NavController,
                         }
                         Spacer(modifier = Modifier.width(12.dp))
                         Icon(
-                            painter = painterResource(id = R.drawable.plus),
-                            contentDescription = "tambah",
-                            tint = Color.Black,
-                            modifier = Modifier.size(24.dp)
-                        )
-                        Spacer(modifier = Modifier.width(5.dp))
-                        Icon(
                             painter = painterResource(id = R.drawable.keranjang),
                             contentDescription = "Keranjang",
                             tint = Color.Black,
-                            modifier = Modifier.size(24.dp)
+                            modifier = Modifier
+                                .size(24.dp)
+                                .clickable {
+                                    item = Keranjang(
+                                        id = 0, // auto-generate kalau pakai autoIncrement
+                                        menuId = menu.id,
+                                        name = menu.name,
+                                        sesi = "Pagi",
+                                        price = menu.price,
+                                        quantity = 1,
+                                        imageUrl = menu.imageUrl,
+                                        userNim = nim.toString()
+                                    )
+                                    showAddDialog = true
+//                                    keranjangViewModel.addItem(item)
+                                }
                         )
                     }
                 }
             }
+        }
+        if (showAddDialog && item != null) {
+            AlertDialog(
+                onDismissRequest = { showAddDialog = false },
+                title = { Text("Tambah ke Keranjang") },
+                text = { Text("Apakah kamu yakin ingin menambahkan item ini ke keranjang?") },
+                confirmButton = {
+                    TextButton(onClick = {
+                        keranjangViewModel.addItem(item!!)
+                        showAddDialog = false
+                    }) {
+                        Text("Tambah")
+                    }
+                },
+                dismissButton = {
+                    TextButton(onClick = {
+                        showAddDialog = false
+                    }) {
+                        Text("Batal")
+                    }
+                }
+            )
         }
     }
 }
