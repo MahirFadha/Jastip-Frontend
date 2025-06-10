@@ -154,7 +154,7 @@ fun KeranjangScreen(
             Button(
                 onClick = {
                     viewModel.order()
-                    navController.navigate("aktivitas")
+                    navController.navigate("main")
                 },
                 modifier = Modifier.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF3F7D58)),
