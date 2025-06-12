@@ -5,14 +5,17 @@ import androidx.room.Room
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.jastip.data.local.AppDatabase
+import com.example.jastip.data.local.TokenManager
 import com.example.jastip.data.local.dao.KeranjangDao
 import com.example.jastip.data.local.dao.MenuItemDao
 import com.example.jastip.data.local.dao.PesananDao
 import com.example.jastip.data.local.dao.UserDao
+import com.example.jastip.data.repository.AuthRepositoryImpl
 import com.example.jastip.data.repository.KeranjangRepositoryImpl
 import com.example.jastip.data.repository.MenuRepositoryImpl
 import com.example.jastip.data.repository.PesananRepositoryImpl
 import com.example.jastip.data.repository.UserRepositoryImpl
+import com.example.jastip.domain.repository.IAuithRepository
 import com.example.jastip.domain.repository.IKeranjangRepository
 import com.example.jastip.domain.repository.IMenuRepository
 import com.example.jastip.domain.repository.IPesananRepository
@@ -89,7 +92,7 @@ object AppModule {
 
     // UseCase: Login
     @Provides
-    fun provideLoginUseCase(repo: UserRepository) = LoginUseCase(repo)
+    fun provideLoginUseCase(repo: IAuithRepository) = LoginUseCase(repo)
 
     // UseCase: Edit Profile
     @Provides
@@ -116,6 +119,11 @@ object AppModule {
     @Provides
     fun providePesananUseCase(
         repo: IPesananRepository
-    ): PesananUseCase = PesananUseCase(repo
-    )
+    ): PesananUseCase = PesananUseCase(repo)
+
+    @Provides
+    fun provideIAuthRepository(
+        dao: UserDao,
+        tokenManager: TokenManager
+    ): IAuithRepository = AuthRepositoryImpl(dao, tokenManager)
 }

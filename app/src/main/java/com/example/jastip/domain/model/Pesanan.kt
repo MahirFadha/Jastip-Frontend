@@ -6,5 +6,4 @@ data class Pesanan(
     val totalHarga: Double,
     val waktuPesanan: Long = System.currentTimeMillis(),
     val status: String,
-    val sesi: String
 )

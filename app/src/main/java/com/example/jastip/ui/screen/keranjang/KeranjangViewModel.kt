@@ -139,7 +139,7 @@ class KeranjangViewModel @Inject constructor(
         _state.value = _state.value.copy(selectedItems = newSelected)
     }
 
-    fun getSelectedItemsTotal(): Int {
+    fun getSelectedItemsTotal(): Double {
         val totalMenu = _state.value.items
             .filter { _state.value.selectedItems.contains(it.id) }
             .sumOf { it.price * it.quantity }
@@ -147,11 +147,11 @@ class KeranjangViewModel @Inject constructor(
         return if (totalMenu > 0) {
             totalMenu + getOngkir()
         } else {
-            0
+            0.0
         }
     }
 
-    fun getOngkir(): Int = 5000
+    fun getOngkir(): Double = 5000.0
 
     fun order() {
         userNim?.let { nim ->
@@ -166,7 +166,7 @@ class KeranjangViewModel @Inject constructor(
                         selectedItems.forEach { item ->
                             keranjangUseCase.deleteItem(item)
                         }
-                        delay(500)
+                        delay(400)
                         loadKeranjang()
                     }else{
                         Log.e("KeranjangViewModel", "Error placing order: ${result.exceptionOrNull()?.message}")

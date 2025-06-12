@@ -33,6 +33,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.jastip.R
+import com.example.jastip.data.local.TokenManager
 import com.example.jastip.domain.model.User
 
 
@@ -43,18 +44,14 @@ fun AkunScreen(
     ) {
 
     val context = LocalContext.current
-    val sharedPreferences = context.getSharedPreferences("user_data", MODE_PRIVATE)
-    val savedName = sharedPreferences.getString("userName", null)
-    val savedNomor = sharedPreferences.getString("userNomor", null)
-    val savedPassword = sharedPreferences.getString("userPassword", null)
-    val savedNim = sharedPreferences.getString("userNim", null)
+    val tokenManager = remember { TokenManager(context) }
     var passwordVisible by remember { mutableStateOf(false) }
     val akunState = viewModel.akunState
 
     LaunchedEffect(Unit) {
-        if (savedName != null && savedPassword != null && savedNim != null && savedNomor != null){
-        val user = User(name = savedName, nim = savedNim, nomorHp = savedNomor, password = savedPassword)
-        viewModel.setUser(user)
+        val user = tokenManager.getUser()
+        if (user != null) {
+            viewModel.aturUser(user)
         }
     }
 
@@ -153,10 +150,10 @@ fun AkunScreen(
 
         // Password
         OutlinedTextField(
-            value = password,
+            value = viewModel.password,
             onValueChange = { viewModel.password = it },
-            label = { Text("Password") },
-            placeholder = { Text("Masukkan password", color = Color.Gray) },
+            label = { Text("Password Baru") },
+            placeholder = { Text("Masukkan password Baru", color = Color.Gray) },
             leadingIcon = {
                 Icon(
                     painter = painterResource(id = R.drawable.lock),
@@ -193,12 +190,14 @@ fun AkunScreen(
         LaunchedEffect(akunState) {
             when (akunState) {
                 is AkunState.Success -> {
+                    val updatedUser = User(
+                        name = viewModel.name,
+                        nim = viewModel.nim,
+                        nomorHp = viewModel.nomorHp,
+                        password = viewModel.password,
+                        role = viewModel.user?.role ?: "user")
+                    viewModel.aturUser(updatedUser)
                     Toast.makeText(context, (akunState.message), LENGTH_SHORT).show()
-                    val editor = sharedPreferences.edit()
-                    editor.putString("userName", viewModel.name)
-                    editor.putString("userNomor", viewModel.nomorHp)
-                    editor.putString("userPassword", viewModel.password)
-                    editor.apply()
                 }
 
                 is AkunState.Error -> {

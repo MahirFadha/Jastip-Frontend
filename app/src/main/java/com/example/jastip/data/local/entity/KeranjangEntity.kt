@@ -10,7 +10,7 @@ data class KeranjangEntity(
     val userNim: String,
     val sesi: String,
     val name: String,
-    val price: Int,
+    val price: Double,
     val quantity: Int,
     val imageUrl: String
 )

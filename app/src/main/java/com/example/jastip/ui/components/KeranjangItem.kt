@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.jastip.R
 import com.example.jastip.domain.model.Keranjang
+import com.example.jastip.utils.formatDoubleKeRupiah
 
 @Composable
 fun KeranjangItem(
@@ -94,7 +95,7 @@ fun KeranjangItem(
             Spacer(Modifier.height(4.dp))
 
             Text(
-                text = "Rp${item.price}",
+                text = "Rp${formatDoubleKeRupiah(item.price)}",
                 color = Color(0xFFEC5228),
                 fontWeight = FontWeight.Bold
             )

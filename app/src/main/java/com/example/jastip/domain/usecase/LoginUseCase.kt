@@ -1,10 +1,14 @@
 package com.example.jastip.domain.usecase
 
 import com.example.jastip.domain.model.User
+import com.example.jastip.domain.repository.IAuithRepository
 import com.example.jastip.domain.repository.UserRepository
 import com.example.jastip.utils.SecurityUser
+import javax.inject.Inject
 
-class LoginUseCase(private val repository: UserRepository) {
+class LoginUseCase @Inject constructor(
+    private val repository: IAuithRepository
+) {
     suspend operator fun invoke(nim: String, password: String): User? {
         val hashedPassword = SecurityUser().hashPassword(password)
         return repository.login(nim, hashedPassword)
