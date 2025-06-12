@@ -145,8 +145,9 @@ fun LoginScreen(
                     saveUserData(name, password, nim, nomorHp)
                 }
                 LaunchedEffect(Unit) {
-                    navController.navigate("main") {
-                        popUpTo("login") { inclusive = true }
+                    when (viewModel.userRole) {
+                        "admin" -> navController.navigate("main")
+                        "user" -> navController.navigate("pagi")
                     }
                 }
             }
@@ -158,7 +159,6 @@ fun LoginScreen(
 
             LoginState.Idle -> { /* Do nothing */ }
         }
-
         // Tombol Daftar
         Button(
             onClick = {

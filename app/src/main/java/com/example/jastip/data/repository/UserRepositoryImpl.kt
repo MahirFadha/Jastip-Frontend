@@ -7,13 +7,13 @@ import com.example.jastip.domain.repository.UserRepository
 
 class UserRepositoryImpl(private val dao: UserDao) : UserRepository {
     override suspend fun register(user: User): Unit =
-        dao.registerUser(UserEntity(name = user.name, nim = user.nim, nomorHp = user.nomorHp, password = user.password))
+        dao.registerUser(UserEntity(name = user.name, nim = user.nim, nomorHp = user.nomorHp, password = user.password, role = "user"))
 
     override suspend fun login(nim: String, password: String): User? {
         val entity = dao.login(nim, password)
-        return entity?.let { User(it.name,it.nim, it.nomorHp, it.password) }
+        return entity?.let { User(it.name,it.nim, it.nomorHp, it.password, it.role) }
     }
 
     override suspend fun edit(user: User): Unit =
-        dao.updateUser(UserEntity(name = user.name, nim = user.nim, nomorHp = user.nomorHp, password = user.password))
+        dao.updateUser(UserEntity(name = user.name, nim = user.nim, nomorHp = user.nomorHp, password = user.password, role = "user"))
     }

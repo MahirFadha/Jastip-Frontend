@@ -8,5 +8,6 @@ data class UserEntity(
     @PrimaryKey val nim: String,
     val name: String,
     val nomorHp: String,
-    val password: String
+    val password: String,
+    val role: String
 )

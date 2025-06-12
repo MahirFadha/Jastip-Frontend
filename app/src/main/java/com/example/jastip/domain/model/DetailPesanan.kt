@@ -5,5 +5,6 @@ data class DetailPesanan(
     val idPesanan: Int,
     val idMenu: Int,
     val jumlah: Int,
-    val hargaItem: Double
+    val hargaItem: Double,
+    val sesi: String
 )

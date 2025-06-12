@@ -35,7 +35,7 @@ class MenuRepositoryImpl @Inject constructor(
                         val menuItem = MenuEntity(
                             id = id,
                             name = name,
-                            price = price,
+                            price = price.toDouble(),
                             category = category,
                             type = type,
                             imageUrl = imageUrl

@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 data class MenuEntity(
     @PrimaryKey val id: Int,
     val name: String,
-    val price: Int,
+    val price: Double,
     val category: String,
     val type: String, //tambah kolom
     val imageUrl: String

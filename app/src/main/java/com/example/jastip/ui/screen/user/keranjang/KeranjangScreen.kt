@@ -1,5 +1,6 @@
 package com.example.jastip.ui.screen.user.keranjang
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -31,6 +32,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.jastip.domain.model.Keranjang
 import com.example.jastip.ui.components.KeranjangItem
+import com.example.jastip.utils.formatDoubleKeRupiah
 
 @Composable
 fun KeranjangScreen(
@@ -129,7 +131,7 @@ fun KeranjangScreen(
                 ) {
                     Text("Biaya Pengiriman", fontWeight = FontWeight.Normal)
                     Text(
-                        "Rp${viewModel.getOngkir()}",
+                        "Rp${formatDoubleKeRupiah(viewModel.getOngkir())}",
                         color = Color.Gray
                     ) // Tambahkan fungsi getOngkir() di ViewModel
                 }
@@ -141,7 +143,7 @@ fun KeranjangScreen(
             ) {
                 Text("Total Harga", fontWeight = FontWeight.Bold)
                 Text(
-                    "Rp${viewModel.getSelectedItemsTotal()}",
+                    "Rp${formatDoubleKeRupiah(viewModel.getSelectedItemsTotal())}",
                     fontWeight = FontWeight.Bold,
                     color = Color(0xFF000000)
                 )
@@ -153,6 +155,8 @@ fun KeranjangScreen(
                 onClick = {
                     viewModel.order()
                     navController.navigate("main")
+                    val toast = "Pesanan berhasil dibuat!"
+                    Toast.makeText(navController.context, toast, Toast.LENGTH_SHORT).show()
                 },
                 modifier = Modifier.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF3F7D58)),
@@ -173,30 +177,29 @@ fun KeranjangScreen(
                     CircularProgressIndicator()
                 }
             }
-
-            // Delete Confirmation Dialog
-            if (showDeleteDialog && itemToDelete != null) {
-                AlertDialog(
-                    onDismissRequest = { showDeleteDialog = false },
-                    title = { Text("Konfirmasi Hapus") },
-                    text = { Text("Apakah kamu yakin ingin menghapus item ini?") },
-                    confirmButton = {
-                        TextButton(
-                            onClick = {
-                                itemToDelete?.let { viewModel.removeItem(it) }
-                                showDeleteDialog = false
-                            }
-                        ) {
-                            Text("Hapus")
+        }
+        // Delete Confirmation Dialog
+        if (showDeleteDialog && itemToDelete != null) {
+            AlertDialog(
+                onDismissRequest = { showDeleteDialog = false },
+                title = { Text("Konfirmasi Hapus") },
+                text = { Text("Apakah kamu yakin ingin menghapus item ini?") },
+                confirmButton = {
+                    TextButton(
+                        onClick = {
+                            itemToDelete?.let { viewModel.removeItem(it) }
+                            showDeleteDialog = false
                         }
-                    },
-                    dismissButton = {
-                        TextButton(onClick = { showDeleteDialog = false }) {
-                            Text("Batal")
-                        }
+                    ) {
+                        Text("Hapus")
                     }
-                )
-            }
+                },
+                dismissButton = {
+                    TextButton(onClick = { showDeleteDialog = false }) {
+                        Text("Batal")
+                    }
+                }
+            )
         }
     }
 }

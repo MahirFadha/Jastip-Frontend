@@ -7,8 +7,7 @@ import androidx.room.PrimaryKey
 data class PesananEntity(
     @PrimaryKey (autoGenerate = true)val idPesanan: Int = 0,
     val userNim: String,
-    val totalHarga: Int,
+    val totalHarga: Double,
     val waktuPesanan: Long = System.currentTimeMillis(),
     val status: String = "Pending",
-    val sesi: String
     )

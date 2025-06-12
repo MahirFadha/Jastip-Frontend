@@ -18,6 +18,7 @@ class RegisterViewModel @Inject constructor(
     var nim by mutableStateOf("")
     var password by mutableStateOf("")
     var nomorHp by mutableStateOf("")
+    var role by mutableStateOf("")
     var registerState by mutableStateOf<RegisterState>(RegisterState.Idle)
         private set
 
@@ -29,8 +30,7 @@ class RegisterViewModel @Inject constructor(
                     registerState = RegisterState.Error("NIM tidak valid")
                     return@launch
                 }
-
-                registerUseCase(User(name, nim, nomorHp, password))
+                registerUseCase(User(name, nim, nomorHp, password, role))
                 registerState = RegisterState.Success("Registrasi berhasil!")
             } catch (e: Exception) {
                 registerState = RegisterState.Error("Registrasi gagal: ${e.message}")

@@ -87,6 +87,7 @@ fun ActivityScreen(
                     imageRes = R.drawable.geprek,
                     title = "KFC 1 Paket",
                     price = "Rp. 30.000",
+                    sesi = "Sore",
                     quantity = 1
                 )
 
@@ -95,6 +96,7 @@ fun ActivityScreen(
                 PesananItem(
                     imageRes = R.drawable.geprek,
                     title = "Coca Cola",
+                    sesi = "Pagi",
                     price = "Rp. 25.000",
                     quantity = 1
                 )
@@ -127,7 +129,7 @@ fun ActivityScreen(
 }
 
 @Composable
-fun PesananItem(imageRes: Int, title: String, price: String, quantity: Int) {
+fun PesananItem(imageRes: Int, title: String, price: String, quantity: Int, sesi: String) {
     Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -142,7 +144,12 @@ fun PesananItem(imageRes: Int, title: String, price: String, quantity: Int) {
         Column(
             modifier = Modifier.weight(1f)
         ) {
+            Row(){
             Text(title, fontWeight = FontWeight.Bold, fontSize = 14.sp)
+                Spacer(modifier = Modifier
+                    .width(4.dp))
+            Text("(" + sesi + ")", fontWeight = FontWeight.Bold, fontSize = 14.sp)
+            }
             Text(price, fontSize = 13.sp)
         }
 
