@@ -1,4 +1,4 @@
-package com.example.jastip.ui.screen.pagi
+package com.example.jastip.ui.screen.user.pagi
 
 import com.example.jastip.data.local.entity.MenuEntity
 

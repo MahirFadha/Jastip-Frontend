@@ -1,4 +1,4 @@
-package com.example.jastip.ui.screen.register
+package com.example.jastip.ui.screen.user.register
 
 import com.example.jastip.domain.usecase.RegisterUseCase
 import androidx.compose.runtime.*

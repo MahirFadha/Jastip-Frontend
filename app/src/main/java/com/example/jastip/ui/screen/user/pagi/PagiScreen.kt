@@ -1,7 +1,6 @@
-package com.example.cobaproject.ui.screen
+package com.example.jastip.ui.screen.user.pagi
 
 import android.content.Context.MODE_PRIVATE
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -9,12 +8,10 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -27,7 +24,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -37,18 +33,22 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import coil.compose.rememberAsyncImagePainter
 import com.example.jastip.R
+import androidx.compose.material3.Text
+import androidx.compose.ui.platform.LocalContext
+import coil.compose.rememberAsyncImagePainter
 import com.example.jastip.data.local.entity.MenuEntity
 import com.example.jastip.domain.model.Keranjang
-import com.example.jastip.ui.screen.keranjang.KeranjangViewModel
-import com.example.jastip.ui.screen.pagi.PagiViewModel
+import com.example.jastip.ui.screen.user.keranjang.KeranjangViewModel
+import com.example.jastip.utils.formatDoubleKeRupiah
+
 
 @Composable
-fun SoreScreen(navController: NavController,
-               modifier: Modifier = Modifier,
-               viewModel: PagiViewModel = hiltViewModel(),
-               keranjangViewModel: KeranjangViewModel = hiltViewModel()
+fun PagiScreen(
+    navController: NavController,
+    modifier: Modifier = Modifier,
+    viewModel: PagiViewModel = hiltViewModel(),
+    keranjangViewModel: KeranjangViewModel = hiltViewModel()
 ) {
     val state by viewModel.state
 
@@ -57,10 +57,8 @@ fun SoreScreen(navController: NavController,
         viewModel.reload() // ✅ Ini fungsi yang tersedia di ViewModel
     }
 
-    Column(
-        modifier = Modifier.fillMaxSize()
-    ) {
-        // Bar Atas dengan teks di tengah dan ikon kembali di kiri, plus garis bawah
+    Column(modifier = Modifier.fillMaxSize()) {
+        // Header
         Column {
             Box(
                 modifier = Modifier
@@ -72,12 +70,12 @@ fun SoreScreen(navController: NavController,
                     contentDescription = "Back",
                     modifier = Modifier
                         .align(Alignment.CenterStart)
-                        .padding(start = 16.dp) // Pindah padding ke sini
+                        .padding(start = 16.dp)
                         .size(24.dp)
-                        .clickable { navController.popBackStack() }
+                        .clickable { navController.navigate("main") }
                 )
                 Text(
-                    text = "SORE",
+                    text = "Pagi",
                     fontSize = 25.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.align(Alignment.Center)
@@ -94,17 +92,9 @@ fun SoreScreen(navController: NavController,
                         }
                 )
             }
-
-            Divider(
-                color = Color.Gray,
-                thickness = 1.dp,
-                modifier = Modifier.fillMaxWidth() // Sekarang benar-benar full
-            )
+            Divider(color = Color.Gray, thickness = 1.dp)
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // Tambahkan di awal sebelum Row
         var searchText by remember { mutableStateOf("") }
         var selectedCategory by remember { mutableStateOf("All") }
         val categoryOptions = listOf("All", "Food", "Drink")
@@ -121,8 +111,6 @@ fun SoreScreen(navController: NavController,
                 filteredMenu = state.menuList
             }
         }
-
-// Search bar layout
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -134,7 +122,7 @@ fun SoreScreen(navController: NavController,
                 onValueChange = { searchText = it },
                 textStyle = TextStyle(fontSize = 12.sp, color = Color.Black),
                 modifier = Modifier
-                    .width(170.dp)
+                    .width(200.dp)
                     .height(40.dp)
                     .background(Color.White, shape = RoundedCornerShape(8.dp))
                     .border(1.dp, Color.Gray, RoundedCornerShape(8.dp))
@@ -146,13 +134,9 @@ fun SoreScreen(navController: NavController,
                 innerTextField()
             }
 
-            // Spacer untuk memberikan jarak antara Search dan Dropdown
             Spacer(modifier = Modifier.width(8.dp))
 
-            Box(
-                modifier = Modifier
-                    .wrapContentSize(Alignment.TopStart)
-            ) {
+            Box(modifier = Modifier.wrapContentSize(Alignment.TopStart)) {
                 OutlinedButton(
                     onClick = { expanded = true },
                     shape = RoundedCornerShape(8.dp),
@@ -196,7 +180,7 @@ fun SoreScreen(navController: NavController,
                 }
             }
 
-            Spacer(modifier = Modifier.width(8.dp)) // Jarak sebelum tombol Search
+            Spacer(modifier = Modifier.width(8.dp))
 
             Button(
                 onClick = {
@@ -235,7 +219,8 @@ fun SoreScreen(navController: NavController,
         } else {
             LazyColumn {
                 items(filteredMenu) { menu ->
-                Log.d("ImageLoad", "Loading image URL: '${menu.imageUrl.trim()}'")
+                    val harga = menu.price
+                    val hargaFormat = formatDoubleKeRupiah(harga)
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
@@ -257,9 +242,10 @@ fun SoreScreen(navController: NavController,
                         Column(modifier = Modifier.weight(1f)) {
                             Text(menu.name, fontSize = 16.sp, fontWeight = FontWeight.Medium)
                             Text(menu.category, fontSize = 12.sp, color = Color.Black)
-                            Text("Rp${menu.price}", fontSize = 14.sp, color = Color.Gray)
+                            Text("Rp${hargaFormat}", fontSize = 14.sp, color = Color.Gray)
                         }
                         Spacer(modifier = Modifier.width(12.dp))
+
                         Icon(
                             painter = painterResource(id = R.drawable.keranjang),
                             contentDescription = "Keranjang",
@@ -267,12 +253,12 @@ fun SoreScreen(navController: NavController,
                             modifier = Modifier
                                 .size(24.dp)
                                 .clickable {
-                                    item = Keranjang(
+                                     item = Keranjang(
                                         id = 0, // auto-generate kalau pakai autoIncrement
                                         menuId = menu.id,
                                         name = menu.name,
-                                        sesi = "Sore",
-                                        price = menu.price,
+                                        sesi = "Pagi",
+                                        price = harga,
                                         quantity = 1,
                                         imageUrl = menu.imageUrl,
                                         userNim = nim.toString()
@@ -310,9 +296,10 @@ fun SoreScreen(navController: NavController,
     }
 }
 
+
 @Preview(showBackground = true)
 @Composable
-fun PreviewSoreScreen() {
+fun PreviewPagiScreen() {
     val navController = rememberNavController()
-    SoreScreen(navController = navController)
+    PagiScreen(navController = navController)
 }

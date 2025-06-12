@@ -1,4 +1,4 @@
-package com.example.jastip.ui.screen.register
+package com.example.jastip.ui.screen.user.register
 
 import android.widget.Toast
 import android.widget.Toast.LENGTH_SHORT

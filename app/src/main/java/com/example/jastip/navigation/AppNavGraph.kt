@@ -7,10 +7,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.cobaproject.ui.components.MainScreen
 import com.example.cobaproject.ui.screen.*
-import com.example.jastip.ui.screen.keranjang.KeranjangScreen
-import com.example.jastip.ui.screen.loginscreen.LoginScreen
-import com.example.jastip.ui.screen.pagi.PagiScreen
-import com.example.jastip.ui.screen.register.RegisterScreen
+import com.example.jastip.ui.screen.user.keranjang.KeranjangScreen
+import com.example.jastip.ui.screen.user.loginscreen.LoginScreen
+import com.example.jastip.ui.screen.user.pagi.PagiScreen
+import com.example.jastip.ui.screen.user.register.RegisterScreen
 
 @Composable
 fun AppNavGraph(navController: NavHostController) {

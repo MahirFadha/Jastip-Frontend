@@ -39,8 +39,8 @@ import coil.compose.rememberAsyncImagePainter
 import com.example.jastip.R
 import com.example.jastip.data.local.entity.MenuEntity
 import com.example.jastip.domain.model.Keranjang
-import com.example.jastip.ui.screen.keranjang.KeranjangViewModel
-import com.example.jastip.ui.screen.pagi.PagiViewModel
+import com.example.jastip.ui.screen.user.keranjang.KeranjangViewModel
+import com.example.jastip.ui.screen.user.pagi.PagiViewModel
 
 @Composable
 fun SiangScreen(navController: NavController,

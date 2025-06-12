@@ -1,4 +1,4 @@
-package com.example.jastip.ui.screen.keranjang
+package com.example.jastip.ui.screen.user.keranjang
 
 import com.example.jastip.domain.model.Keranjang
 

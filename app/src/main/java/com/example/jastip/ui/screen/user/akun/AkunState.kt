@@ -1,4 +1,4 @@
-package com.example.jastip.ui.screen.akun
+package com.example.jastip.ui.screen.user.akun
 
 sealed class AkunState {
     object Idle : AkunState()

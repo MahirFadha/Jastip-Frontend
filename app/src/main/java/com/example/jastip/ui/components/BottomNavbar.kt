@@ -29,7 +29,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.jastip.R
 import com.example.cobaproject.ui.screen.ActivityScreen
-import com.example.jastip.ui.screen.akun.AkunScreen
+import com.example.jastip.ui.screen.user.akun.AkunScreen
 import com.example.cobaproject.ui.screen.BerandaScreen
 
 @Composable

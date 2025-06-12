@@ -1,7 +1,6 @@
-package com.example.jastip.ui.screen.pagi
+package com.example.jastip.ui.screen.user.pagi
 
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.jastip.domain.usecase.MenuUseCase
