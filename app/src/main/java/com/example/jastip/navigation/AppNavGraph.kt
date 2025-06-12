@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.cobaproject.ui.components.MainScreen
 import com.example.cobaproject.ui.screen.*
+import com.example.jastip.ui.screen.user.activity.ActivityScreen
 import com.example.jastip.ui.screen.user.keranjang.KeranjangScreen
 import com.example.jastip.ui.screen.user.loginscreen.LoginScreen
 import com.example.jastip.ui.screen.user.pagi.PagiScreen
@@ -42,9 +43,6 @@ fun AppNavGraph(navController: NavHostController) {
         composable("sore") {
             SoreScreen(navController = navController)
         }
-//        composable("edit_profile") {
-//            EditPfScreen(navController = navController)
-//        }
         composable("keranjang") {
             KeranjangScreen(navController = navController)
         }

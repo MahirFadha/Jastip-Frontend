@@ -126,4 +126,5 @@ object AppModule {
         dao: UserDao,
         tokenManager: TokenManager
     ): IAuithRepository = AuthRepositoryImpl(dao, tokenManager)
+
 }
