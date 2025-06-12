@@ -10,10 +10,9 @@ class PesananRepositoryImpl (private val pesananDao: PesananDao): IPesananReposi
     override suspend fun placeOrder(nim: String, items: List<Keranjang>): Result<Unit> {
         return try {
             val total = items.sumOf { it.price * it.quantity }
-            val sesi = items.firstOrNull()?.sesi ?: ""
-            val pesanan = PesananEntity(userNim = nim, totalHarga = total, sesi = sesi)
+            val pesanan = PesananEntity(userNim = nim, totalHarga = total)
             val detailPesanan = items.map {
-                DetailPesananEntity(idPesanan = 0, idMenu = it.menuId, jumlah = it.quantity, hargaItem = it.price.toDouble())
+                DetailPesananEntity(idPesanan = 0, idMenu = it.menuId, jumlah = it.quantity, hargaItem = it.price, sesi = it.sesi)
             }
             pesananDao.insertPesananWithDetail(pesanan, detailPesanan)
             Result.success(Unit)

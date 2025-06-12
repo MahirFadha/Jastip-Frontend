@@ -41,6 +41,7 @@ import coil.compose.rememberAsyncImagePainter
 import com.example.jastip.data.local.entity.MenuEntity
 import com.example.jastip.domain.model.Keranjang
 import com.example.jastip.ui.screen.keranjang.KeranjangViewModel
+import com.example.jastip.utils.formatDoubleKeRupiah
 
 
 @Composable
@@ -72,7 +73,7 @@ fun PagiScreen(
                         .align(Alignment.CenterStart)
                         .padding(start = 16.dp)
                         .size(24.dp)
-                        .clickable { navController.popBackStack() }
+                        .clickable { navController.navigate("main") }
                 )
                 Text(
                     text = "Pagi",
@@ -122,7 +123,7 @@ fun PagiScreen(
                 onValueChange = { searchText = it },
                 textStyle = TextStyle(fontSize = 12.sp, color = Color.Black),
                 modifier = Modifier
-                    .width(170.dp)
+                    .width(200.dp)
                     .height(40.dp)
                     .background(Color.White, shape = RoundedCornerShape(8.dp))
                     .border(1.dp, Color.Gray, RoundedCornerShape(8.dp))
@@ -219,7 +220,8 @@ fun PagiScreen(
         } else {
             LazyColumn {
                 items(filteredMenu) { menu ->
-                    Log.d("ImageLoad", "Loading image URL: '${menu.imageUrl.trim()}'")
+                    val harga = menu.price
+                    val hargaFormat = formatDoubleKeRupiah(harga)
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
@@ -241,7 +243,7 @@ fun PagiScreen(
                         Column(modifier = Modifier.weight(1f)) {
                             Text(menu.name, fontSize = 16.sp, fontWeight = FontWeight.Medium)
                             Text(menu.category, fontSize = 12.sp, color = Color.Black)
-                            Text("Rp${menu.price}", fontSize = 14.sp, color = Color.Gray)
+                            Text("Rp${hargaFormat}", fontSize = 14.sp, color = Color.Gray)
                         }
                         Spacer(modifier = Modifier.width(12.dp))
 
@@ -257,7 +259,7 @@ fun PagiScreen(
                                         menuId = menu.id,
                                         name = menu.name,
                                         sesi = "Pagi",
-                                        price = menu.price,
+                                        price = harga,
                                         quantity = 1,
                                         imageUrl = menu.imageUrl,
                                         userNim = nim.toString()
