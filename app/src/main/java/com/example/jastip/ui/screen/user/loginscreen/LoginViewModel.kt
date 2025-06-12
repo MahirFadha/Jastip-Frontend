@@ -1,4 +1,4 @@
-package com.example.jastip.ui.screen.loginscreen
+package com.example.jastip.ui.screen.user.loginscreen
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf

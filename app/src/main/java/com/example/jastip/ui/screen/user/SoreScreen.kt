@@ -9,12 +9,10 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -41,8 +39,8 @@ import coil.compose.rememberAsyncImagePainter
 import com.example.jastip.R
 import com.example.jastip.data.local.entity.MenuEntity
 import com.example.jastip.domain.model.Keranjang
-import com.example.jastip.ui.screen.keranjang.KeranjangViewModel
-import com.example.jastip.ui.screen.pagi.PagiViewModel
+import com.example.jastip.ui.screen.user.keranjang.KeranjangViewModel
+import com.example.jastip.ui.screen.user.pagi.PagiViewModel
 
 @Composable
 fun SoreScreen(navController: NavController,

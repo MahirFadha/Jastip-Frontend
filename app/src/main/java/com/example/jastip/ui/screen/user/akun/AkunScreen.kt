@@ -1,4 +1,4 @@
-package com.example.jastip.ui.screen.akun
+package com.example.jastip.ui.screen.user.akun
 
 import android.content.Context.MODE_PRIVATE
 import android.widget.Toast

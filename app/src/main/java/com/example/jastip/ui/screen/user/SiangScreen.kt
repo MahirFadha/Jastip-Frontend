@@ -1,4 +1,4 @@
-package com.example.jastip.ui.screen.pagi
+package com.example.cobaproject.ui.screen
 
 import android.content.Context.MODE_PRIVATE
 import android.util.Log
@@ -25,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -34,21 +35,18 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.jastip.R
-import androidx.compose.material3.Text
-import androidx.compose.ui.platform.LocalContext
 import coil.compose.rememberAsyncImagePainter
+import com.example.jastip.R
 import com.example.jastip.data.local.entity.MenuEntity
 import com.example.jastip.domain.model.Keranjang
-import com.example.jastip.ui.screen.keranjang.KeranjangViewModel
-
+import com.example.jastip.ui.screen.user.keranjang.KeranjangViewModel
+import com.example.jastip.ui.screen.user.pagi.PagiViewModel
 
 @Composable
-fun PagiScreen(
-    navController: NavController,
-    modifier: Modifier = Modifier,
-    viewModel: PagiViewModel = hiltViewModel(),
-    keranjangViewModel: KeranjangViewModel = hiltViewModel()
+fun SiangScreen(navController: NavController,
+                modifier: Modifier = Modifier,
+                viewModel: PagiViewModel = hiltViewModel(),
+                keranjangViewModel: KeranjangViewModel = hiltViewModel()
 ) {
     val state by viewModel.state
 
@@ -57,8 +55,10 @@ fun PagiScreen(
         viewModel.reload() // ✅ Ini fungsi yang tersedia di ViewModel
     }
 
-    Column(modifier = Modifier.fillMaxSize()) {
-        // Header
+    Column(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        // Bar Atas dengan teks di tengah dan ikon kembali di kiri, plus garis bawah
         Column {
             Box(
                 modifier = Modifier
@@ -70,12 +70,12 @@ fun PagiScreen(
                     contentDescription = "Back",
                     modifier = Modifier
                         .align(Alignment.CenterStart)
-                        .padding(start = 16.dp)
+                        .padding(start = 16.dp) // Pindah padding ke sini
                         .size(24.dp)
                         .clickable { navController.popBackStack() }
                 )
                 Text(
-                    text = "Pagi",
+                    text = "SIANG",
                     fontSize = 25.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.align(Alignment.Center)
@@ -92,9 +92,15 @@ fun PagiScreen(
                         }
                 )
             }
-            Divider(color = Color.Gray, thickness = 1.dp)
+
+            Divider(
+                color = Color.Gray,
+                thickness = 1.dp,
+                modifier = Modifier.fillMaxWidth() // Sekarang benar-benar full
+            )
         }
 
+        // Tambahkan di awal sebelum Row
         var searchText by remember { mutableStateOf("") }
         var selectedCategory by remember { mutableStateOf("All") }
         val categoryOptions = listOf("All", "Food", "Drink")
@@ -111,6 +117,8 @@ fun PagiScreen(
                 filteredMenu = state.menuList
             }
         }
+
+// Search bar layout
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -134,9 +142,13 @@ fun PagiScreen(
                 innerTextField()
             }
 
+            // Spacer untuk memberikan jarak antara Search dan Dropdown
             Spacer(modifier = Modifier.width(8.dp))
 
-            Box(modifier = Modifier.wrapContentSize(Alignment.TopStart)) {
+            Box(
+                modifier = Modifier
+                    .wrapContentSize(Alignment.TopStart)
+            ) {
                 OutlinedButton(
                     onClick = { expanded = true },
                     shape = RoundedCornerShape(8.dp),
@@ -180,7 +192,7 @@ fun PagiScreen(
                 }
             }
 
-            Spacer(modifier = Modifier.width(8.dp))
+            Spacer(modifier = Modifier.width(8.dp)) // Jarak sebelum tombol Search
 
             Button(
                 onClick = {
@@ -219,7 +231,7 @@ fun PagiScreen(
         } else {
             LazyColumn {
                 items(filteredMenu) { menu ->
-                    Log.d("ImageLoad", "Loading image URL: '${menu.imageUrl.trim()}'")
+                Log.d("ImageLoad", "Loading image URL: '${menu.imageUrl.trim()}'")
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
@@ -244,7 +256,6 @@ fun PagiScreen(
                             Text("Rp${menu.price}", fontSize = 14.sp, color = Color.Gray)
                         }
                         Spacer(modifier = Modifier.width(12.dp))
-
                         Icon(
                             painter = painterResource(id = R.drawable.keranjang),
                             contentDescription = "Keranjang",
@@ -252,11 +263,11 @@ fun PagiScreen(
                             modifier = Modifier
                                 .size(24.dp)
                                 .clickable {
-                                     item = Keranjang(
+                                    item = Keranjang(
                                         id = 0, // auto-generate kalau pakai autoIncrement
                                         menuId = menu.id,
                                         name = menu.name,
-                                        sesi = "Pagi",
+                                        sesi = "Siang",
                                         price = menu.price,
                                         quantity = 1,
                                         imageUrl = menu.imageUrl,
@@ -295,10 +306,9 @@ fun PagiScreen(
     }
 }
 
-
 @Preview(showBackground = true)
 @Composable
-fun PreviewPagiScreen() {
+fun PreviewSiangScreen() {
     val navController = rememberNavController()
-    PagiScreen(navController = navController)
+    SiangScreen(navController = navController)
 }

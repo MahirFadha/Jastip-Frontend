@@ -1,4 +1,4 @@
-package com.example.jastip.ui.screen.akun
+package com.example.jastip.ui.screen.user.akun
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf

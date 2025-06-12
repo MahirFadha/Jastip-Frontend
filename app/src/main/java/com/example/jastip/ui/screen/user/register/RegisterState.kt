@@ -1,4 +1,4 @@
-package com.example.jastip.ui.screen.register
+package com.example.jastip.ui.screen.user.register
 
 sealed class RegisterState {
     object Idle : RegisterState()

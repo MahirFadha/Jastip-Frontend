@@ -1,4 +1,4 @@
-package com.example.jastip.ui.screen.loginscreen
+package com.example.jastip.ui.screen.user.loginscreen
 
 import android.content.Context.MODE_PRIVATE
 import androidx.compose.foundation.Image
