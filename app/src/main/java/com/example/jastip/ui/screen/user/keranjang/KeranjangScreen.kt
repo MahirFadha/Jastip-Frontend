@@ -104,7 +104,6 @@ fun KeranjangScreen(
                         viewModel.setItemSelection(item.id, isSelected)
                     },
                     onDeleteClick = {
-                        println("Delete click on: ${item.name}")
                         itemToDelete = item
                         showDeleteDialog = true
                     },

@@ -159,9 +159,6 @@ fun LoginScreen(
 
             LoginState.Idle -> { /* Do nothing */ }
         }
-
-
-
         // Tombol Daftar
         Button(
             onClick = {

@@ -139,6 +139,7 @@ class KeranjangViewModel @Inject constructor(
         _state.value = _state.value.copy(selectedItems = newSelected)
     }
 
+
     fun getSelectedItemsTotal(): Double {
         val totalMenu = _state.value.items
             .filter { _state.value.selectedItems.contains(it.id) }

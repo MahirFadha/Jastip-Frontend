@@ -31,6 +31,8 @@ import com.example.jastip.R
 import com.example.cobaproject.ui.screen.ActivityScreen
 import com.example.jastip.ui.screen.user.akun.AkunScreen
 import com.example.cobaproject.ui.screen.BerandaScreen
+import com.example.jastip.ui.screen.admin.berandaAdminScreen
+import com.example.jastip.ui.screen.admin.dataUserScreen
 
 @Composable
 fun MainScreen(parentNavController: NavHostController) {
@@ -59,6 +61,12 @@ fun MainScreen(parentNavController: NavHostController) {
             }
             composable("aktivitas") {
                 ActivityScreen(navController = parentNavController)
+            }
+            composable("data user") {
+                dataUserScreen(navController = parentNavController)
+            }
+            composable("beranda admin") {
+               berandaAdminScreen(navController = parentNavController)
             }
         }
     }

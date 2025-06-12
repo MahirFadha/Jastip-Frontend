@@ -30,7 +30,6 @@ class RegisterViewModel @Inject constructor(
                     registerState = RegisterState.Error("NIM tidak valid")
                     return@launch
                 }
-
                 registerUseCase(User(name, nim, nomorHp, password, role))
                 registerState = RegisterState.Success("Registrasi berhasil!")
             } catch (e: Exception) {

@@ -27,7 +27,6 @@ class AkunViewModel @Inject constructor(
     var password by mutableStateOf("")
     var akunState by mutableStateOf<AkunState>(AkunState.Idle)
         private set
-
     init {
         // Load user saat ViewModel dibuat
         user = tokenManager.getUser()
@@ -39,7 +38,6 @@ class AkunViewModel @Inject constructor(
         nim = dataUser.nim
         nomorHp = dataUser.nomorHp
         password = ""    }
-
 
     fun edit() {
         viewModelScope.launch {
