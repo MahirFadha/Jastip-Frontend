@@ -9,5 +9,5 @@ data class PesananEntity(
     val userNim: String,
     val totalHarga: Double,
     val waktuPesanan: Long = System.currentTimeMillis(),
-    val status: String = "Diproses",
-    )
+    val status: String = "Diproses"
+)

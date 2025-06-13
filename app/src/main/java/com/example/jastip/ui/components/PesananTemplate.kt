@@ -33,6 +33,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import coil.compose.AsyncImage
 import com.example.jastip.R
 import com.example.jastip.data.local.TokenManager
 import com.example.jastip.domain.model.riwayatPesanan.GrupRiwayatPesanan
@@ -91,7 +92,7 @@ fun PesananTemplate(pesanan: GrupRiwayatPesanan) {
             // Item menu (bisa ada lebih dari 1 nantinya)
             pesanan.pesanan.forEach {
                 PesananItem(
-                    imageRes = R.drawable.geprek,
+                    imageUrl = it.imageUrl,
                     title = it.name,
                     price = "Rp.${formatDoubleKeRupiah(it.hargaItem)}",
                     quantity = it.jumlah,
@@ -157,12 +158,12 @@ fun PesananTemplate(pesanan: GrupRiwayatPesanan) {
 }
 
 @Composable
-fun PesananItem(imageRes: Int, title: String, price: String, quantity: Int, sesi: String) {
+fun PesananItem(imageUrl: String, title: String, price: String, quantity: Int, sesi: String) {
     Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Image(
-            painter = painterResource(id = imageRes),
+        AsyncImage(
+            model = imageUrl,
             contentDescription = null,
             modifier = Modifier
                 .size(48.dp)
