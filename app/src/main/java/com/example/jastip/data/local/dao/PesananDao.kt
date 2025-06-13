@@ -6,7 +6,7 @@ import androidx.room.Query
 import androidx.room.Transaction
 import com.example.jastip.data.local.entity.DetailPesananEntity
 import com.example.jastip.data.local.entity.PesananEntity
-import com.example.jastip.domain.model.RiwayatPesanan
+import com.example.jastip.domain.model.riwayatPesanan.RiwayatPesanan
 
 @Dao
 interface PesananDao {

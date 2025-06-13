@@ -1,6 +1,8 @@
 package com.example.jastip.domain.usecase
 
-import com.example.jastip.domain.model.RiwayatPesanan
+import com.example.jastip.domain.model.riwayatPesanan.GrupRiwayatPesanan
+import com.example.jastip.domain.model.riwayatPesanan.PesananRiwayatPesanan
+import com.example.jastip.domain.model.riwayatPesanan.RiwayatPesanan
 import com.example.jastip.domain.repository.IPesananRepository
 import javax.inject.Inject
 

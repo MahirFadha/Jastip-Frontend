@@ -26,10 +26,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.jastip.R
-import com.example.jastip.domain.model.RiwayatPesanan
+import com.example.jastip.domain.model.riwayatPesanan.GrupRiwayatPesanan
+import com.example.jastip.domain.model.riwayatPesanan.RiwayatPesanan
+import com.example.jastip.utils.formatDoubleKeRupiah
 
 @Composable
-fun PesananTemplate(pesanan: RiwayatPesanan) {
+fun PesananTemplate(pesanan: GrupRiwayatPesanan) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -60,20 +62,24 @@ fun PesananTemplate(pesanan: RiwayatPesanan) {
             Spacer(modifier = Modifier.height(16.dp))
 
             // Item menu (bisa ada lebih dari 1 nantinya)
-            PesananItem(
-                imageRes = R.drawable.geprek, // Ganti jika punya image loader URL
-                title = pesanan.name,
-                sesi = pesanan.sesi,
-                price = "Rp. ${pesanan.hargaItem}",
-                quantity = pesanan.jumlah
-            )
+            pesanan.pesanan.forEach {
+                PesananItem(
+                    imageRes = R.drawable.geprek,
+                    title = it.name,
+                    price = "Rp.${formatDoubleKeRupiah(it.hargaItem)}",
+                    quantity = it.jumlah,
+                    sesi = it.sesi
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+            }
 
             Spacer(modifier = Modifier.height(24.dp))
 
             // Harga simulasi (kalau belum fix dari backend)
-            HargaItem(label = "Harga Pesanan", value = "Rp. ${pesanan.hargaItem}")
+            val totalHarga = pesanan.pesanan.sumOf { it.hargaItem * it.jumlah } + 5000
+            HargaItem(label = "Harga Pesanan", value = "Rp. ${formatDoubleKeRupiah(pesanan.pesanan.sumOf { it.hargaItem * it.jumlah }) }")
             HargaItem(label = "Biaya Pengiriman", value = "Rp. 5.000")
-            HargaItem(label = "Total Harga", value = "Rp. ${pesanan.hargaItem + 5000}", bold = true)
+            HargaItem(label = "Total Harga", value = "Rp. ${formatDoubleKeRupiah(totalHarga)}", bold = true)
 
             Spacer(modifier = Modifier.height(20.dp))
 

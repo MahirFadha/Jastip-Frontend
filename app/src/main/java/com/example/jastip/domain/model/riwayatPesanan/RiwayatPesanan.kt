@@ -1,4 +1,4 @@
-package com.example.jastip.domain.model
+package com.example.jastip.domain.model.riwayatPesanan
 
 data class RiwayatPesanan(
     val idPesanan: String,

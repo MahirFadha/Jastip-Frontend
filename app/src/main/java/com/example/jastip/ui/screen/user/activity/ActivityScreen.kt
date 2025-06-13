@@ -63,8 +63,8 @@ fun ActivityScreen(
             contentPadding = PaddingValues(horizontal = 24.dp, vertical = 8.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ){
-            items(listPesanan) {pesanan ->
-                PesananTemplate(pesanan = pesanan)
+            items(listPesanan) {pesananGroup ->
+                PesananTemplate(pesananGroup)
             }
         }
     }
