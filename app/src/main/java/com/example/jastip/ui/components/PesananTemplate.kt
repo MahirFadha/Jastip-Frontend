@@ -29,6 +29,10 @@ import com.example.jastip.R
 import com.example.jastip.domain.model.riwayatPesanan.GrupRiwayatPesanan
 import com.example.jastip.domain.model.riwayatPesanan.RiwayatPesanan
 import com.example.jastip.utils.formatDoubleKeRupiah
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+import kotlin.math.tan
 
 @Composable
 fun PesananTemplate(pesanan: GrupRiwayatPesanan) {
@@ -52,10 +56,18 @@ fun PesananTemplate(pesanan: GrupRiwayatPesanan) {
 
             Spacer(modifier = Modifier.height(8.dp))
 
+            val formatterTanggal = SimpleDateFormat("EEEE, dd-mm-yyyy HH:mm", Locale("id", "ID"))
+            val tanggal = try {
+                val tanggalPesanan = Date(pesanan.waktuPesanan.toLong())
+                formatterTanggal.format(tanggalPesanan)
+            }catch (e: Exception){
+                "Tanggal tidak valid"
+            }
+
             // Simulasi alamat (sementara hardcode)
-            Text("Alamat", fontWeight = FontWeight.Bold, fontSize = 14.sp)
+            Text("Waktu Pemesanan", fontWeight = FontWeight.Bold, fontSize = 14.sp)
             Text(
-                "Jl. Asrama Putra No.95, Pisangan,\nKecamatan Wetan, Surabaya.",
+                tanggal,
                 fontSize = 13.sp
             )
 
