@@ -14,20 +14,30 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.jastip.R
+import com.example.jastip.data.local.TokenManager
 import com.example.jastip.domain.model.riwayatPesanan.GrupRiwayatPesanan
 import com.example.jastip.domain.model.riwayatPesanan.RiwayatPesanan
+import com.example.jastip.ui.screen.user.activity.ActivityViewModel
 import com.example.jastip.utils.formatDoubleKeRupiah
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -36,6 +46,11 @@ import kotlin.math.tan
 
 @Composable
 fun PesananTemplate(pesanan: GrupRiwayatPesanan) {
+    val context = LocalContext.current
+    val viewmodel: ActivityViewModel = hiltViewModel()
+    val tokenManager = remember{TokenManager(context)}
+    val nim = tokenManager.getUser()?.nim?:""
+    var notifDialog by remember { mutableStateOf(false) }
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -50,13 +65,13 @@ fun PesananTemplate(pesanan: GrupRiwayatPesanan) {
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(pesanan.idPesanan, fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                Text("${pesanan.idPesanan}", fontWeight = FontWeight.Bold, fontSize = 16.sp)
                 Text(pesanan.status, color = Color(0xFFEF9651), fontSize = 13.sp)
             }
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            val formatterTanggal = SimpleDateFormat("EEEE, dd-mm-yyyy HH:mm", Locale("id", "ID"))
+            val formatterTanggal = SimpleDateFormat("EEEE, dd-MM-yyyy HH:mm", Locale("id", "ID"))
             val tanggal = try {
                 val tanggalPesanan = Date(pesanan.waktuPesanan.toLong())
                 formatterTanggal.format(tanggalPesanan)
@@ -97,7 +112,7 @@ fun PesananTemplate(pesanan: GrupRiwayatPesanan) {
 
             if (pesanan.status == "Diproses") {
                 Button(
-                    onClick = { /* aksi batal pesanan */ },
+                    onClick = { notifDialog = true },
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(48.dp),
@@ -109,6 +124,33 @@ fun PesananTemplate(pesanan: GrupRiwayatPesanan) {
                 ) {
                     Text("Batal Pesanan")
                 }
+            }
+
+            if (notifDialog == true){
+                AlertDialog(
+                    onDismissRequest = {notifDialog = false},
+                    title = { Text("Batal Pesanan") },
+                    text = { Text("Apakah kamu yakin ingin membatalkan pesanan ini?") },
+                    confirmButton = {
+                        TextButton(
+                            onClick = {
+                                viewmodel.batalkanPesanan(pesanan.idPesanan, nim)
+                                notifDialog = false
+                            }
+                        ) {
+                            Text("Hapus")
+                        }
+                    },
+                    dismissButton = {
+                        TextButton(
+                            onClick = {
+                                notifDialog = false
+                            }
+                        ) {
+                            Text("Batal")
+                        }
+                    }
+                )
             }
         }
     }

@@ -25,4 +25,8 @@ class PesananRepositoryImpl (private val pesananDao: PesananDao): IPesananReposi
     override suspend fun getPesanan(nim: String): List<RiwayatPesanan> {
         return pesananDao.getPesanan(nim)
     }
+
+    override suspend fun batalkanPesanan(idPesanan: Int) {
+        pesananDao.batalkanPesanan(idPesanan)
+    }
 }
