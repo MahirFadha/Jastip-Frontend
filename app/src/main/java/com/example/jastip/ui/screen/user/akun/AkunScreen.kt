@@ -57,7 +57,6 @@ fun AkunScreen(
 
     val nama by viewModel::name
     val nomorHp by viewModel::nomorHp
-    val password by viewModel::password
 
     Column(
         modifier = Modifier

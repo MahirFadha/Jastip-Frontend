@@ -4,6 +4,7 @@ import com.example.jastip.data.local.dao.PesananDao
 import com.example.jastip.data.local.entity.DetailPesananEntity
 import com.example.jastip.data.local.entity.PesananEntity
 import com.example.jastip.domain.model.Keranjang
+import com.example.jastip.domain.model.riwayatPesanan.RiwayatPesanan
 import com.example.jastip.domain.repository.IPesananRepository
 
 class PesananRepositoryImpl (private val pesananDao: PesananDao): IPesananRepository {
@@ -19,5 +20,9 @@ class PesananRepositoryImpl (private val pesananDao: PesananDao): IPesananReposi
         }catch (e: Exception){
             Result.failure(e)
         }
+    }
+
+    override suspend fun getPesanan(nim: String): List<RiwayatPesanan> {
+        return pesananDao.getPesanan(nim)
     }
 }
