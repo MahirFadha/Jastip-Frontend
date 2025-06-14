@@ -34,7 +34,7 @@ fun BottomNavigationBarAdmin(
             onClick = { navControler.navigate("beranda") }
         )
         BottomNavItem(
-            icon = R.drawable.geprek,
+            icon = R.drawable.pengguna,
             label = "Pengguna",
             isSelected = selectedItem == "pengguna",
             modifier = Modifier.weight(1f),
