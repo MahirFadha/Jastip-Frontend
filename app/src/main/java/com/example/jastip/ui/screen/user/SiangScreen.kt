@@ -72,7 +72,7 @@ fun SiangScreen(navController: NavController,
                         .align(Alignment.CenterStart)
                         .padding(start = 16.dp) // Pindah padding ke sini
                         .size(24.dp)
-                        .clickable { navController.popBackStack() }
+                        .clickable { navController.navigate("user") }
                 )
                 Text(
                     text = "SIANG",

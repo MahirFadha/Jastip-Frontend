@@ -5,10 +5,9 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.cobaproject.ui.components.MainScreen
 import com.example.cobaproject.ui.screen.*
-import com.example.jastip.ui.screen.admin.berandaAdminScreen
-import com.example.jastip.ui.screen.user.activity.ActivityScreen
+import com.example.jastip.ui.components.navbar.admin.NavBarAdmin
+import com.example.jastip.ui.components.navbar.user.NavBarUser
 import com.example.jastip.ui.screen.user.keranjang.KeranjangScreen
 import com.example.jastip.ui.screen.user.loginscreen.LoginScreen
 import com.example.jastip.ui.screen.user.pagi.PagiScreen
@@ -27,12 +26,13 @@ fun AppNavGraph(navController: NavHostController) {
         composable("signUp") {
             RegisterScreen(navController = navController)
         }
-        composable("main") {
-            MainScreen(parentNavController = navController)
+        composable("user") {
+            NavBarUser(parentNavController = navController)
         }
-        composable("aktivitas") {
-            ActivityScreen(navController = navController)
+        composable ("admin"){
+            NavBarAdmin(parentNavController = navController)
         }
+
 
         // Halaman bukan bagian dari bottom nav
         composable("pagi") {
@@ -46,9 +46,6 @@ fun AppNavGraph(navController: NavHostController) {
         }
         composable("keranjang") {
             KeranjangScreen(navController = navController)
-        }
-        composable ("admin"){
-            berandaAdminScreen(navController = navController)
         }
     }
 }

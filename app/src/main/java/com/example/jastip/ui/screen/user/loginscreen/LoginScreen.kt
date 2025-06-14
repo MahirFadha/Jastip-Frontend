@@ -147,7 +147,7 @@ fun LoginScreen(
                 LaunchedEffect(Unit) {
                     when (viewModel.userRole) {
                         "admin" -> navController.navigate("admin")
-                        "user" -> navController.navigate("main")
+                        "user" -> navController.navigate("user")
                     }
                 }
             }

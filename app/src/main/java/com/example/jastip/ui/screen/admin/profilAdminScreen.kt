@@ -21,10 +21,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.jastip.R
 
 @Composable
-fun profilAdminScreen() {
+fun profilAdminScreen(
+    navController: NavHostController
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -134,5 +138,6 @@ fun PasswordItem(icon: ImageVector, password: String) {
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun PreviewProfildminScreen() {
-    profilAdminScreen()
+    val navController = rememberNavController()
+    profilAdminScreen(navController)
 }
