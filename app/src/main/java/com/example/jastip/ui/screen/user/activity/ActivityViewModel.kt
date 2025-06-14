@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.jastip.domain.model.riwayatPesanan.GrupRiwayatPesanan
 import com.example.jastip.domain.model.riwayatPesanan.PesananRiwayatPesanan
 import com.example.jastip.domain.model.riwayatPesanan.RiwayatPesanan
+import com.example.jastip.domain.usecase.BatalkanPesananUseCase
 import com.example.jastip.domain.usecase.RiwayatPesananUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -14,7 +15,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ActivityViewModel @Inject constructor(
-    private val riwayatPesananUseCase: RiwayatPesananUseCase
+    private val riwayatPesananUseCase: RiwayatPesananUseCase,
+    private val batalkanPesananUseCase: BatalkanPesananUseCase
 ) : ViewModel() {
 
     private val riwayat = mutableStateOf<List<GrupRiwayatPesanan>>(emptyList())
@@ -26,6 +28,7 @@ class ActivityViewModel @Inject constructor(
             riwayat.value = convertGrup(hasil)
         }
     }
+
     fun convertGrup(data: List<RiwayatPesanan>): List<GrupRiwayatPesanan>{
         return data.groupBy { it.idPesanan }.map { (idPesanan, pesanan) ->
             val pertama = pesanan.first()
@@ -43,6 +46,13 @@ class ActivityViewModel @Inject constructor(
                     )
                 }
             )
+        }
+    }
+
+    fun batalkanPesanan(idPesanan: Int, nim: String){
+        viewModelScope.launch {
+            batalkanPesananUseCase(idPesanan)
+            loadPesanan(nim)
         }
     }
 }

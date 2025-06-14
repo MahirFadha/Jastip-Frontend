@@ -108,7 +108,12 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-    implementation(libs.security.crypto)}
+    implementation(libs.security.crypto)
+
+    implementation("io.coil-kt.coil3:coil-compose:3.2.0")
+}
+
+
 
 kapt{
     correctErrorTypes = true

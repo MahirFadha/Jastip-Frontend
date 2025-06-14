@@ -72,7 +72,7 @@ fun PagiScreen(
                         .align(Alignment.CenterStart)
                         .padding(start = 16.dp)
                         .size(24.dp)
-                        .clickable { navController.navigate("main") }
+                        .clickable { navController.navigate("user") }
                 )
                 Text(
                     text = "Pagi",

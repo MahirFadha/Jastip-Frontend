@@ -31,6 +31,8 @@ interface PesananDao {
             "ORDER BY p.waktuPesanan DESC")
     suspend fun getPesanan(nim: String): List<RiwayatPesanan>
 
+    @Query("UPDATE pesanan SET status = 'Dibatalkan' WHERE idPesanan = :idPesanan")
+    suspend fun batalkanPesanan(idPesanan: Int)
 //    @Query("SELECT p.idPesanan, p.status, p.waktuPesanan, dp.jumlah, dp.hargaItem, dp.sesi, m.name, m.imageUrl" +
 //            " FROM pesanan as p"+
 //            " LEFT JOIN detailPesanan as dp ON p.idPesanan = dp.idPesanan"+
