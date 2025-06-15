@@ -38,7 +38,7 @@ class ActivityViewModel @Inject constructor(
                 waktuPesanan = pertama.waktuPesanan,
                 pesanan = pesanan.map {
                     PesananRiwayatPesanan(
-                        name = it.name,
+                        menu = it.menu,
                         sesi = it.sesi,
                         hargaItem = it.hargaItem,
                         jumlah = it.jumlah,
