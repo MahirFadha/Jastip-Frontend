@@ -19,6 +19,7 @@ class AuthRepositoryImpl @Inject constructor(
             tokenManager.saveToken(fakeToken)
             tokenManager.saveRole(user.role)
             tokenManager.saveUser(isiUser)
+            tokenManager.waktuLogin()
             return isiUser
         }
     }

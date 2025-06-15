@@ -122,7 +122,7 @@ fun SiangScreen(navController: NavController,
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 20.dp, vertical = 16.dp),
+                .padding(horizontal = 12.dp, vertical = 16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             BasicTextField(
@@ -130,7 +130,7 @@ fun SiangScreen(navController: NavController,
                 onValueChange = { searchText = it },
                 textStyle = TextStyle(fontSize = 12.sp, color = Color.Black),
                 modifier = Modifier
-                    .width(170.dp)
+                    .width(160.dp)
                     .height(40.dp)
                     .background(Color.White, shape = RoundedCornerShape(8.dp))
                     .border(1.dp, Color.Gray, RoundedCornerShape(8.dp))

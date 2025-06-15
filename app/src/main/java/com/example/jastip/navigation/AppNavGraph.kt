@@ -15,12 +15,13 @@ import com.example.jastip.ui.screen.user.keranjang.KeranjangScreen
 import com.example.jastip.ui.screen.user.loginscreen.LoginScreen
 import com.example.jastip.ui.screen.user.pagi.PagiScreen
 import com.example.jastip.ui.screen.user.register.RegisterScreen
+import com.example.jastip.utils.CekLogin
 
 @Composable
-fun AppNavGraph(navController: NavHostController) {
+fun AppNavGraph(navController: NavHostController,start:String) {
     NavHost(
         navController = navController,
-        startDestination = "login",
+        startDestination = start,
         modifier = Modifier
     ) {
 //        User
@@ -58,6 +59,9 @@ fun AppNavGraph(navController: NavHostController) {
         }
         composable("pembatalan"){
             PembatalanScreen(navController = navController)
+        }
+        composable("ceklogin"){
+            CekLogin(navController = navController)
         }
     }
 }

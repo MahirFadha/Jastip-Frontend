@@ -22,6 +22,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.jastip.R
 import androidx.core.content.edit
+import com.example.jastip.data.local.TokenManager
+import kotlinx.coroutines.delay
 
 @Composable
 fun LoginScreen(
@@ -34,8 +36,7 @@ fun LoginScreen(
     var passwordVisible by remember { mutableStateOf(false) }
     val loginState = viewModel.loginState
     val isFormValid = nim.isNotBlank() && password.isNotBlank()
-
-
+    val tokenManager = remember { TokenManager(context) }
 
     Column(
         modifier = Modifier
