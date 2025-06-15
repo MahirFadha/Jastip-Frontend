@@ -63,4 +63,15 @@ class TokenManager @Inject constructor(@ApplicationContext context: Context) {
             role = role
         )
     }
+
+    fun waktuLogin(){
+        val sekarang = System.currentTimeMillis()
+        pref.edit { putLong("waktuLogin", sekarang) }
+    }
+
+    fun cekLogin(kadaluarsa: Long = 3*24*60*60*1000): Boolean{
+        val terakhirLogin = pref.getLong("waktuLogin", 0L)
+        val sekarang = System.currentTimeMillis()
+        return (sekarang - terakhirLogin) < kadaluarsa
+    }
 }
