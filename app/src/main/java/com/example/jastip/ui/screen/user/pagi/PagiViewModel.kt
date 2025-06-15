@@ -28,7 +28,7 @@ class PagiViewModel @Inject constructor(
             _state.value = _state.value.copy(isLoading = true)
             try {
                 // ⏬ Pastikan data dari CSV dimasukkan dulu
-//                menuUseCase.insertMenuItemsFromCSV()
+                menuUseCase.insertMenuItemsFromCSV()
 
                 // ⏬ Kemudian ambil semua data dari DB
                 val menus = menuUseCase.getMenusFromDb()

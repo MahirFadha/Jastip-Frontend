@@ -1,6 +1,5 @@
 package com.example.jastip.ui.screen.admin.pesanan
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -21,7 +20,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -29,9 +27,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.jastip.R
-import com.example.jastip.domain.model.riwayatPesanan.RiwayatPesanan
-import com.example.jastip.ui.components.admin.TemplateMenu
+import com.example.jastip.domain.model.pesananDiproses.GrupPesananDiproses
 import com.example.jastip.ui.components.admin.TemplatePesananDiproses
 
 @Composable
@@ -40,7 +36,7 @@ fun PesananScreen(navController: NavController,
                   viewmodel: PesananViewModel = hiltViewModel()
 ) {
     val state by viewmodel.state
-    var pesanan by remember { mutableStateOf(listOf<RiwayatPesanan>()) }
+    var pesanan by remember { mutableStateOf(listOf<GrupPesananDiproses>()) }
 
     LaunchedEffect(state.pesananList){
         if (state.pesananList.isNotEmpty() && pesanan.isEmpty()){
@@ -83,7 +79,7 @@ fun PesananScreen(navController: NavController,
         }else{
             LazyColumn {
                 items(pesanan) { pesanan ->
-                    TemplatePesananDiproses()
+                    TemplatePesananDiproses(pesanan)
                 }
             }
         }

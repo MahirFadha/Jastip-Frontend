@@ -4,6 +4,9 @@ import com.example.jastip.data.local.dao.PesananDao
 import com.example.jastip.data.local.entity.DetailPesananEntity
 import com.example.jastip.data.local.entity.PesananEntity
 import com.example.jastip.domain.model.Keranjang
+import com.example.jastip.domain.model.pesananDiproses.DetailPesananDiproses
+import com.example.jastip.domain.model.pesananDiproses.GrupPesananDiproses
+import com.example.jastip.domain.model.pesananDiproses.PesananDiproses
 import com.example.jastip.domain.model.riwayatPesanan.RiwayatPesanan
 import com.example.jastip.domain.repository.IPesananRepository
 
@@ -30,7 +33,26 @@ class PesananRepositoryImpl (private val pesananDao: PesananDao): IPesananReposi
         pesananDao.batalkanPesanan(idPesanan)
     }
 
-    override suspend fun getPesananProses(): List<RiwayatPesanan> {
-        return pesananDao.getPesananProses()
+    override suspend fun getPesananProses(): List<GrupPesananDiproses> {
+        val result = pesananDao.getPesananProses()
+
+        return result.groupBy { it.idPesanan }.map { (idPesanan, items) ->
+            GrupPesananDiproses(
+                idPesanan = idPesanan,
+                nama = items.first().name,
+                status = items.first().status,
+                totalHarga = items.first().totalHarga,
+                detail = items.map {
+                    DetailPesananDiproses(
+                        imageUrl = it.imageUrl,
+                        menuName = it.menuName,
+                        sesi = it.sesi,
+                        category = it.category,
+                        jumlah = it.jumlah,
+                        hargaItem = it.hargaItem
+                    )
+                }
+            )
+        }
     }
 }
