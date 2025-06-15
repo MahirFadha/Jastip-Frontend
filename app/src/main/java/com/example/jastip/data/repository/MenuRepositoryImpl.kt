@@ -26,7 +26,7 @@ class MenuRepositoryImpl @Inject constructor(
                 if (tokens.size >= 5) {
                     try {
                         val id = tokens[0].toInt()
-                        val name = tokens[1].trim()
+                        val menuName = tokens[1].trim()
                         val price = tokens[2].replace(".", "").trim().toIntOrNull() ?: 0
                         val category = tokens[3].trim()
                         val type = tokens[4].trim()
@@ -34,7 +34,7 @@ class MenuRepositoryImpl @Inject constructor(
 
                         val menuItem = MenuEntity(
                             id = id,
-                            name = name,
+                            menuName = menuName,
                             price = price.toDouble(),
                             category = category,
                             type = type,

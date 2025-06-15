@@ -169,7 +169,7 @@ fun PagiScreen(
                                     }
                                 } else {
                                     state.menuList.filter { menu ->
-                                        val matchName = menu.name.contains(searchText, ignoreCase = true)
+                                        val matchName = menu.menuName.contains(searchText, ignoreCase = true)
                                         val matchType = category == "All" || menu.type.equals(category, ignoreCase = true)
                                         matchName && matchType
                                     }
@@ -196,7 +196,7 @@ fun PagiScreen(
                     } else {
                         // Filter berdasarkan searchText dan kategori
                         state.menuList.filter { menu ->
-                            val matchName = menu.name.contains(searchText, ignoreCase = true)
+                            val matchName = menu.menuName.contains(searchText, ignoreCase = true)
                             val matchCategory = selectedCategory == "All" || menu.category.equals(selectedCategory, ignoreCase = true)
                             matchName && matchCategory
                         }
@@ -231,7 +231,7 @@ fun PagiScreen(
                     ) {
                         Image(
                             painter = rememberAsyncImagePainter(model = menu.imageUrl.trim()),
-                            contentDescription = menu.name,
+                            contentDescription = menu.menuName,
                             modifier = Modifier
                                 .size(80.dp)
                                 .clip(RoundedCornerShape(8.dp)),
@@ -240,7 +240,7 @@ fun PagiScreen(
 
                         Spacer(modifier = Modifier.width(12.dp))
                         Column(modifier = Modifier.weight(1f)) {
-                            Text(menu.name, fontSize = 16.sp, fontWeight = FontWeight.Medium)
+                            Text(menu.menuName, fontSize = 16.sp, fontWeight = FontWeight.Medium)
                             Text(menu.category, fontSize = 12.sp, color = Color.Black)
                             Text("Rp${hargaFormat}", fontSize = 14.sp, color = Color.Gray)
                         }
@@ -256,7 +256,7 @@ fun PagiScreen(
                                      item = Keranjang(
                                         id = 0, // auto-generate kalau pakai autoIncrement
                                         menuId = menu.id,
-                                        name = menu.name,
+                                        name = menu.menuName,
                                         sesi = "Pagi",
                                         price = harga,
                                         quantity = 1,

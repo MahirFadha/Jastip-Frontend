@@ -88,7 +88,7 @@ fun MenuScreen(
                     items(menu) { menu ->
                         TemplateMenu(
                             menu.imageUrl,
-                            menu.name,
+                            menu.menuName,
                             menu.price,
                             menu.category
                         )

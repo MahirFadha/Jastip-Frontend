@@ -23,7 +23,7 @@ interface PesananDao {
         insertDetailPesanan(updateDetail)
     }
 
-    @Query("SELECT p.idPesanan, p.status, p.waktuPesanan, dp.jumlah, dp.hargaItem, dp.sesi, m.name, m.imageUrl" +
+    @Query("SELECT p.idPesanan, p.status, p.waktuPesanan, dp.jumlah, dp.hargaItem, dp.sesi, m.menuName, m.imageUrl" +
             " FROM pesanan as p"+
             " LEFT JOIN detailPesanan as dp ON p.idPesanan = dp.idPesanan"+
             " LEFT JOIN menu as m ON dp.idMenu = m.id "+
@@ -34,7 +34,7 @@ interface PesananDao {
     @Query("UPDATE pesanan SET status = 'Dibatalkan' WHERE idPesanan = :idPesanan")
     suspend fun batalkanPesanan(idPesanan: Int)
 
-    @Query("SELECT p.idPesanan, u.name, p.status, dp.jumlah, dp.hargaItem, dp.sesi, m.name, m.imageUrl" +
+    @Query("SELECT p.idPesanan, u.name, p.waktuPesanan, p.status, dp.jumlah, dp.hargaItem, dp.sesi, m.menuName, m.imageUrl" +
             " FROM pesanan as p"+
             " LEFT JOIN detailPesanan as dp ON p.idPesanan = dp.idPesanan"+
             " LEFT JOIN menu as m ON dp.idMenu = m.id "+
