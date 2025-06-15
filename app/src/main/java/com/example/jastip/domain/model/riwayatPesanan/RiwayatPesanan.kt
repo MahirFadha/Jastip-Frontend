@@ -7,6 +7,6 @@ data class RiwayatPesanan(
     val jumlah: Int,
     val hargaItem: Double,
     val sesi: String,
-    val menu: String,
+    val menuName: String,
     val imageUrl: String
 )

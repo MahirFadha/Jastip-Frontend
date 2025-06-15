@@ -88,7 +88,7 @@ fun PesananTemplate(pesanan: GrupRiwayatPesanan) {
             pesanan.pesanan.forEach {
                 PesananItem(
                     imageUrl = it.imageUrl,
-                    title = it.menu,
+                    title = it.menuName,
                     price = "Rp${formatDoubleKeRupiah(it.hargaItem)}",
                     quantity = it.jumlah,
                     sesi = it.sesi

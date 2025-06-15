@@ -183,7 +183,7 @@ fun SoreScreen(navController: NavController,
                                     }
                                 } else {
                                     state.menuList.filter { menu ->
-                                        val matchName = menu.name.contains(searchText, ignoreCase = true)
+                                        val matchName = menu.menuName.contains(searchText, ignoreCase = true)
                                         val matchType = category == "All" || menu.type.equals(category, ignoreCase = true)
                                         matchName && matchType
                                     }
@@ -210,7 +210,7 @@ fun SoreScreen(navController: NavController,
                     } else {
                         // Filter berdasarkan searchText dan kategori
                         state.menuList.filter { menu ->
-                            val matchName = menu.name.contains(searchText, ignoreCase = true)
+                            val matchName = menu.menuName.contains(searchText, ignoreCase = true)
                             val matchCategory = selectedCategory == "All" || menu.category.equals(selectedCategory, ignoreCase = true)
                             matchName && matchCategory
                         }
@@ -244,7 +244,7 @@ fun SoreScreen(navController: NavController,
                     ) {
                         Image(
                             painter = rememberAsyncImagePainter(model = menu.imageUrl.trim()),
-                            contentDescription = menu.name,
+                            contentDescription = menu.menuName,
                             modifier = Modifier
                                 .size(80.dp)
                                 .clip(RoundedCornerShape(8.dp)),
@@ -253,7 +253,7 @@ fun SoreScreen(navController: NavController,
 
                         Spacer(modifier = Modifier.width(12.dp))
                         Column(modifier = Modifier.weight(1f)) {
-                            Text(menu.name, fontSize = 16.sp, fontWeight = FontWeight.Medium)
+                            Text(menu.menuName, fontSize = 16.sp, fontWeight = FontWeight.Medium)
                             Text(menu.category, fontSize = 12.sp, color = Color.Black)
                             Text("Rp${menu.price}", fontSize = 14.sp, color = Color.Gray)
                         }
@@ -268,7 +268,7 @@ fun SoreScreen(navController: NavController,
                                     item = Keranjang(
                                         id = 0, // auto-generate kalau pakai autoIncrement
                                         menuId = menu.id,
-                                        name = menu.name,
+                                        name = menu.menuName,
                                         sesi = "Sore",
                                         price = menu.price,
                                         quantity = 1,
