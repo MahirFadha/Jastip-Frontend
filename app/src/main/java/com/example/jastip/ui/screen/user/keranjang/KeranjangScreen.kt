@@ -31,7 +31,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.jastip.domain.model.Keranjang
-import com.example.jastip.ui.components.KeranjangItem
+import com.example.jastip.ui.components.user.KeranjangItem
 import com.example.jastip.utils.formatDoubleKeRupiah
 
 @Composable
@@ -154,7 +154,7 @@ fun KeranjangScreen(
             Button(
                 onClick = {
                     viewModel.order()
-                    navController.navigate("main")
+                    navController.navigate("user")
                     val toast = "Pesanan berhasil dibuat!"
                     Toast.makeText(navController.context, toast, Toast.LENGTH_SHORT).show()
                 },

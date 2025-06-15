@@ -6,8 +6,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.cobaproject.ui.screen.*
-import com.example.jastip.ui.components.navbar.admin.NavBarAdmin
-import com.example.jastip.ui.components.navbar.user.NavBarUser
+import com.example.jastip.ui.components.admin.NavBarAdmin
+import com.example.jastip.ui.components.user.NavBarUser
+import com.example.jastip.ui.screen.admin.menu.MenuScreen
+import com.example.jastip.ui.screen.admin.PembatalanScreen
+import com.example.jastip.ui.screen.admin.pesanan.PesananScreen
 import com.example.jastip.ui.screen.user.keranjang.KeranjangScreen
 import com.example.jastip.ui.screen.user.loginscreen.LoginScreen
 import com.example.jastip.ui.screen.user.pagi.PagiScreen
@@ -20,6 +23,7 @@ fun AppNavGraph(navController: NavHostController) {
         startDestination = "login",
         modifier = Modifier
     ) {
+//        User
         composable("login") {
             LoginScreen(navController = navController)
         }
@@ -29,12 +33,6 @@ fun AppNavGraph(navController: NavHostController) {
         composable("user") {
             NavBarUser(parentNavController = navController)
         }
-        composable ("admin"){
-            NavBarAdmin(parentNavController = navController)
-        }
-
-
-        // Halaman bukan bagian dari bottom nav
         composable("pagi") {
             PagiScreen(navController = navController)
         }
@@ -46,6 +44,20 @@ fun AppNavGraph(navController: NavHostController) {
         }
         composable("keranjang") {
             KeranjangScreen(navController = navController)
+        }
+
+//        Admin
+        composable ("admin"){
+            NavBarAdmin(parentNavController = navController)
+        }
+        composable("menu"){
+            MenuScreen(navController = navController)
+        }
+        composable("pesanan"){
+            PesananScreen(navController = navController)
+        }
+        composable("pembatalan"){
+            PembatalanScreen(navController = navController)
         }
     }
 }

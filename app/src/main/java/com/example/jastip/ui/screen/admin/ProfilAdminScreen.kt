@@ -26,7 +26,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.jastip.R
 
 @Composable
-fun profilAdminScreen(
+fun ProfilAdminScreen(
     navController: NavHostController
 ) {
     Column(
@@ -137,7 +137,7 @@ fun PasswordItem(icon: ImageVector, password: String) {
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun PreviewProfildminScreen() {
+fun PreviewProfilAdmin() {
     val navController = rememberNavController()
-    profilAdminScreen(navController)
+    ProfilAdminScreen(navController)
 }

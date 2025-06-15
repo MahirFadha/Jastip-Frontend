@@ -17,7 +17,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import com.example.jastip.data.local.TokenManager
-import com.example.jastip.ui.components.PesananTemplate
+import com.example.jastip.ui.components.user.PesananTemplate
 import androidx.compose.foundation.lazy.items
 import androidx.hilt.navigation.compose.hiltViewModel
 

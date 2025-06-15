@@ -1,4 +1,4 @@
-package com.example.cobaproject.ui.components
+package com.example.jastip.ui.components.admin
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -11,42 +11,41 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavController
 import com.example.jastip.R
-import com.example.jastip.ui.components.navbar.BottomNavItem
+import com.example.jastip.ui.components.BottomNavItem
 
 @Composable
-fun BottomNavigationBarUser(
+fun BottomNavigationBarAdmin(
     selectedItem: String,
-    navController: NavController
-) {
-    Row(
+    navControler: NavController
+){
+    Row (
         modifier = Modifier
             .fillMaxWidth()
             .background(Color(0xFF3F7D58))
             .navigationBarsPadding(),
         horizontalArrangement = Arrangement.SpaceAround,
         verticalAlignment = Alignment.CenterVertically
-    ) {
+    ){
         BottomNavItem(
             icon = R.drawable.beranda,
             label = "Beranda",
             isSelected = selectedItem == "beranda",
             modifier = Modifier.weight(1f),
-            onClick = { navController.navigate("beranda") }
+            onClick = { navControler.navigate("beranda") }
         )
         BottomNavItem(
-            icon = R.drawable.order,
-            label = "Aktivitas",
-            isSelected = selectedItem == "aktivitas",
+            icon = R.drawable.pengguna,
+            label = "Pengguna",
+            isSelected = selectedItem == "pengguna",
             modifier = Modifier.weight(1f),
-            onClick = { navController.navigate("aktivitas") }
+            onClick = { navControler.navigate("pengguna") }
         )
         BottomNavItem(
             icon = R.drawable.round_account_circle_24,
             label = "Akun",
             isSelected = selectedItem == "akun",
             modifier = Modifier.weight(1f),
-            onClick = { navController.navigate("akun") }
+            onClick = { navControler.navigate("akun") }
         )
     }
 }
-

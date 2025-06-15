@@ -6,8 +6,8 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.jastip.domain.model.Keranjang
-import com.example.jastip.domain.usecase.KeranjangUseCase
-import com.example.jastip.domain.usecase.PesananUseCase
+import com.example.jastip.domain.usecase.user.KeranjangUseCase
+import com.example.jastip.domain.usecase.user.PesananUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow

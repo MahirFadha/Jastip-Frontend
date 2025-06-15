@@ -1,4 +1,4 @@
-package com.example.jastip.domain.usecase
+package com.example.jastip.domain.usecase.user
 
 import com.example.jastip.domain.model.Keranjang
 import com.example.jastip.domain.repository.IPesananRepository

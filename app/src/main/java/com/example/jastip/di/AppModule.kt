@@ -20,11 +20,11 @@ import com.example.jastip.domain.repository.IKeranjangRepository
 import com.example.jastip.domain.repository.IMenuRepository
 import com.example.jastip.domain.repository.IPesananRepository
 import com.example.jastip.domain.repository.UserRepository
-import com.example.jastip.domain.usecase.EditUseCase
-import com.example.jastip.domain.usecase.KeranjangUseCase
-import com.example.jastip.domain.usecase.LoginUseCase
-import com.example.jastip.domain.usecase.PesananUseCase
-import com.example.jastip.domain.usecase.RegisterUseCase
+import com.example.jastip.domain.usecase.user.EditUseCase
+import com.example.jastip.domain.usecase.user.KeranjangUseCase
+import com.example.jastip.domain.usecase.user.LoginUseCase
+import com.example.jastip.domain.usecase.user.PesananUseCase
+import com.example.jastip.domain.usecase.user.RegisterUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

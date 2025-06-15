@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.jastip.data.local.TokenManager
 import com.example.jastip.domain.model.User
-import com.example.jastip.domain.usecase.EditUseCase
+import com.example.jastip.domain.usecase.user.EditUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch

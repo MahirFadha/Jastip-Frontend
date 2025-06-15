@@ -2,11 +2,10 @@ package com.example.jastip.ui.screen.admin
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -24,7 +23,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.jastip.R
 
 @Composable
-fun pembatalanScreen(navController: NavController, modifier: Modifier = Modifier) {
+fun PembatalanScreen(navController: NavController, modifier: Modifier = Modifier) {
     Column(modifier = Modifier.fillMaxSize()) {
         // AppBar
         Row(
@@ -40,10 +39,11 @@ fun pembatalanScreen(navController: NavController, modifier: Modifier = Modifier
                 modifier = Modifier
                     .padding(start = 16.dp)
                     .size(24.dp)
+                    .clickable{navController.navigate("admin")}
             )
             Spacer(modifier = Modifier.weight(1f))
             Text(
-                text = "Pembatalan Pesanan",
+                text = "Pesanan Dibatalkan",
                 fontSize = 25.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.align(Alignment.CenterVertically)
@@ -126,7 +126,7 @@ fun pembatalanScreen(navController: NavController, modifier: Modifier = Modifier
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun PreviewPembatalanScreen() {
+fun PreviewPembatalan() {
     val navController = rememberNavController()
-    pembatalanScreen(navController)
+    PembatalanScreen(navController)
 }

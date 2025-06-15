@@ -1,4 +1,4 @@
-package com.example.jastip.ui.components.navbar.user
+package com.example.jastip.ui.components.user
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold

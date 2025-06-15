@@ -1,8 +1,7 @@
-package com.example.jastip.domain.usecase
+package com.example.jastip.domain.usecase.user
 
 import com.example.jastip.domain.model.User
 import com.example.jastip.domain.repository.IAuithRepository
-import com.example.jastip.domain.repository.UserRepository
 import com.example.jastip.utils.SecurityUser
 import javax.inject.Inject
 

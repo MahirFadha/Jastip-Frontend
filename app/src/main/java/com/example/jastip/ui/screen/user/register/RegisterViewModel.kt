@@ -1,6 +1,6 @@
 package com.example.jastip.ui.screen.user.register
 
-import com.example.jastip.domain.usecase.RegisterUseCase
+import com.example.jastip.domain.usecase.user.RegisterUseCase
 import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
