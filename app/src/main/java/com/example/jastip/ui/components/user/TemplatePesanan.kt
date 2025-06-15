@@ -1,6 +1,5 @@
-package com.example.jastip.ui.components
+package com.example.jastip.ui.components.user
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -28,22 +27,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
-import com.example.jastip.R
 import com.example.jastip.data.local.TokenManager
 import com.example.jastip.domain.model.riwayatPesanan.GrupRiwayatPesanan
-import com.example.jastip.domain.model.riwayatPesanan.RiwayatPesanan
 import com.example.jastip.ui.screen.user.activity.ActivityViewModel
 import com.example.jastip.utils.formatDoubleKeRupiah
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-import kotlin.math.tan
 
 @Composable
 fun PesananTemplate(pesanan: GrupRiwayatPesanan) {
@@ -93,8 +88,8 @@ fun PesananTemplate(pesanan: GrupRiwayatPesanan) {
             pesanan.pesanan.forEach {
                 PesananItem(
                     imageUrl = it.imageUrl,
-                    title = it.name,
-                    price = "Rp.${formatDoubleKeRupiah(it.hargaItem)}",
+                    title = it.menu,
+                    price = "Rp${formatDoubleKeRupiah(it.hargaItem)}",
                     quantity = it.jumlah,
                     sesi = it.sesi
                 )
@@ -105,9 +100,9 @@ fun PesananTemplate(pesanan: GrupRiwayatPesanan) {
 
             // Harga simulasi (kalau belum fix dari backend)
             val totalHarga = pesanan.pesanan.sumOf { it.hargaItem * it.jumlah } + 5000
-            HargaItem(label = "Harga Pesanan", value = "Rp. ${formatDoubleKeRupiah(pesanan.pesanan.sumOf { it.hargaItem * it.jumlah }) }")
-            HargaItem(label = "Biaya Pengiriman", value = "Rp. 5.000")
-            HargaItem(label = "Total Harga", value = "Rp. ${formatDoubleKeRupiah(totalHarga)}", bold = true)
+            HargaItem(label = "Harga Pesanan", value = "Rp${formatDoubleKeRupiah(pesanan.pesanan.sumOf { it.hargaItem * it.jumlah }) }")
+            HargaItem(label = "Biaya Pengiriman", value = "Rp5.000")
+            HargaItem(label = "Total Harga", value = "Rp${formatDoubleKeRupiah(totalHarga)}", bold = true)
 
             Spacer(modifier = Modifier.height(20.dp))
 

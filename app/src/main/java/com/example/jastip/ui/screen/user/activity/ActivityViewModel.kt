@@ -7,8 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.jastip.domain.model.riwayatPesanan.GrupRiwayatPesanan
 import com.example.jastip.domain.model.riwayatPesanan.PesananRiwayatPesanan
 import com.example.jastip.domain.model.riwayatPesanan.RiwayatPesanan
-import com.example.jastip.domain.usecase.BatalkanPesananUseCase
-import com.example.jastip.domain.usecase.RiwayatPesananUseCase
+import com.example.jastip.domain.usecase.user.BatalkanPesananUseCase
+import com.example.jastip.domain.usecase.user.RiwayatPesananUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

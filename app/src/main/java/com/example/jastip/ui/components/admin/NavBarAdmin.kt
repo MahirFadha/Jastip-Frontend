@@ -1,4 +1,4 @@
-package com.example.jastip.ui.components.navbar.admin
+package com.example.jastip.ui.components.admin
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -9,9 +9,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.jastip.ui.screen.admin.berandaAdminScreen
-import com.example.jastip.ui.screen.admin.dataUserScreen
-import com.example.jastip.ui.screen.admin.profilAdminScreen
+import com.example.jastip.ui.screen.admin.beranda.BerandaAdminScreen
+import com.example.jastip.ui.screen.admin.user.DataUserScreen
+import com.example.jastip.ui.screen.admin.ProfilAdminScreen
 
 @Composable
 fun NavBarAdmin(parentNavController: NavHostController){
@@ -33,13 +33,13 @@ fun NavBarAdmin(parentNavController: NavHostController){
             modifier = Modifier.padding(innerPadding)
         ){
             composable("beranda"){
-                berandaAdminScreen(navController = parentNavController)
+                BerandaAdminScreen(navController = parentNavController)
             }
             composable ("pengguna"){
-                dataUserScreen(navController = parentNavController)
+                DataUserScreen(navController = parentNavController)
             }
             composable ("akun"){
-                profilAdminScreen(navController = parentNavController)
+                ProfilAdminScreen(navController = parentNavController)
             }
         }
 

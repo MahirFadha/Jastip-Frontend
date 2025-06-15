@@ -8,4 +8,5 @@ interface IPesananRepository {
     suspend fun placeOrder(nim: String, items: List<Keranjang>): Result<Unit>
     suspend fun getPesanan(nim: String): List<RiwayatPesanan>
     suspend fun batalkanPesanan(idPesanan: Int)
+    suspend fun getPesananProses(): List<RiwayatPesanan>
 }

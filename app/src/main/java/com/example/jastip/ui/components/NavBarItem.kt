@@ -1,4 +1,4 @@
-package com.example.jastip.ui.components.navbar
+package com.example.jastip.ui.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column

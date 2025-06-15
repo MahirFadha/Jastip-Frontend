@@ -1,4 +1,4 @@
-package com.example.jastip.ui.components
+package com.example.jastip.ui.components.user
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

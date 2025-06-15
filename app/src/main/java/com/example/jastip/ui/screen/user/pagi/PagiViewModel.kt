@@ -3,7 +3,7 @@ package com.example.jastip.ui.screen.user.pagi
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.jastip.domain.usecase.MenuUseCase
+import com.example.jastip.domain.usecase.user.MenuUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import androidx.compose.runtime.State
@@ -28,7 +28,7 @@ class PagiViewModel @Inject constructor(
             _state.value = _state.value.copy(isLoading = true)
             try {
                 // ⏬ Pastikan data dari CSV dimasukkan dulu
-                menuUseCase.insertMenuItemsFromCSV()
+//                menuUseCase.insertMenuItemsFromCSV()
 
                 // ⏬ Kemudian ambil semua data dari DB
                 val menus = menuUseCase.getMenusFromDb()
